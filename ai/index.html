@@ -1,0 +1,285 @@
+sudo tee /var/www/jettax/allah/index.html >/dev/null << 'EOF'
+<!doctype html>
+<html class="mdui-theme-dark" lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>allah</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css" />
+  <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
+
+  <script type="module">
+    import { setColorScheme } from "https://unpkg.com/mdui@2/functions/setColorScheme.js";
+    setColorScheme("#7c4dff");
+  </script>
+
+  <style>
+    :root{
+      --r-card: 30px;
+      --r-bubble: 22px;
+      --r-panel: 24px;
+      --gap: 12px;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      background:rgb(var(--mdui-color-surface));
+      color:rgb(var(--mdui-color-on-surface));
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+
+    .card{
+      width:min(920px,100%);
+      border-radius:var(--r-card);
+      padding:18px;
+      background:rgb(var(--mdui-color-surface-container));
+      box-shadow:0 18px 50px rgba(0,0,0,.36);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .title{
+      margin:2px 6px 2px 6px;
+      font-size:32px;
+      font-weight:760;
+      letter-spacing:.2px;
+    }
+
+    .hint{
+      margin:0 6px 2px 6px;
+      opacity:.78;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .chat{
+      margin:0 6px;
+      padding:14px;
+      border-radius:var(--r-panel);
+      background:rgb(var(--mdui-color-surface-container-high));
+      height:min(56vh, 560px);
+      overflow:auto;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .bubble{
+      max-width:min(78%, 680px);
+      padding:12px 14px;
+      border-radius:var(--r-bubble);
+      line-height:1.35;
+      white-space:pre-wrap;
+      word-wrap:break-word;
+      box-shadow:0 6px 16px rgba(0,0,0,.16);
+    }
+
+    .bubble.me{
+      align-self:flex-end;
+      background:rgb(var(--mdui-color-primary-container));
+      color:rgb(var(--mdui-color-on-primary-container));
+      border-bottom-right-radius:10px;
+    }
+
+    .bubble.ai{
+      align-self:flex-start;
+      background:rgb(var(--mdui-color-surface-container-highest));
+      color:rgb(var(--mdui-color-on-surface));
+      border-bottom-left-radius:10px;
+    }
+
+    .typing{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .loaderBox{
+      width:56px;
+      height:56px;
+      border-radius:16px;
+      overflow:hidden;
+      background:rgb(var(--mdui-color-surface-container-highest));
+      display:grid;
+      place-items:center;
+      box-shadow:0 6px 16px rgba(0,0,0,.16);
+      flex:0 0 auto;
+    }
+
+    .loaderImg{
+      width:56px;
+      height:56px;
+      object-fit:cover;
+    }
+
+    .composer{
+      margin:0 6px;
+      padding:12px;
+      border-radius:var(--r-panel);
+      background:rgb(var(--mdui-color-surface-container-high));
+      display:flex;
+      gap:var(--gap);
+      align-items:flex-end;
+      flex-wrap:wrap;
+      box-shadow:0 10px 22px rgba(0,0,0,.18);
+    }
+
+    mdui-text-field{
+      --mdui-shape-corner: var(--mdui-shape-corner-full);
+      flex:1 1 380px;
+      min-width:240px;
+    }
+
+    mdui-button{
+      --mdui-shape-corner: 999px;
+    }
+
+    #ask.squish{
+      --mdui-shape-corner: 14px;
+      transition: all 220ms ease;
+    }
+
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      padding:0 6px;
+    }
+
+    .ghost{
+      opacity:.7;
+      font-size:12px;
+    }
+
+    .btnRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .muted{
+      opacity:.75;
+      font-size:12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div>
+      <div class="title">haram ai test</div>
+      <div class="hint">
+        <span>скидывать промпт можно тут:</span>
+        <mdui-button
+          variant="tonal"
+          href="https://t.me/jettaxp"
+          target="_blank"
+          rel="noopener"
+        >t.me/jettaxp</mdui-button>
+      </div>
+    </div>
+
+    <div class="chat" id="chat"></div>
+
+    <div class="composer">
+      <mdui-text-field id="q" label="вопрос" variant="filled"></mdui-text-field>
+      <mdui-button variant="filled" id="ask">спросить</mdui-button>
+    </div>
+
+    <div class="footer">
+      <div class="btnRow">
+        <span class="muted">ни кому не нужный гитхаб</span>
+        <mdui-button variant="filled" href="https://github.com/jettaxp" target="_blank" rel="noopener">github.com/jettaxp</mdui-button>
+      </div>
+      <div class="ghost">enter = отправить</div>
+    </div>
+  </div>
+
+  <script>
+    const qEl = document.getElementById("q");
+    const chatEl = document.getElementById("chat");
+    const askBtn = document.getElementById("ask");
+
+    const loaderGif = "https://raw.githubusercontent.com/JettaXP/pix/main/Untitled--Frame%201%401x-10fps.gif";
+
+    function addBubble(side, text) {
+      const div = document.createElement("div");
+      div.className = "bubble " + side;
+      div.textContent = text;
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+      return div;
+    }
+
+    function addTyping() {
+      const div = document.createElement("div");
+      div.className = "bubble ai typing";
+      div.innerHTML = `
+        <div class="loaderBox">
+          <img class="loaderImg" src="${loaderGif}" alt="loading" />
+        </div>
+        <span>думаю…</span>
+      `;
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+      return div;
+    }
+
+    async function ask() {
+      const q = (qEl.value || "").trim();
+      if (!q) {
+        mdui.snackbar({ message: "введи вопрос", placement: "top" });
+        return;
+      }
+
+      askBtn.classList.add("squish");
+      setTimeout(() => askBtn.classList.remove("squish"), 260);
+
+      addBubble("me", q);
+      qEl.value = "";
+      qEl.focus();
+
+      askBtn.disabled = true;
+
+      const typingEl = addTyping();
+
+      try {
+        const r = await fetch("/api/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({ q })
+        });
+
+        const data = await r.json().catch(() => ({}));
+        const text = data.text || data.error || ("http " + r.status);
+
+        typingEl.remove();
+        addBubble("ai", text);
+      } catch (e) {
+        typingEl.remove();
+        addBubble("ai", "ошибка: " + (e?.message || e));
+      } finally {
+        askBtn.disabled = false;
+      }
+    }
+
+    askBtn.addEventListener("click", ask);
+    qEl.addEventListener("keydown", (e) => { if (e.key === "Enter") ask(); });
+
+    addBubble("ai", "привет");
+  </script>
+</body>
+</html>
+EOF
