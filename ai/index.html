@@ -50,6 +50,8 @@
       font-family: 'Comfortaa', cursive;
       overflow-x: hidden;
     }
+
+
     .card {
       width: min(920px, 100%);
       border-radius: var(--r-card);
@@ -94,6 +96,8 @@
       background: rgba(207, 188, 255, 0.22);
       border-color: var(--accent-primary);
     }
+
+
     .model-selector-row {
       margin: 0 6px;
       display: flex;
@@ -149,6 +153,8 @@
       color: var(--text-primary);
       padding: 8px;
     }
+
+
     .chat {
       margin: 0 6px;
       padding: 14px;
@@ -171,6 +177,8 @@
       background: rgba(207, 188, 255, 0.3);
       border-radius: 3px;
     }
+
+
     .bubble {
       max-width: min(78%, 680px);
       padding: 12px 16px;
@@ -207,6 +215,8 @@
       color: var(--text-primary);
       border-bottom-left-radius: 10px;
     }
+
+
     .bubble-copy-btn {
       position: absolute;
       top: 6px;
@@ -239,7 +249,7 @@
       font-size: 16px;
     }
 
-    /* ===== TYPING ===== */
+
     .typing {
       display: flex;
       align-items: center;
@@ -264,7 +274,7 @@
       object-fit: cover;
     }
 
-    /* ===== COMPOSER ===== */
+
     .composer {
       margin: 0 6px;
       padding: 12px;
@@ -339,7 +349,7 @@
       font-variation-settings: 'FILL' 1;
     }
 
-    /* ===== FOOTER ===== */
+
     .footer {
       display: flex;
       justify-content: space-between;
@@ -390,7 +400,7 @@
       font-size: 12px;
     }
 
-    /* ===== TOAST (from index.html) ===== */
+
     .android-toast {
       position: fixed;
       top: 20px;
@@ -540,19 +550,135 @@
       object-fit: cover;
     }
 
-    /* ===== RESPONSIVE ===== */
+
     @media (max-width: 600px) {
       body { padding: 12px; }
       .card { padding: 14px; }
       .title { font-size: 24px; }
       .composer-input { min-width: 150px; }
     }
+
+    .ee-zone {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 60px;
+      z-index: 9999;
+      cursor: default;
+    }
+
+    .ee-zone2 {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+      z-index: 9999;
+      cursor: default;
+    }
+
+    .ee-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .ee-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ee-text {
+      font-size: 52px;
+      font-weight: 700;
+      font-family: 'Comfortaa', cursive;
+      color: #cfbcff;
+      animation: eeExplode 0.6s cubic-bezier(0.17, 0.67, 0.21, 1.2) forwards;
+      text-shadow: 0 0 40px rgba(207,188,255,0.6), 0 0 80px rgba(207,188,255,0.3);
+    }
+
+    @keyframes eeExplode {
+      0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+      50% { transform: scale(1.3) rotate(5deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .ee-video {
+      width: min(380px, 75vw);
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(207,188,255,0.3);
+      animation: eeSlideUp 0.5s cubic-bezier(0.17, 0.67, 0.21, 1.2) 0.3s both;
+    }
+
+    @keyframes eeSlideUp {
+      0% { transform: translateY(60px) scale(0.8); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .ee-particle {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10001;
+      animation: eeParticle 1s ease-out forwards;
+    }
+
+    @keyframes eeParticle {
+      0% { transform: translate(0,0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+
+    .ee-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(207,188,255,0.15);
+      border: 1px solid rgba(207,188,255,0.3);
+      color: #cfbcff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      transition: background 0.2s;
+    }
+
+    .ee-close:hover {
+      background: rgba(207,188,255,0.3);
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- Toast notification (from index.html) -->
+<div class="ee-zone" id="eeZone"></div>
+<div class="ee-overlay" id="eeOverlay">
+  <button class="ee-close" id="eeClose">&times;</button>
+  <div class="ee-text" id="eeText" style="display:none">привет</div>
+  <video class="ee-video" id="eeVideo" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-46-41.mp4" playsinline controls></video>
+</div>
+<div class="ee-zone2" id="eeZone2"></div>
+<div class="ee-overlay" id="eeOverlay2">
+  <button class="ee-close" id="eeClose2">&times;</button>
+  <div class="ee-text" id="eeText2" style="display:none">окак да</div>
+  <video class="ee-video" id="eeVideo2" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-55-16.mp4" playsinline controls></video>
+</div>
+
   <div aria-live="polite" class="android-toast" id="m3Toast" role="status">
     <div class="toast-header">
       <div class="toast-icon-bg"><span class="material-symbols-outlined">content_copy</span></div>
@@ -583,7 +709,7 @@
       </div>
     </div>
 
-    <!-- Model selector -->
+
     <div class="model-selector-row">
       <div class="model-selector-label">
         <span class="material-symbols-outlined">smart_toy</span>
@@ -608,7 +734,7 @@
 
     <div class="footer">
       <div class="btnRow">
-        <span class="muted">ни кому не нужный гитхаб</span>
+        <span class="muted">гитхаб:</span>
         <a class="footer-link" href="https://github.com/jettaxp" target="_blank" rel="noopener">github.com/jettaxp</a>
       </div>
       <div class="ghost">
@@ -619,7 +745,7 @@
   </div>
 
   <script>
-    // ===== OBFUSCATED API KEY =====
+
     const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
     function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
     const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
@@ -631,7 +757,7 @@
 
     const loaderGif = "https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/Untitled--Frame%201%401x-10fps.gif";
 
-    // ===== TOAST SYSTEM (from index.html) =====
+
     (function() {
       const toast = document.getElementById('m3Toast');
       const toastMsg = document.getElementById('toast-msg');
@@ -659,7 +785,7 @@
         }, 4000);
       };
 
-      // Listen for native copy events
+
       document.addEventListener('copy', () => {
         const selectedText = window.getSelection().toString().trim();
         if (selectedText) {
@@ -668,7 +794,7 @@
       });
     })();
 
-    // ===== COPY UTILITY =====
+
     async function copyText(t) {
       if (!t) return false;
       try {
@@ -685,13 +811,13 @@
       } catch (e) { return false; }
     }
 
-    // ===== CHAT FUNCTIONS =====
+
     function addBubble(side, text) {
       const div = document.createElement("div");
       div.className = "bubble " + side;
       div.textContent = text;
 
-      // Add copy button to each bubble
+
       const copyBtn = document.createElement("button");
       copyBtn.className = "bubble-copy-btn";
       copyBtn.title = "Копировать";
@@ -728,13 +854,13 @@
       return div;
     }
 
-    // ===== AUTO-RESIZE TEXTAREA =====
+
     qEl.addEventListener("input", () => {
       qEl.style.height = "auto";
       qEl.style.height = Math.min(qEl.scrollHeight, 120) + "px";
     });
 
-    // ===== CHAT MEMORY (last 25 messages) =====
+
     const MAX_MEMORY = 25;
     let chatHistory = [];
 
@@ -745,7 +871,7 @@
       }
     }
 
-    // ===== ASK FUNCTION =====
+
     async function ask() {
       const q = (qEl.value || "").trim();
       if (!q) {
@@ -807,7 +933,7 @@
 
     addBubble("ai", "привет");
 
-    // Restore last used model
+
     const savedModel = localStorage.getItem("selectedModel");
     if (savedModel) {
       const opt = modelSelect.querySelector(`option[value="${savedModel}"]`);
@@ -816,6 +942,124 @@
     modelSelect.addEventListener("change", () => {
       localStorage.setItem("selectedModel", modelSelect.value);
     });
+
+    (function() {
+      const zone = document.getElementById('eeZone');
+      const overlay = document.getElementById('eeOverlay');
+      const eeText = document.getElementById('eeText');
+      const eeVideo = document.getElementById('eeVideo');
+      const eeClose = document.getElementById('eeClose');
+      let tapCount = 0;
+      let tapTimer = 0;
+
+      function spawnParticles() {
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+        const colors = ['#cfbcff','#eaddff','#ff7eb3','#7effdb','#ffe156'];
+        for (let i = 0; i < 30; i++) {
+          const p = document.createElement('div');
+          p.className = 'ee-particle';
+          const angle = (Math.PI * 2 * i) / 30;
+          const dist = 100 + Math.random() * 200;
+          p.style.left = cx + 'px';
+          p.style.top = cy + 'px';
+          p.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+          p.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+          p.style.background = colors[i % colors.length];
+          p.style.width = (6 + Math.random() * 10) + 'px';
+          p.style.height = p.style.width;
+          document.body.appendChild(p);
+          setTimeout(() => p.remove(), 1000);
+        }
+      }
+
+      zone.addEventListener('click', () => {
+        tapCount++;
+        clearTimeout(tapTimer);
+        tapTimer = setTimeout(() => { tapCount = 0; }, 800);
+        if (tapCount >= 3) {
+          tapCount = 0;
+          spawnParticles();
+          eeText.style.display = '';
+          eeVideo.style.display = '';
+          overlay.classList.add('active');
+          eeVideo.currentTime = 0;
+          eeVideo.play().catch(() => {});
+        }
+      });
+
+      eeClose.addEventListener('click', () => {
+        overlay.classList.remove('active');
+        eeVideo.pause();
+        setTimeout(() => {
+          eeText.style.display = 'none';
+          eeVideo.style.display = 'none';
+        }, 400);
+      });
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) eeClose.click();
+      });
+    })();
+
+    (function() {
+      const zone2 = document.getElementById('eeZone2');
+      const overlay2 = document.getElementById('eeOverlay2');
+      const eeText2 = document.getElementById('eeText2');
+      const eeVideo2 = document.getElementById('eeVideo2');
+      const eeClose2 = document.getElementById('eeClose2');
+      let tapCount2 = 0;
+      let tapTimer2 = 0;
+
+      function spawnParticles2() {
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+        const colors = ['#ff7eb3','#ffe156','#7effdb','#cfbcff','#ff6b6b'];
+        for (let i = 0; i < 30; i++) {
+          const p = document.createElement('div');
+          p.className = 'ee-particle';
+          const angle = (Math.PI * 2 * i) / 30;
+          const dist = 100 + Math.random() * 200;
+          p.style.left = cx + 'px';
+          p.style.top = cy + 'px';
+          p.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+          p.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+          p.style.background = colors[i % colors.length];
+          p.style.width = (6 + Math.random() * 10) + 'px';
+          p.style.height = p.style.width;
+          document.body.appendChild(p);
+          setTimeout(() => p.remove(), 1000);
+        }
+      }
+
+      zone2.addEventListener('click', () => {
+        tapCount2++;
+        clearTimeout(tapTimer2);
+        tapTimer2 = setTimeout(() => { tapCount2 = 0; }, 800);
+        if (tapCount2 >= 3) {
+          tapCount2 = 0;
+          spawnParticles2();
+          eeText2.style.display = '';
+          eeVideo2.style.display = '';
+          overlay2.classList.add('active');
+          eeVideo2.currentTime = 0;
+          eeVideo2.play().catch(() => {});
+        }
+      });
+
+      eeClose2.addEventListener('click', () => {
+        overlay2.classList.remove('active');
+        eeVideo2.pause();
+        setTimeout(() => {
+          eeText2.style.display = 'none';
+          eeVideo2.style.display = 'none';
+        }, 400);
+      });
+
+      overlay2.addEventListener('click', (e) => {
+        if (e.target === overlay2) eeClose2.click();
+      });
+    })();
   </script>
 </body>
 </html>
