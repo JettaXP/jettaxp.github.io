@@ -1,221 +1,714 @@
 <!doctype html>
-<html class="mdui-theme-dark" lang="ru">
+<html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>allah</title>
 
-  <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css" />
-  <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
-
-  <script type="module">
-    import { setColorScheme } from "https://unpkg.com/mdui@2/functions/setColorScheme.js";
-    setColorScheme("#7c4dff");
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
   <style>
-    :root{
+    :root {
+      --bg-primary: #141218;
+      --bg-secondary: rgba(33, 33, 46, 0.85);
+      --text-primary: #e6e0e9;
+      --text-secondary: rgba(230, 224, 233, 0.6);
+      --accent-primary: #cfbcff;
+      --accent-secondary: #ccc2dc;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --glass-bg: rgba(33, 33, 46, 0.6);
+      --surface-container: #211f26;
+      --surface-container-high: #2b2930;
+      --surface-container-highest: #36343b;
+      --surface-variant: #49454f;
+      --primary-container: #4f378b;
+      --on-primary-container: #eaddff;
+      --on-primary: #381e72;
+      --primary: #cfbcff;
       --r-card: 30px;
       --r-bubble: 22px;
       --r-panel: 24px;
       --gap: 12px;
     }
 
-    body{
-      margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:24px;
-      background:rgb(var(--mdui-color-surface));
-      color:rgb(var(--mdui-color-on-surface));
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .card{
-      width:min(920px,100%);
-      border-radius:var(--r-card);
-      padding:18px;
-      background:rgb(var(--mdui-color-surface-container));
-      box-shadow:0 18px 50px rgba(0,0,0,.36);
-      display:flex;
-      flex-direction:column;
-      gap:12px;
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Comfortaa', cursive;
+      overflow-x: hidden;
+    }
+    .card {
+      width: min(920px, 100%);
+      border-radius: var(--r-card);
+      padding: 18px;
+      background: var(--surface-container);
+      box-shadow: 0 18px 50px rgba(0,0,0,.36);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .title{
-      margin:2px 6px 2px 6px;
-      font-size:32px;
-      font-weight:760;
-      letter-spacing:.2px;
+    .title {
+      margin: 2px 6px 2px 6px;
+      font-size: 32px;
+      font-weight: 760;
+      letter-spacing: .2px;
     }
 
-    .hint{
-      margin:0 6px 2px 6px;
-      opacity:.78;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
+    .hint {
+      margin: 0 6px 2px 6px;
+      opacity: .78;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: 0.9rem;
     }
 
-    .chat{
-      margin:0 6px;
-      padding:14px;
-      border-radius:var(--r-panel);
-      background:rgb(var(--mdui-color-surface-container-high));
-      height:min(56vh, 560px);
-      overflow:auto;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+    .hint a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(207, 188, 255, 0.12);
+      border: 1px solid rgba(207, 188, 255, 0.25);
+      transition: all 0.2s ease;
+      font-family: 'Comfortaa', cursive;
+      font-size: 0.85rem;
     }
 
-    .bubble{
-      max-width:min(78%, 680px);
-      padding:12px 14px;
-      border-radius:var(--r-bubble);
-      line-height:1.35;
-      white-space:pre-wrap;
-      word-wrap:break-word;
-      box-shadow:0 6px 16px rgba(0,0,0,.16);
+    .hint a:hover {
+      background: rgba(207, 188, 255, 0.22);
+      border-color: var(--accent-primary);
+    }
+    .model-selector-row {
+      margin: 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .bubble.me{
-      align-self:flex-end;
-      background:rgb(var(--mdui-color-primary-container));
-      color:rgb(var(--mdui-color-on-primary-container));
-      border-bottom-right-radius:10px;
+    .model-selector-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
-    .bubble.ai{
-      align-self:flex-start;
-      background:rgb(var(--mdui-color-surface-container-highest));
-      color:rgb(var(--mdui-color-on-surface));
-      border-bottom-left-radius:10px;
+    .model-selector-label .material-symbols-outlined {
+      font-size: 18px;
+      color: var(--accent-primary);
     }
 
-    .typing{
-      display:flex;
-      align-items:center;
-      gap:12px;
+    .model-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--surface-container-high);
+      color: var(--text-primary);
+      border: 1px solid rgba(207, 188, 255, 0.25);
+      border-radius: 16px;
+      padding: 8px 36px 8px 14px;
+      font-family: 'Comfortaa', cursive;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s ease;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23cfbcff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      min-width: 180px;
     }
 
-    .loaderBox{
-      width:56px;
-      height:56px;
-      border-radius:16px;
-      overflow:hidden;
-      background:rgb(var(--mdui-color-surface-container-highest));
-      display:grid;
-      place-items:center;
-      box-shadow:0 6px 16px rgba(0,0,0,.16);
-      flex:0 0 auto;
+    .model-select:hover {
+      border-color: var(--accent-primary);
+      background-color: rgba(207, 188, 255, 0.08);
     }
 
-    .loaderImg{
-      width:56px;
-      height:56px;
-      object-fit:cover;
+    .model-select:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 2px rgba(207, 188, 255, 0.15);
     }
 
-    .composer{
-      margin:0 6px;
-      padding:12px;
-      border-radius:var(--r-panel);
-      background:rgb(var(--mdui-color-surface-container-high));
-      display:flex;
-      gap:var(--gap);
-      align-items:flex-end;
-      flex-wrap:wrap;
-      box-shadow:0 10px 22px rgba(0,0,0,.18);
+    .model-select option {
+      background: var(--surface-container);
+      color: var(--text-primary);
+      padding: 8px;
+    }
+    .chat {
+      margin: 0 6px;
+      padding: 14px;
+      border-radius: var(--r-panel);
+      background: var(--surface-container-high);
+      height: min(56vh, 560px);
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(207, 188, 255, 0.3) transparent;
     }
 
-    mdui-text-field{
-      --mdui-shape-corner: var(--mdui-shape-corner-full);
-      flex:1 1 380px;
-      min-width:240px;
+    .chat::-webkit-scrollbar {
+      width: 6px;
     }
 
-    mdui-button{
-      --mdui-shape-corner: 999px;
+    .chat::-webkit-scrollbar-thumb {
+      background: rgba(207, 188, 255, 0.3);
+      border-radius: 3px;
+    }
+    .bubble {
+      max-width: min(78%, 680px);
+      padding: 12px 16px;
+      border-radius: var(--r-bubble);
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      box-shadow: 0 4px 12px rgba(0,0,0,.16);
+      animation: bubbleIn 0.3s cubic-bezier(0.2, 0, 0, 1);
+      position: relative;
     }
 
-    #ask.squish{
-      --mdui-shape-corner: 14px;
-      transition: all 220ms ease;
+    @keyframes bubbleIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
-    .footer{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      align-items:center;
-      padding:0 6px;
+    .bubble.me {
+      align-self: flex-end;
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-bottom-right-radius: 10px;
     }
 
-    .ghost{
-      opacity:.7;
-      font-size:12px;
+    .bubble.ai {
+      align-self: flex-start;
+      background: var(--surface-container-highest);
+      color: var(--text-primary);
+      border-bottom-left-radius: 10px;
+    }
+    .bubble-copy-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(0, 0, 0, 0.25);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s ease, background 0.2s ease;
+      z-index: 5;
     }
 
-    .btnRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
+    .bubble:hover .bubble-copy-btn {
+      opacity: 1;
     }
 
-    .muted{
-      opacity:.75;
-      font-size:12px;
+    .bubble-copy-btn:hover {
+      background: rgba(187, 134, 252, 0.3);
+      color: var(--accent-primary);
+    }
+
+    .bubble-copy-btn .material-symbols-outlined {
+      font-size: 16px;
+    }
+
+    /* ===== TYPING ===== */
+    .typing {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .loaderBox {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--surface-container-highest);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 16px rgba(0,0,0,.16);
+      flex: 0 0 auto;
+    }
+
+    .loaderImg {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+    }
+
+    /* ===== COMPOSER ===== */
+    .composer {
+      margin: 0 6px;
+      padding: 12px;
+      border-radius: var(--r-panel);
+      background: var(--surface-container-high);
+      display: flex;
+      gap: var(--gap);
+      align-items: flex-end;
+      flex-wrap: wrap;
+      box-shadow: 0 10px 22px rgba(0,0,0,.18);
+    }
+
+    .composer-input {
+      flex: 1 1 300px;
+      min-width: 200px;
+      background: var(--surface-container-highest);
+      border: 1px solid rgba(207, 188, 255, 0.18);
+      border-radius: 999px;
+      padding: 12px 18px;
+      color: var(--text-primary);
+      font-family: 'Comfortaa', cursive;
+      font-size: 0.95rem;
+      outline: none;
+      resize: none;
+      max-height: 120px;
+      min-height: 44px;
+      transition: border-color 0.2s ease;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(207, 188, 255, 0.3) transparent;
+    }
+
+    .composer-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .composer-input:focus {
+      border-color: var(--accent-primary);
+    }
+
+    .send-btn {
+      background: var(--accent-primary);
+      color: var(--on-primary);
+      border: none;
+      border-radius: 16px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-radius 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s ease;
+      flex-shrink: 0;
+      font-family: 'Comfortaa', cursive;
+    }
+
+    .send-btn:hover {
+      background: color-mix(in srgb, var(--accent-primary) 80%, white);
+    }
+
+    .send-btn:active {
+      border-radius: 24px;
+      transform: scale(0.92);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .send-btn .material-symbols-outlined {
+      font-size: 24px;
+      font-variation-settings: 'FILL' 1;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 0 6px;
+    }
+
+    .ghost {
+      opacity: .5;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ghost .material-symbols-outlined {
+      font-size: 14px;
+    }
+
+    .btnRow {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .footer-link {
+      color: var(--accent-primary);
+      text-decoration: none;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(207, 188, 255, 0.12);
+      border: 1px solid rgba(207, 188, 255, 0.25);
+      transition: all 0.2s ease;
+      font-family: 'Comfortaa', cursive;
+      font-size: 0.8rem;
+    }
+
+    .footer-link:hover {
+      background: rgba(207, 188, 255, 0.22);
+      border-color: var(--accent-primary);
+    }
+
+    .muted {
+      opacity: .75;
+      font-size: 12px;
+    }
+
+    /* ===== TOAST (from index.html) ===== */
+    .android-toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translate(-50%, -120%);
+      width: min(92vw, 420px);
+      background: #2D3033;
+      border-radius: 28px;
+      padding: 16px 18px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1), opacity 0.3s ease, visibility 0.3s;
+      font-family: 'Comfortaa', cursive;
+      color: #E2E3DD;
+    }
+
+    .android-toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .toast-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: #C4C7C5;
+    }
+
+    .toast-icon-bg {
+      background: #E8DEF8;
+      color: #1B0040;
+      border-radius: 50%;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toast-icon-bg .material-symbols-outlined {
+      font-size: 14px;
+    }
+
+    .toast-expand-btn {
+      margin-left: auto;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      color: inherit;
+      border: none;
+      background: transparent;
+    }
+
+    .toast-expand-btn:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .toast-expand-btn:active {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .toast-expand-btn span {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 18px;
+    }
+
+    .toast-expand-btn span.rotated {
+      transform: rotate(180deg);
+    }
+
+    .toast-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .toast-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: left;
+      flex-grow: 1;
+    }
+
+    .toast-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #F8F9FA;
+    }
+
+    .toast-body {
+      font-size: 0.85rem;
+      color: #C4C7C5;
+      word-break: break-word;
+      line-height: 1.4;
+      max-height: 2.8em;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .android-toast.expanded .toast-body {
+      max-height: 150px;
+      -webkit-line-clamp: unset;
+      display: block;
+      overflow-y: auto;
+    }
+
+    .toast-body::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .toast-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .toast-right-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--accent-primary);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .toast-right-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      .card { padding: 14px; }
+      .title { font-size: 24px; }
+      .composer-input { min-width: 150px; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Toast notification (from index.html) -->
+  <div aria-live="polite" class="android-toast" id="m3Toast" role="status">
+    <div class="toast-header">
+      <div class="toast-icon-bg"><span class="material-symbols-outlined">content_copy</span></div>
+      <span>Система</span>
+      <span>•</span>
+      <span>только что</span>
+      <div class="toast-expand-btn">
+        <span class="material-symbols-outlined">expand_more</span>
+      </div>
+    </div>
+    <div class="toast-content">
+      <div class="toast-text">
+        <div class="toast-title">Буфер обмена</div>
+        <div class="toast-body" id="toast-msg">Скопировано: ...</div>
+      </div>
+      <div class="toast-right-avatar">
+        <img src="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/jettax.png" alt="Avatar">
+      </div>
+    </div>
+  </div>
+
   <div class="card">
     <div>
       <div class="title">haram ai test</div>
       <div class="hint">
         <span>скидывать промпт можно тут:</span>
-        <mdui-button
-          variant="tonal"
-          href="https://t.me/jettaxp"
-          target="_blank"
-          rel="noopener"
-        >t.me/jettaxp</mdui-button>
+        <a href="https://t.me/jettaxp" target="_blank" rel="noopener">t.me/jettaxp</a>
       </div>
+    </div>
+
+    <!-- Model selector -->
+    <div class="model-selector-row">
+      <div class="model-selector-label">
+        <span class="material-symbols-outlined">smart_toy</span>
+        модель:
+      </div>
+      <select class="model-select" id="modelSelect">
+        <option value="pplx-gpt-5.1" selected>pplx-gpt-5.1</option>
+        <option value="gpt-5-mini">gpt-5-mini</option>
+        <option value="sonar-pro">sonar-pro</option>
+        <option value="sonar-deep-research">sonar-deep-research</option>
+      </select>
     </div>
 
     <div class="chat" id="chat"></div>
 
     <div class="composer">
-      <mdui-text-field id="q" label="вопрос" variant="filled"></mdui-text-field>
-      <mdui-button variant="filled" id="ask">спросить</mdui-button>
+      <textarea class="composer-input" id="q" placeholder="Введи вопрос..." rows="1"></textarea>
+      <button class="send-btn" id="ask" title="Отправить">
+        <span class="material-symbols-outlined">send</span>
+      </button>
     </div>
 
     <div class="footer">
       <div class="btnRow">
         <span class="muted">ни кому не нужный гитхаб</span>
-        <mdui-button variant="filled" href="https://github.com/jettaxp" target="_blank" rel="noopener">github.com/jettaxp</mdui-button>
+        <a class="footer-link" href="https://github.com/jettaxp" target="_blank" rel="noopener">github.com/jettaxp</a>
       </div>
-      <div class="ghost">enter = отправить</div>
+      <div class="ghost">
+        <span class="material-symbols-outlined">keyboard_return</span>
+        enter = отправить
+      </div>
     </div>
   </div>
 
   <script>
+    // ===== OBFUSCATED API KEY =====
+    const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
+    function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
+    const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
+
     const qEl = document.getElementById("q");
     const chatEl = document.getElementById("chat");
     const askBtn = document.getElementById("ask");
+    const modelSelect = document.getElementById("modelSelect");
 
-    const loaderGif = "https://raw.githubusercontent.com/JettaXP/pix/main/Untitled--Frame%201%401x-10fps.gif";
+    const loaderGif = "https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/Untitled--Frame%201%401x-10fps.gif";
 
+    // ===== TOAST SYSTEM (from index.html) =====
+    (function() {
+      const toast = document.getElementById('m3Toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const expandBtn = toast.querySelector('.toast-expand-btn');
+      const expandArrow = expandBtn.querySelector('span');
+      let toastT = 0;
+
+      expandBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toast.classList.toggle('expanded');
+        expandArrow.classList.toggle('rotated');
+      });
+
+      window._showToast = function(msg) {
+        if (!toast) return;
+        toastMsg.textContent = msg;
+        toast.classList.remove('expanded');
+        expandArrow.classList.remove('rotated');
+        toast.classList.add('show');
+        clearTimeout(toastT);
+        toastT = setTimeout(() => {
+          toast.classList.remove('show');
+          toast.classList.remove('expanded');
+          expandArrow.classList.remove('rotated');
+        }, 4000);
+      };
+
+      // Listen for native copy events
+      document.addEventListener('copy', () => {
+        const selectedText = window.getSelection().toString().trim();
+        if (selectedText) {
+          window._showToast(selectedText);
+        }
+      });
+    })();
+
+    // ===== COPY UTILITY =====
+    async function copyText(t) {
+      if (!t) return false;
+      try {
+        if (navigator.clipboard) { await navigator.clipboard.writeText(t); return true; }
+      } catch (e) {}
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = t;
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        return ok;
+      } catch (e) { return false; }
+    }
+
+    // ===== CHAT FUNCTIONS =====
     function addBubble(side, text) {
       const div = document.createElement("div");
       div.className = "bubble " + side;
       div.textContent = text;
+
+      // Add copy button to each bubble
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "bubble-copy-btn";
+      copyBtn.title = "Копировать";
+      copyBtn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
+      copyBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const ok = await copyText(text);
+        if (ok) {
+          window._showToast(text);
+          copyBtn.innerHTML = '<span class="material-symbols-outlined">check</span>';
+          setTimeout(() => {
+            copyBtn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
+          }, 1500);
+        }
+      });
+      div.appendChild(copyBtn);
+
       chatEl.appendChild(div);
       chatEl.scrollTop = chatEl.scrollHeight;
       return div;
@@ -235,37 +728,67 @@
       return div;
     }
 
+    // ===== AUTO-RESIZE TEXTAREA =====
+    qEl.addEventListener("input", () => {
+      qEl.style.height = "auto";
+      qEl.style.height = Math.min(qEl.scrollHeight, 120) + "px";
+    });
+
+    // ===== CHAT MEMORY (last 25 messages) =====
+    const MAX_MEMORY = 25;
+    let chatHistory = [];
+
+    function addToHistory(role, content) {
+      chatHistory.push({ role, content });
+      if (chatHistory.length > MAX_MEMORY) {
+        chatHistory = chatHistory.slice(chatHistory.length - MAX_MEMORY);
+      }
+    }
+
+    // ===== ASK FUNCTION =====
     async function ask() {
       const q = (qEl.value || "").trim();
       if (!q) {
-        mdui.snackbar({ message: "введи вопрос", placement: "top" });
+        window._showToast("Введи вопрос");
         return;
       }
 
-      askBtn.classList.add("squish");
-      setTimeout(() => askBtn.classList.remove("squish"), 260);
-
       addBubble("me", q);
+      addToHistory("user", q);
       qEl.value = "";
+      qEl.style.height = "auto";
       qEl.focus();
 
       askBtn.disabled = true;
 
       const typingEl = addTyping();
+      const selectedModel = modelSelect.value;
 
       try {
-        const r = await fetch("/api/ask", {
+        const r = await fetch(_baseUrl + "/chat/completions", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "same-origin",
-          body: JSON.stringify({ q })
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + _k()
+          },
+          body: JSON.stringify({
+            model: selectedModel,
+            messages: chatHistory.slice()
+          })
         });
 
         const data = await r.json().catch(() => ({}));
-        const text = data.text || data.error || ("http " + r.status);
+
+        let text;
+        if (data.choices && data.choices.length > 0) {
+          text = data.choices[0].message?.content || data.choices[0].text || "пустой ответ";
+        } else {
+          text = data.error?.message || data.error || ("http " + r.status);
+        }
 
         typingEl.remove();
         addBubble("ai", text);
+        addToHistory("assistant", text);
       } catch (e) {
         typingEl.remove();
         addBubble("ai", "ошибка: " + (e?.message || e));
@@ -275,9 +798,24 @@
     }
 
     askBtn.addEventListener("click", ask);
-    qEl.addEventListener("keydown", (e) => { if (e.key === "Enter") ask(); });
+    qEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        ask();
+      }
+    });
 
     addBubble("ai", "привет");
+
+    // Restore last used model
+    const savedModel = localStorage.getItem("selectedModel");
+    if (savedModel) {
+      const opt = modelSelect.querySelector(`option[value="${savedModel}"]`);
+      if (opt) modelSelect.value = savedModel;
+    }
+    modelSelect.addEventListener("change", () => {
+      localStorage.setItem("selectedModel", modelSelect.value);
+    });
   </script>
 </body>
 </html>
