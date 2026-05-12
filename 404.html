@@ -13,24 +13,25 @@
     <link rel="stylesheet" href="/404/style.css">
 </head>
 <body>
-    <audio id="bg-music" loop preload="none">
-        <source src="/404/music.mp3" type="audio/mpeg">
-    </audio>
-
     <main class="page-shell" aria-labelledby="page-title">
-        <section class="container">
-            <div class="status-chip">
-                <span class="material-symbols-outlined" aria-hidden="true">travel_explore</span>
-                <span>JettaX Pages</span>
-            </div>
+        <div class="orb-layer" aria-hidden="true">
+            <span class="orb orb-one"></span>
+            <span class="orb orb-two"></span>
+            <span class="orb orb-three"></span>
+        </div>
 
+        <section class="container">
             <div class="error-code" aria-label="Ошибка 404">
                 <span class="digit">4</span>
                 <div class="zero-container" aria-hidden="true">
                     <div class="video-mask">
-                        <video id="rickvideo" loop playsinline muted preload="metadata" poster="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/jettax.png">
-                            <source src="/404/rickroll.mp4" type="video/mp4">
-                        </video>
+                        <iframe
+                            id="rickroll"
+                            src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0&modestbranding=1&playsinline=1&rel=0"
+                            title="Rickroll"
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                            loading="lazy">
+                        </iframe>
                         <span class="material-symbols-outlined fallback-icon">question_mark</span>
                     </div>
                 </div>
@@ -38,54 +39,55 @@
             </div>
 
             <h1 id="page-title">Страница не найдена</h1>
-            <p class="message">Вы забрели куда-то не туда... Но зато нашли кое-что классическое.</p>
+            <p class="message">Этого адреса нет, зато сюрприз уже подгрузился. Можно вернуться назад, пока припев не застрял в голове.</p>
 
             <div class="actions">
                 <a href="/" class="cta-button">
                     <span class="material-symbols-outlined" aria-hidden="true">home</span>
                     Вернуться на главную
                 </a>
-                <button class="sound-button" type="button" aria-label="Включить музыку">
-                    <span class="material-symbols-outlined" aria-hidden="true">volume_up</span>
-                </button>
             </div>
         </section>
     </main>
 
     <script>
-        const video = document.getElementById('rickvideo');
-        const audio = document.getElementById('bg-music');
-        const soundButton = document.querySelector('.sound-button');
         const container = document.querySelector('.container');
         const videoMask = document.querySelector('.video-mask');
+        const root = document.documentElement;
+        const orbs = document.querySelectorAll('.orb');
 
-        video.play().catch(() => {});
-        video.addEventListener('canplay', () => {
+        window.addEventListener('load', () => {
             videoMask.classList.add('has-video');
-        });
-
-        const startInteraction = () => {
-            video.muted = true;
-            video.play().catch(() => {});
-            audio.play().catch(() => {});
-            document.removeEventListener('click', startInteraction);
-        };
-
-        document.addEventListener('click', startInteraction);
-
-        soundButton.addEventListener('click', () => {
-            audio.paused ? audio.play().catch(() => {}) : audio.pause();
-            soundButton.classList.toggle('is-active', !audio.paused);
         });
 
         document.addEventListener('mousemove', (event) => {
             const xAxis = (window.innerWidth / 2 - event.pageX) / 45;
             const yAxis = (window.innerHeight / 2 - event.pageY) / 45;
             container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+
+            const pointerX = event.clientX / window.innerWidth - 0.5;
+            const pointerY = event.clientY / window.innerHeight - 0.5;
+            root.style.setProperty('--pointer-x', pointerX.toFixed(4));
+            root.style.setProperty('--pointer-y', pointerY.toFixed(4));
         });
 
         document.addEventListener('mouseleave', () => {
             container.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            root.style.setProperty('--pointer-x', '0');
+            root.style.setProperty('--pointer-y', '0');
+        });
+
+        document.addEventListener('click', (event) => {
+            root.style.setProperty('--click-x', `${event.clientX}px`);
+            root.style.setProperty('--click-y', `${event.clientY}px`);
+
+            orbs.forEach((orb, index) => {
+                window.setTimeout(() => {
+                    orb.classList.remove('is-clicked');
+                    void orb.offsetWidth;
+                    orb.classList.add('is-clicked');
+                }, index * 45);
+            });
         });
     </script>
 </body>
