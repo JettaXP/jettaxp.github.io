@@ -561,22 +561,62 @@
 
     .ee-zone {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 60px;
-      height: 60px;
+      bottom: 18px;
+      left: 18px;
+      min-width: 54px;
+      height: 38px;
       z-index: 9999;
-      cursor: default;
+      cursor: pointer;
+      background: #9a9a9a;
+      color: #111;
+      border-top: 2px solid #f5f5f5;
+      border-left: 2px solid #f5f5f5;
+      border-right: 2px solid #404040;
+      border-bottom: 2px solid #404040;
+      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 0 12px;
     }
 
     .ee-zone2 {
       position: fixed;
-      bottom: 0;
-      right: 0;
-      width: 60px;
-      height: 60px;
+      bottom: 18px;
+      right: 18px;
+      min-width: 54px;
+      height: 38px;
       z-index: 9999;
-      cursor: default;
+      cursor: pointer;
+      background: #9a9a9a;
+      color: #111;
+      border-top: 2px solid #f5f5f5;
+      border-left: 2px solid #f5f5f5;
+      border-right: 2px solid #404040;
+      border-bottom: 2px solid #404040;
+      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 0 12px;
+    }
+
+    .ee-zone.ee-pressed-1,
+    .ee-zone2.ee-pressed-1 {
+      border-top-color: #606060;
+      border-left-color: #606060;
+      border-right-color: #f5f5f5;
+      border-bottom-color: #f5f5f5;
+      background: #8c8c8c;
+      transform: translateY(1px);
+    }
+
+    .ee-zone.ee-pressed-2,
+    .ee-zone2.ee-pressed-2 {
+      border-top-color: #202020;
+      border-left-color: #202020;
+      border-right-color: #fff;
+      border-bottom-color: #fff;
+      background: #777;
+      transform: translateY(2px);
     }
 
     .ee-overlay {
@@ -592,6 +632,36 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease;
+    }
+
+    .ee-window {
+      width: min(440px, 88vw);
+      background: #c0c0c0;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #000;
+      border-bottom: 2px solid #000;
+      padding: 2px;
+      box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+    }
+
+    .ee-titlebar {
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 2px 3px 2px 6px;
+      color: #fff;
+      background: #000080;
+      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .ee-window-body {
+      padding: 12px;
+      color: #000;
     }
 
     .ee-overlay.active {
@@ -616,8 +686,8 @@
 
     .ee-video {
       width: min(380px, 75vw);
-      border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(207,188,255,0.3);
+      border-radius: 0;
+      box-shadow: none;
       animation: eeSlideUp 0.5s cubic-bezier(0.17, 0.67, 0.21, 1.2) 0.3s both;
     }
 
@@ -645,12 +715,15 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      background: rgba(207,188,255,0.15);
-      border: 1px solid rgba(207,188,255,0.3);
-      color: #cfbcff;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+      background: #c0c0c0;
+      border-top: 1px solid #fff;
+      border-left: 1px solid #fff;
+      border-right: 1px solid #000;
+      border-bottom: 1px solid #000;
+      color: #000;
+      width: 18px;
+      height: 16px;
+      border-radius: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -660,24 +733,103 @@
     }
 
     .ee-close:hover {
-      background: rgba(207,188,255,0.3);
+      background: #b0b0b0;
+    }
+
+    .ee-titlebar .ee-close {
+      position: static;
+      flex: 0 0 auto;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    body[data-device="android"] {
+      background-color: #01007e;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.1) 2px, rgba(255,255,255,.1) 4px);
+      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+      color: #000;
+    }
+
+    body[data-device="android"] .blob {
+      display: none;
+    }
+
+    body[data-device="android"] .card {
+      border-radius: 0;
+      background: #c0c0c0;
+      color: #000;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #000;
+      border-bottom: 2px solid #000;
+      box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+      backdrop-filter: none;
+    }
+
+    body[data-device="android"] .card::before {
+      content: "/home/jettax/ai";
+      display: block;
+      margin: -16px -16px 12px;
+      padding: 4px 6px;
+      background: #000080;
+      color: #fff;
+      font: 700 12px Tahoma, sans-serif;
+    }
+
+    body[data-device="android"] .title,
+    body[data-device="android"] .hint,
+    body[data-device="android"] .model-selector-label {
+      color: #000;
+    }
+
+    body[data-device="android"] .chat,
+    body[data-device="android"] .composer,
+    body[data-device="android"] .model-select {
+      border-radius: 0;
+      background: #fff;
+      color: #000;
+      border-top: 2px solid #808080;
+      border-left: 2px solid #808080;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      box-shadow: none;
     }
   </style>
 </head>
 
 <body>
+<script>
+  (function () {
+    const ua = navigator.userAgent;
+    const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+    let device = 'linux';
+    if (/android/i.test(ua)) device = 'android';
+    else if (/iphone|ipad|ipod/i.test(ua)) device = 'ios';
+    else if (/macintosh|mac os x/i.test(ua)) device = 'apple';
+    else if (/win/i.test(platform) || /windows/i.test(ua)) device = 'windows';
+    document.body.dataset.device = device;
+  })();
+</script>
 
-<div class="ee-zone" id="eeZone"></div>
+<button class="ee-zone" id="eeZone" type="button">???</button>
 <div class="ee-overlay" id="eeOverlay">
-  <button class="ee-close" id="eeClose">&times;</button>
-  <div class="ee-text" id="eeText" style="display:none">привет</div>
-  <video class="ee-video" id="eeVideo" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-46-41.mp4" playsinline controls></video>
+  <div class="ee-window">
+    <div class="ee-titlebar"><span>/home/jettax/easter-1</span><button class="ee-close" id="eeClose">&times;</button></div>
+    <div class="ee-window-body">
+      <div class="ee-text" id="eeText" style="display:none">привет</div>
+      <video class="ee-video" id="eeVideo" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-46-41.mp4" playsinline controls></video>
+    </div>
+  </div>
 </div>
-<div class="ee-zone2" id="eeZone2"></div>
+<button class="ee-zone2" id="eeZone2" type="button">!!!</button>
 <div class="ee-overlay" id="eeOverlay2">
-  <button class="ee-close" id="eeClose2">&times;</button>
-  <div class="ee-text" id="eeText2" style="display:none">окак да</div>
-  <video class="ee-video" id="eeVideo2" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-55-16.mp4" playsinline controls></video>
+  <div class="ee-window">
+    <div class="ee-titlebar"><span>/home/jettax/easter-2</span><button class="ee-close" id="eeClose2">&times;</button></div>
+    <div class="ee-window-body">
+      <div class="ee-text" id="eeText2" style="display:none">окак да</div>
+      <video class="ee-video" id="eeVideo2" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-55-16.mp4" playsinline controls></video>
+    </div>
+  </div>
 </div>
 
   <div aria-live="polite" class="android-toast" id="m3Toast" role="status">
@@ -976,10 +1128,13 @@
 
       zone.addEventListener('click', () => {
         tapCount++;
+        zone.classList.toggle('ee-pressed-1', tapCount === 1);
+        zone.classList.toggle('ee-pressed-2', tapCount === 2);
         clearTimeout(tapTimer);
-        tapTimer = setTimeout(() => { tapCount = 0; }, 800);
+        tapTimer = setTimeout(() => { tapCount = 0; zone.classList.remove('ee-pressed-1', 'ee-pressed-2'); }, 800);
         if (tapCount >= 3) {
           tapCount = 0;
+          zone.classList.remove('ee-pressed-1', 'ee-pressed-2');
           spawnParticles();
           eeText.style.display = '';
           eeVideo.style.display = '';
@@ -1035,10 +1190,13 @@
 
       zone2.addEventListener('click', () => {
         tapCount2++;
+        zone2.classList.toggle('ee-pressed-1', tapCount2 === 1);
+        zone2.classList.toggle('ee-pressed-2', tapCount2 === 2);
         clearTimeout(tapTimer2);
-        tapTimer2 = setTimeout(() => { tapCount2 = 0; }, 800);
+        tapTimer2 = setTimeout(() => { tapCount2 = 0; zone2.classList.remove('ee-pressed-1', 'ee-pressed-2'); }, 800);
         if (tapCount2 >= 3) {
           tapCount2 = 0;
+          zone2.classList.remove('ee-pressed-1', 'ee-pressed-2');
           spawnParticles2();
           eeText2.style.display = '';
           eeVideo2.style.display = '';

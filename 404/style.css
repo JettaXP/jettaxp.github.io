@@ -396,3 +396,101 @@ h1 {
         transform: none !important;
     }
 }
+
+body[data-device="android"] {
+    background-color: #01007e;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.1) 4px);
+    color: #000;
+    font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+}
+
+body[data-device="android"]::before,
+body[data-device="android"] .orb-layer {
+    display: none;
+}
+
+body[data-device="android"] .page-shell {
+    padding: 18px;
+    perspective: none;
+}
+
+body[data-device="android"] .container {
+    width: min(460px, 100%);
+    gap: 14px;
+    padding: 2px;
+    border-radius: 0;
+    color: #000;
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+    box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+    transform: none !important;
+    transition: none;
+}
+
+body[data-device="android"] .container::before {
+    content: "C:\\JettaX\\404.exe";
+    width: 100%;
+    padding: 4px 6px;
+    color: #fff;
+    background: #000080;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+body[data-device="android"] .error-code,
+body[data-device="android"] h1,
+body[data-device="android"] .message,
+body[data-device="android"] .actions {
+    margin-inline: 14px;
+}
+
+body[data-device="android"] .error-code {
+    margin-top: 18px;
+    font-size: clamp(4.2rem, 21vw, 7rem);
+}
+
+body[data-device="android"] .digit {
+    color: #000;
+    text-shadow: 2px 2px #fff;
+}
+
+body[data-device="android"] .zero-container {
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    box-shadow: none;
+}
+
+body[data-device="android"] .avatar-mask {
+    border-radius: 0;
+}
+
+body[data-device="android"] h1 {
+    font-size: 1.35rem;
+}
+
+body[data-device="android"] .message {
+    color: #000;
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+body[data-device="android"] .cta-button {
+    min-height: 34px;
+    margin-bottom: 14px;
+    border-radius: 0;
+    color: #000;
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+    box-shadow: none;
+}

@@ -700,6 +700,83 @@
             color: #ff6347
         }
 
+        .branches-card {
+            width: 100%;
+            margin-top: 16px;
+            padding: 20px;
+            text-align: left;
+            background: var(--surface-variant);
+            border-radius: 28px;
+            border: 1px solid var(--border-color);
+        }
+
+        .branches-card h2 {
+            font-size: 1.25rem;
+            color: var(--accent-primary);
+            margin-bottom: 14px;
+            text-transform: lowercase;
+        }
+
+        .branches-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .branch-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--text-primary);
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            transition: background var(--duration) var(--easing), transform var(--duration) var(--easing);
+        }
+
+        .branch-link:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-1px);
+        }
+
+        .branch-symbol {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: var(--primary-container);
+            color: var(--on-primary-container);
+            font-weight: 700;
+        }
+
+        body[data-device="android"] .page-wrapper {
+            border-radius: 32px;
+            padding: 18px;
+        }
+
+        body[data-device="android"] .md3-surface,
+        body[data-device="android"] .devices-card,
+        body[data-device="android"] .branches-card {
+            border-radius: 16px;
+            box-shadow: none;
+        }
+
+        body[data-device="windows"] .page-wrapper {
+            box-shadow: 0 18px 0 rgba(0, 0, 0, .18);
+        }
+
+        body[data-device="apple"] {
+            --surface-container: #1f1d24;
+            --surface-variant: #302d36;
+        }
+
+        body[data-device="linux"] .branch-symbol {
+            border-radius: 6px;
+        }
+
 
         .android-toast {
             position: fixed;
@@ -1726,6 +1803,50 @@
                 } catch (e) { console.error(e); }
             }
             if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', () => { wrapSelectTheme(); initThemeCorner(); initTabs(); }); } else { wrapSelectTheme(); initThemeCorner(); initTabs(); }
+        })();
+    </script>
+    <script>
+        (function () {
+            function detectOS() {
+                const ua = navigator.userAgent;
+                const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+                if (/android/i.test(ua)) return 'android';
+                if (/iphone|ipad|ipod/i.test(ua)) return 'ios';
+                if (/macintosh|mac os x/i.test(ua)) return 'apple';
+                if (/win/i.test(platform) || /windows/i.test(ua)) return 'windows';
+                if (/linux/i.test(platform) || /linux/i.test(ua)) return 'linux';
+                return 'unknown';
+            }
+
+            function updateDevices() {
+                const card = document.querySelector('#tab-devices .devices-card');
+                if (!card) return false;
+                card.innerHTML = '<h2>Мои устройства</h2><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">smartphone</span> Телефоны</h3><div class="device-item"><div class="device-name">Huawei INE-LX1 <span class="device-status status-default">основной</span></div><div class="device-specs">Сейчас пользуюсь Huawei как основным телефоном.</div></div><div class="device-item"><div class="device-name">Samsung Galaxy S20FE <span class="device-status status-rip">сломан экран</span></div><div class="device-specs">Экран сломан, поэтому уже не основной.</div></div><div class="device-item"><div class="device-name">Pixel 7a <span class="device-status status-rip">rip battery</span></div><div class="device-specs">Запасной.</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">computer</span> ПК</h3><div class="device-item"><div class="device-name">Windows 11</div><div class="device-specs">Intel Core i3-10105F @ 3.70GHz<br/>NVIDIA GTX 950<br/>16GB DDR4</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">laptop</span> Ноутбук</h3><div class="device-item"><div class="device-name">Asus Vivobook S 15</div><div class="device-specs">Дополнительный ноутбук</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">watch</span> Дополнительно</h3><div class="device-item"><div class="device-name">Pixel Watch 1</div><div class="device-specs">Часы</div></div><div class="device-item"><div class="device-name">Pixel Buds A-series</div><div class="device-specs">Наушники</div></div></div>';
+                return true;
+            }
+
+            function addBranches() {
+                const container = document.querySelector('#main-content .container');
+                if (!container || document.querySelector('.branches-card')) return;
+                const card = document.createElement('div');
+                card.className = 'branches-card';
+                card.innerHTML = '<h2>ветки</h2><div class="branches-list"><a class="branch-link" href="/404"><span class="branch-symbol">⌁</span><span>jettax.xyz/404</span></a><a class="branch-link" href="/ai"><span class="branch-symbol">⌁</span><span>jettax.xyz/ai</span></a></div>';
+                container.appendChild(card);
+            }
+
+            function initDeviceAdditions() {
+                document.body.dataset.device = detectOS();
+                addBranches();
+                let tries = 0;
+                const timer = setInterval(() => {
+                    tries += 1;
+                    const done = updateDevices();
+                    if (done || tries > 20) clearInterval(timer);
+                }, 100);
+            }
+
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initDeviceAdditions);
+            else initDeviceAdditions();
         })();
     </script>
 </body>

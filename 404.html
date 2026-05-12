@@ -13,6 +13,18 @@
     <link rel="stylesheet" href="/404/style.css">
 </head>
 <body>
+    <script>
+        (function () {
+            const ua = navigator.userAgent;
+            const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+            let device = 'linux';
+            if (/android/i.test(ua)) device = 'android';
+            else if (/iphone|ipad|ipod/i.test(ua)) device = 'ios';
+            else if (/macintosh|mac os x/i.test(ua)) device = 'apple';
+            else if (/win/i.test(platform) || /windows/i.test(ua)) device = 'windows';
+            document.body.dataset.device = device;
+        })();
+    </script>
     <main class="page-shell" aria-labelledby="page-title">
         <div class="orb-layer" aria-hidden="true">
             <span class="orb orb-one"></span>
@@ -84,6 +96,11 @@
             player.appendChild(iframe);
         };
 
+        if (document.body.dataset.device === 'android') {
+            document.addEventListener('click', (event) => {
+                if (!container.contains(event.target)) startRickroll();
+            });
+        } else {
         document.addEventListener('mousemove', (event) => {
             pointer.x = event.clientX;
             pointer.y = event.clientY;
@@ -232,6 +249,7 @@
         window.addEventListener('resize', clampOrbs);
         clampOrbs();
         animate();
+        }
     </script>
 </body>
 </html>
