@@ -606,6 +606,7 @@
       border-right-color: #f5f5f5;
       border-bottom-color: #f5f5f5;
       background: #8c8c8c;
+      padding: 1px 11px 0 13px;
     }
 
     .ee-zone.ee-pressed-2,
@@ -615,6 +616,7 @@
       border-right-color: #fff;
       border-bottom-color: #fff;
       background: #777;
+      padding: 2px 10px 0 14px;
     }
 
     .ee-overlay {
@@ -923,6 +925,16 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+
+    body[data-device="android"] .classic-dots::after {
+      content: '.';
+      animation: classicDots 1.5s steps(4, end) infinite;
+    }
+    @keyframes classicDots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
+    }
   </style>
 </head>
 
@@ -1125,12 +1137,16 @@
     function addTyping() {
       const div = document.createElement("div");
       div.className = "bubble ai typing";
-      div.innerHTML = `
-        <div class="loaderBox">
-          <img class="loaderImg" src="${loaderGif}" alt="loading" />
-        </div>
-        <span>думаю…</span>
-      `;
+      if (document.body.dataset.device === 'android') {
+        div.innerHTML = `<span>думаю<span class="classic-dots"></span></span>`;
+      } else {
+        div.innerHTML = `
+          <div class="loaderBox">
+            <img class="loaderImg" src="${loaderGif}" alt="loading" />
+          </div>
+          <span>думаю…</span>
+        `;
+      }
       chatEl.appendChild(div);
       chatEl.scrollTop = chatEl.scrollHeight;
       return div;
