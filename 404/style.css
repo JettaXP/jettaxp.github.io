@@ -7,6 +7,7 @@
     --text-secondary: rgba(226, 227, 221, 0.68);
     --accent-primary: #bb86fc;
     --accent-secondary: #ffb4a2;
+    --glass-highlight: rgba(255, 255, 255, 0.18);
     --primary-container: #3b2d5e;
     --on-primary-container: #e8def8;
     --border-color: rgba(255, 255, 255, 0.1);
@@ -78,7 +79,7 @@ body::before {
         radial-gradient(circle at 62% 68%, var(--orb-inner), transparent 0 28%),
         linear-gradient(135deg, var(--orb-a), var(--orb-b));
     filter: blur(1px);
-    opacity: 0.72;
+    opacity: 0.9;
     will-change: transform, filter, opacity;
     box-shadow:
         inset -18px -24px 42px rgba(0, 0, 0, 0.22),
@@ -116,6 +117,30 @@ body::before {
     --glow: rgba(111, 220, 191, 0.16);
 }
 
+.orb-four {
+    --size: clamp(120px, 16vw, 230px);
+    --orb-a: rgba(187, 134, 252, 0.38);
+    --orb-b: rgba(255, 180, 162, 0.3);
+    --orb-inner: rgba(255, 255, 255, 0.2);
+    --glow: rgba(187, 134, 252, 0.18);
+}
+
+.orb-five {
+    --size: clamp(150px, 18vw, 280px);
+    --orb-a: rgba(111, 220, 191, 0.34);
+    --orb-b: rgba(76, 115, 255, 0.28);
+    --orb-inner: rgba(187, 134, 252, 0.28);
+    --glow: rgba(76, 115, 255, 0.16);
+}
+
+.orb-six {
+    --size: clamp(100px, 14vw, 210px);
+    --orb-a: rgba(255, 180, 162, 0.4);
+    --orb-b: rgba(111, 220, 191, 0.24);
+    --orb-inner: rgba(187, 134, 252, 0.24);
+    --glow: rgba(255, 180, 162, 0.18);
+}
+
 @keyframes orb-pop {
     50% {
         filter: blur(0) brightness(1.18);
@@ -133,12 +158,35 @@ body::before {
     padding: clamp(28px, 6vw, 64px);
     border: 1px solid var(--border-color);
     border-radius: 28px;
-    background: linear-gradient(145deg, rgba(33, 33, 46, 0.86), rgba(33, 33, 46, 0.54));
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(24px);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.03) 34%, rgba(33, 33, 46, 0.54)),
+        linear-gradient(145deg, rgba(33, 33, 46, 0.7), rgba(33, 33, 46, 0.38));
+    box-shadow:
+        inset 0 1px 0 var(--glass-highlight),
+        inset 0 -28px 70px rgba(255, 255, 255, 0.035),
+        var(--shadow);
+    backdrop-filter: blur(28px) saturate(1.35);
+    -webkit-backdrop-filter: blur(28px) saturate(1.35);
     transform-style: preserve-3d;
     will-change: transform;
     transition: transform 160ms var(--easing), border-color 300ms var(--easing);
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.22), transparent 30%),
+        radial-gradient(circle at 50% 0%, rgba(187, 134, 252, 0.14), transparent 42%);
+    opacity: 0.85;
+}
+
+.container > * {
+    position: relative;
+    z-index: 1;
 }
 
 .container:hover {
@@ -181,6 +229,7 @@ body::before {
     height: 100%;
     overflow: hidden;
     border-radius: 50%;
+    pointer-events: none;
     background:
         linear-gradient(135deg, rgba(187, 134, 252, 0.3), rgba(255, 180, 162, 0.2)),
         var(--surface-strong);
@@ -192,12 +241,6 @@ body::before {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 220ms var(--easing), filter 220ms var(--easing);
-}
-
-.avatar-mask:hover img {
-    transform: scale(1.06) rotate(2deg);
-    filter: saturate(1.12);
 }
 
 .fallback-icon {
@@ -211,6 +254,23 @@ body::before {
 
 .avatar-mask img + .fallback-icon {
     opacity: 0;
+}
+
+#rickroll-player {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#rickroll-player iframe {
+    width: 1px;
+    height: 1px;
+    border: 0;
 }
 
 h1 {
@@ -287,7 +347,7 @@ h1 {
     }
 
     .orb {
-        opacity: 0.52;
+        opacity: 0.72;
     }
 }
 

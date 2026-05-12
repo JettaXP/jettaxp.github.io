@@ -18,6 +18,9 @@
             <span class="orb orb-one"></span>
             <span class="orb orb-two"></span>
             <span class="orb orb-three"></span>
+            <span class="orb orb-four"></span>
+            <span class="orb orb-five"></span>
+            <span class="orb orb-six"></span>
         </div>
 
         <section class="container">
@@ -43,39 +46,37 @@
             </div>
         </section>
     </main>
+    <div id="rickroll-player" aria-hidden="true"></div>
 
     <script>
         const container = document.querySelector('.container');
-        const orbNodes = [...document.querySelectorAll('.orb')];
+        const player = document.getElementById('rickroll-player');
         const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2, active: false };
-        const basePoints = [
-            { x: 0.08, y: 0.26 },
-            { x: 0.86, y: 0.28 },
-            { x: 0.68, y: 0.82 }
-        ];
-        const orbs = orbNodes.map((node, index) => ({
+        const orbs = [...document.querySelectorAll('.orb')].map((node, index) => ({
             node,
-            x: 0,
-            y: 0,
-            vx: 0,
+            x: 120 + index * 150,
+            y: 120 + (index % 3) * 55,
+            vx: (index % 2 ? -1 : 1) * (1.6 + index * 0.18),
             vy: 0,
-            baseX: 0,
-            baseY: 0,
-            radius: 120,
+            radius: 100,
             index
         }));
 
-        const placeOrbs = () => {
+        const clampOrbs = () => {
             orbs.forEach((orb) => {
-                const rect = orb.node.getBoundingClientRect();
-                orb.radius = rect.width / 2;
-                orb.baseX = window.innerWidth * basePoints[orb.index].x;
-                orb.baseY = window.innerHeight * basePoints[orb.index].y;
-                if (!orb.x && !orb.y) {
-                    orb.x = orb.baseX;
-                    orb.y = orb.baseY;
-                }
+                orb.radius = orb.node.getBoundingClientRect().width / 2;
+                orb.x = Math.min(Math.max(orb.x, orb.radius), window.innerWidth - orb.radius);
+                orb.y = Math.min(Math.max(orb.y, orb.radius), window.innerHeight - orb.radius);
             });
+        };
+
+        const startRickroll = () => {
+            if (player.firstChild) return;
+            const iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&playsinline=1&rel=0';
+            iframe.title = 'Rickroll audio';
+            iframe.allow = 'autoplay; encrypted-media';
+            player.appendChild(iframe);
         };
 
         document.addEventListener('mousemove', (event) => {
@@ -83,14 +84,14 @@
             pointer.y = event.clientY;
             pointer.active = true;
 
-            const offsetX = event.clientX / window.innerWidth - 0.5;
-            const offsetY = event.clientY / window.innerHeight - 0.5;
-            container.style.transform = `translate3d(${-offsetX * 28}px, ${-offsetY * 20}px, 0) rotateY(${-offsetX * 5}deg) rotateX(${offsetY * 5}deg)`;
+            const xAxis = (window.innerWidth / 2 - event.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - event.pageY) / 25;
+            container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         });
 
         document.addEventListener('mouseleave', () => {
             pointer.active = false;
-            container.style.transform = 'translate3d(0, 0, 0) rotateY(0deg) rotateX(0deg)';
+            container.style.transform = 'rotateY(0deg) rotateX(0deg)';
         });
 
         document.addEventListener('click', (event) => {
@@ -98,30 +99,29 @@
                 const dx = orb.x - event.clientX;
                 const dy = orb.y - event.clientY;
                 const distance = Math.hypot(dx, dy) || 1;
-                const force = Math.max(0, 1 - distance / 700);
-                orb.vx += (dx / distance) * (10 + force * 18);
-                orb.vy += (dy / distance) * (10 + force * 18) - 14;
+                const force = Math.max(0.35, 1 - distance / 900);
+                orb.vx += (dx / distance) * (8 + force * 16);
+                orb.vy -= 22 + force * 18;
                 orb.node.classList.add('is-jumping');
                 window.setTimeout(() => orb.node.classList.remove('is-jumping'), 360);
             });
 
             if (!container.contains(event.target)) {
-                window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank', 'noopener,noreferrer');
+                startRickroll();
             }
         });
 
         const animate = () => {
             orbs.forEach((orb) => {
-                orb.vx += (orb.baseX - orb.x) * 0.006;
-                orb.vy += (orb.baseY - orb.y) * 0.006;
+                orb.vy += 0.72;
 
                 if (pointer.active) {
                     const dx = orb.x - pointer.x;
                     const dy = orb.y - pointer.y;
                     const distance = Math.hypot(dx, dy) || 1;
-                    const repelRadius = orb.radius + 210;
+                    const repelRadius = orb.radius + 180;
                     if (distance < repelRadius) {
-                        const force = (1 - distance / repelRadius) * 2.8;
+                        const force = (1 - distance / repelRadius) * 4.2;
                         orb.vx += (dx / distance) * force;
                         orb.vy += (dy / distance) * force;
                     }
@@ -135,43 +135,46 @@
                     const dx = b.x - a.x;
                     const dy = b.y - a.y;
                     const distance = Math.hypot(dx, dy) || 1;
-                    const minDistance = a.radius + b.radius + 16;
+                    const minDistance = a.radius + b.radius + 10;
                     if (distance < minDistance) {
-                        const overlap = (minDistance - distance) / 2;
                         const nx = dx / distance;
                         const ny = dy / distance;
+                        const overlap = (minDistance - distance) / 2;
                         a.x -= nx * overlap;
                         a.y -= ny * overlap;
                         b.x += nx * overlap;
                         b.y += ny * overlap;
-                        const push = 0.34;
-                        a.vx -= nx * push;
-                        a.vy -= ny * push;
-                        b.vx += nx * push;
-                        b.vy += ny * push;
+
+                        const relativeVelocity = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+                        const impulse = Math.max(0.5, -relativeVelocity * 0.62);
+                        a.vx -= nx * impulse;
+                        a.vy -= ny * impulse;
+                        b.vx += nx * impulse;
+                        b.vy += ny * impulse;
                     }
                 }
             }
 
             orbs.forEach((orb) => {
-                orb.vx *= 0.9;
-                orb.vy *= 0.9;
+                orb.vx *= 0.992;
+                orb.vy *= 0.992;
                 orb.x += orb.vx;
                 orb.y += orb.vy;
 
-                const minX = orb.radius * 0.45;
-                const maxX = window.innerWidth - orb.radius * 0.45;
-                const minY = orb.radius * 0.45;
-                const maxY = window.innerHeight - orb.radius * 0.45;
+                const minX = orb.radius;
+                const maxX = window.innerWidth - orb.radius;
+                const minY = orb.radius;
+                const maxY = window.innerHeight - orb.radius;
 
                 if (orb.x < minX || orb.x > maxX) {
                     orb.x = Math.min(Math.max(orb.x, minX), maxX);
-                    orb.vx *= -0.55;
+                    orb.vx *= -0.72;
                 }
 
                 if (orb.y < minY || orb.y > maxY) {
                     orb.y = Math.min(Math.max(orb.y, minY), maxY);
-                    orb.vy *= -0.55;
+                    orb.vy *= -0.64;
+                    orb.vx *= 0.965;
                 }
 
                 orb.node.style.transform = `translate3d(${orb.x - orb.radius}px, ${orb.y - orb.radius}px, 0)`;
@@ -180,8 +183,8 @@
             requestAnimationFrame(animate);
         };
 
-        window.addEventListener('resize', placeOrbs);
-        placeOrbs();
+        window.addEventListener('resize', clampOrbs);
+        clampOrbs();
         animate();
     </script>
 </body>
