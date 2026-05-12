@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Страница не найдена | JettaX</title>
+    <meta name="description" content="Страница не найдена на сайте JettaX.">
+    <link rel="icon" href="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/jettax.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link rel="stylesheet" href="/404/style.css">
+</head>
+<body>
+    <audio id="bg-music" loop preload="none">
+        <source src="/404/music.mp3" type="audio/mpeg">
+    </audio>
+
+    <main class="page-shell" aria-labelledby="page-title">
+        <section class="container">
+            <div class="status-chip">
+                <span class="material-symbols-outlined" aria-hidden="true">travel_explore</span>
+                <span>JettaX Pages</span>
+            </div>
+
+            <div class="error-code" aria-label="Ошибка 404">
+                <span class="digit">4</span>
+                <div class="zero-container" aria-hidden="true">
+                    <div class="video-mask">
+                        <video id="rickvideo" loop playsinline muted preload="metadata" poster="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/jettax.png">
+                            <source src="/404/rickroll.mp4" type="video/mp4">
+                        </video>
+                        <span class="material-symbols-outlined fallback-icon">question_mark</span>
+                    </div>
+                </div>
+                <span class="digit">4</span>
+            </div>
+
+            <h1 id="page-title">Страница не найдена</h1>
+            <p class="message">Вы забрели куда-то не туда... Но зато нашли кое-что классическое.</p>
+
+            <div class="actions">
+                <a href="/" class="cta-button">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                    Вернуться на главную
+                </a>
+                <button class="sound-button" type="button" aria-label="Включить музыку">
+                    <span class="material-symbols-outlined" aria-hidden="true">volume_up</span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const video = document.getElementById('rickvideo');
+        const audio = document.getElementById('bg-music');
+        const soundButton = document.querySelector('.sound-button');
+        const container = document.querySelector('.container');
+        const videoMask = document.querySelector('.video-mask');
+
+        video.play().catch(() => {});
+        video.addEventListener('canplay', () => {
+            videoMask.classList.add('has-video');
+        });
+
+        const startInteraction = () => {
+            video.muted = true;
+            video.play().catch(() => {});
+            audio.play().catch(() => {});
+            document.removeEventListener('click', startInteraction);
+        };
+
+        document.addEventListener('click', startInteraction);
+
+        soundButton.addEventListener('click', () => {
+            audio.paused ? audio.play().catch(() => {}) : audio.pause();
+            soundButton.classList.toggle('is-active', !audio.paused);
+        });
+
+        document.addEventListener('mousemove', (event) => {
+            const xAxis = (window.innerWidth / 2 - event.pageX) / 45;
+            const yAxis = (window.innerHeight / 2 - event.pageY) / 45;
+            container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            container.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        });
+    </script>
+</body>
+</html>
