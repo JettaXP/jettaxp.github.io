@@ -74,38 +74,51 @@ body::before {
     aspect-ratio: 1;
     left: 0;
     top: 0;
-    border-radius: var(--shape);
     cursor: grab;
-    background:
-        radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.42), transparent 0 18%),
-        radial-gradient(circle at 62% 68%, var(--orb-inner), transparent 0 28%),
-        linear-gradient(135deg, var(--orb-a), var(--orb-b));
-    filter: blur(8px) saturate(1.45);
-    opacity: 0.9;
+    opacity: 0.96;
     pointer-events: auto;
-    will-change: transform, filter, opacity;
+    will-change: transform, opacity;
+    transition: opacity 160ms var(--easing);
+}
+
+.orb::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--shape);
+    background:
+        radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.46), transparent 0 18%),
+        radial-gradient(circle at 68% 72%, var(--orb-inner), transparent 0 30%),
+        linear-gradient(135deg, var(--orb-a), var(--orb-b));
     box-shadow:
-        inset -26px -30px 60px rgba(0, 0, 0, 0.2),
-        inset 18px 18px 44px rgba(255, 255, 255, 0.08),
+        inset -22px -28px 54px rgba(0, 0, 0, 0.2),
+        inset 16px 16px 38px rgba(255, 255, 255, 0.1),
         0 26px 90px var(--glow);
-    transition: filter 160ms var(--easing), opacity 160ms var(--easing);
+    filter: saturate(1.22);
+    animation: blob-spin var(--spin-speed) linear infinite, blob-morph 8s ease-in-out infinite alternate;
+    will-change: transform, border-radius;
 }
 
 .orb.is-jumping {
-    filter: blur(5px) saturate(1.55) brightness(1.1);
-    opacity: 0.9;
+    opacity: 1;
     animation: orb-pop 360ms var(--easing);
 }
 
 .orb.is-dragged {
     cursor: grabbing;
-    filter: blur(4px) saturate(1.7) brightness(1.12);
+    opacity: 1;
     z-index: 2;
+}
+
+.orb.is-jumping::before,
+.orb.is-dragged::before {
+    filter: saturate(1.34) brightness(1.08);
 }
 
 .orb-one {
     --size: clamp(220px, 28vw, 410px);
     --shape: 42% 58% 64% 36% / 44% 42% 58% 56%;
+    --spin-speed: 18s;
     --orb-a: rgba(187, 134, 252, 0.46);
     --orb-b: rgba(76, 115, 255, 0.28);
     --orb-inner: rgba(255, 180, 162, 0.36);
@@ -115,6 +128,7 @@ body::before {
 .orb-two {
     --size: clamp(180px, 24vw, 330px);
     --shape: 57% 43% 48% 52% / 40% 55% 45% 60%;
+    --spin-speed: 15s;
     --orb-a: rgba(255, 180, 162, 0.42);
     --orb-b: rgba(187, 134, 252, 0.24);
     --orb-inner: rgba(111, 220, 191, 0.32);
@@ -124,6 +138,7 @@ body::before {
 .orb-three {
     --size: clamp(260px, 34vw, 520px);
     --shape: 46% 54% 38% 62% / 60% 40% 58% 42%;
+    --spin-speed: 22s;
     --orb-a: rgba(111, 220, 191, 0.24);
     --orb-b: rgba(187, 134, 252, 0.34);
     --orb-inner: rgba(255, 180, 162, 0.26);
@@ -133,6 +148,7 @@ body::before {
 .orb-four {
     --size: clamp(120px, 16vw, 230px);
     --shape: 60% 40% 56% 44% / 46% 62% 38% 54%;
+    --spin-speed: 13s;
     --orb-a: rgba(187, 134, 252, 0.38);
     --orb-b: rgba(255, 180, 162, 0.3);
     --orb-inner: rgba(255, 255, 255, 0.2);
@@ -142,6 +158,7 @@ body::before {
 .orb-five {
     --size: clamp(150px, 18vw, 280px);
     --shape: 38% 62% 44% 56% / 55% 45% 55% 45%;
+    --spin-speed: 17s;
     --orb-a: rgba(111, 220, 191, 0.34);
     --orb-b: rgba(76, 115, 255, 0.28);
     --orb-inner: rgba(187, 134, 252, 0.28);
@@ -151,6 +168,7 @@ body::before {
 .orb-six {
     --size: clamp(100px, 14vw, 210px);
     --shape: 52% 48% 60% 40% / 38% 58% 42% 62%;
+    --spin-speed: 12s;
     --orb-a: rgba(255, 180, 162, 0.4);
     --orb-b: rgba(111, 220, 191, 0.24);
     --orb-inner: rgba(187, 134, 252, 0.24);
@@ -159,7 +177,23 @@ body::before {
 
 @keyframes orb-pop {
     50% {
-        filter: blur(3px) saturate(1.65) brightness(1.18);
+        opacity: 1;
+    }
+}
+
+@keyframes blob-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes blob-morph {
+    0% {
+        border-radius: var(--shape);
+    }
+
+    100% {
+        border-radius: 58% 42% 36% 64% / 50% 58% 42% 50%;
     }
 }
 
@@ -176,8 +210,6 @@ body::before {
     border-radius: 28px;
     background: linear-gradient(145deg, rgba(33, 33, 46, 0.86), rgba(33, 33, 46, 0.54));
     box-shadow: var(--shadow);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     transform-style: preserve-3d;
     will-change: transform;
     transition: transform 160ms var(--easing), border-color 300ms var(--easing);
