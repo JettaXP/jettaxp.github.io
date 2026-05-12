@@ -606,7 +606,7 @@
       border-right-color: #f5f5f5;
       border-bottom-color: #f5f5f5;
       background: #8c8c8c;
-      padding: 1px 11px 0 13px;
+      transform: translateY(1px);
     }
 
     .ee-zone.ee-pressed-2,
@@ -616,7 +616,7 @@
       border-right-color: #fff;
       border-bottom-color: #fff;
       background: #777;
-      padding: 2px 10px 0 14px;
+      transform: translateY(2px);
     }
 
     .ee-overlay {
@@ -680,9 +680,9 @@
       font-size: 52px;
       font-weight: 700;
       font-family: 'Comfortaa', cursive;
-      color: #555555;
+      color: #cfbcff;
       animation: eeExplode 0.6s cubic-bezier(0.17, 0.67, 0.21, 1.2) forwards;
-      text-shadow: 0 0 40px rgba(0,0,0,0.6), 0 0 80px rgba(0,0,0,0.3);
+      text-shadow: 0 0 40px rgba(207,188,255,0.6), 0 0 80px rgba(207,188,255,0.3);
     }
 
     @keyframes eeExplode {
@@ -934,6 +934,49 @@
       0%, 20% { content: '.'; }
       40% { content: '..'; }
       60%, 100% { content: '...'; }
+    }
+
+    /* Android Overrides */
+    body[data-device="android"] .ee-text {
+      color: #555555;
+      text-shadow: 0 0 40px rgba(0,0,0,0.6), 0 0 80px rgba(0,0,0,0.3);
+    }
+
+    body[data-device="android"] .ee-zone.ee-pressed-1,
+    body[data-device="android"] .ee-zone2.ee-pressed-1,
+    body[data-device="android"] .ee-zone.ee-pressed-2,
+    body[data-device="android"] .ee-zone2.ee-pressed-2 {
+      border-top-color: #000;
+      border-left-color: #000;
+      border-right-color: #fff;
+      border-bottom-color: #fff;
+      box-shadow: inset 1px 1px #808080, inset -1px -1px #dfdfdf;
+      transform: none;
+      padding-top: 2px;
+      padding-left: 14px;
+    }
+
+    body[data-device="android"] .android-toast {
+      border-radius: 0;
+      background: #c0c0c0;
+      color: #000;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #000;
+      border-bottom: 2px solid #000;
+      box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+    }
+    body[data-device="android"] .toast-header,
+    body[data-device="android"] .toast-title,
+    body[data-device="android"] .toast-body {
+      color: #000;
+    }
+    body[data-device="android"] .toast-icon-bg {
+      background: transparent;
+      color: #000;
+    }
+    body[data-device="android"] .toast-right-avatar {
+      border-radius: 0;
     }
   </style>
 </head>
