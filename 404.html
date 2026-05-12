@@ -24,14 +24,8 @@
             <div class="error-code" aria-label="Ошибка 404">
                 <span class="digit">4</span>
                 <div class="zero-container" aria-hidden="true">
-                    <div class="video-mask">
-                        <iframe
-                            id="rickroll"
-                            src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0&modestbranding=1&playsinline=1&rel=0"
-                            title="Rickroll"
-                            allow="autoplay; encrypted-media; picture-in-picture"
-                            loading="lazy">
-                        </iframe>
+                    <div class="avatar-mask" id="rickroll-trigger">
+                        <img src="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/jettax.png" alt="">
                         <span class="material-symbols-outlined fallback-icon">question_mark</span>
                     </div>
                 </div>
@@ -39,7 +33,7 @@
             </div>
 
             <h1 id="page-title">Страница не найдена</h1>
-            <p class="message">Этого адреса нет, зато сюрприз уже подгрузился. Можно вернуться назад, пока припев не застрял в голове.</p>
+            <p class="message">Такой страницы нет. Зато есть повод вернуться на главную и сделать вид, что этого перехода не было.</p>
 
             <div class="actions">
                 <a href="/" class="cta-button">
@@ -51,30 +45,33 @@
     </main>
 
     <script>
-        const container = document.querySelector('.container');
-        const videoMask = document.querySelector('.video-mask');
         const root = document.documentElement;
         const orbs = document.querySelectorAll('.orb');
+        const rickrollTrigger = document.getElementById('rickroll-trigger');
 
-        window.addEventListener('load', () => {
-            videoMask.classList.add('has-video');
-        });
-
-        document.addEventListener('mousemove', (event) => {
-            const xAxis = (window.innerWidth / 2 - event.pageX) / 45;
-            const yAxis = (window.innerHeight / 2 - event.pageY) / 45;
-            container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-
+        const updateOrbPosition = (event) => {
             const pointerX = event.clientX / window.innerWidth - 0.5;
             const pointerY = event.clientY / window.innerHeight - 0.5;
-            root.style.setProperty('--pointer-x', pointerX.toFixed(4));
-            root.style.setProperty('--pointer-y', pointerY.toFixed(4));
+
+            root.style.setProperty('--orb-one-x', `${pointerX * 92}px`);
+            root.style.setProperty('--orb-one-y', `${pointerY * 58}px`);
+            root.style.setProperty('--orb-two-x', `${pointerX * -78}px`);
+            root.style.setProperty('--orb-two-y', `${pointerY * 88}px`);
+            root.style.setProperty('--orb-three-x', `${pointerX * -112}px`);
+            root.style.setProperty('--orb-three-y', `${pointerY * -52}px`);
+        };
+
+        document.addEventListener('mousemove', (event) => {
+            updateOrbPosition(event);
         });
 
         document.addEventListener('mouseleave', () => {
-            container.style.transform = 'rotateY(0deg) rotateX(0deg)';
-            root.style.setProperty('--pointer-x', '0');
-            root.style.setProperty('--pointer-y', '0');
+            root.style.setProperty('--orb-one-x', '0px');
+            root.style.setProperty('--orb-one-y', '0px');
+            root.style.setProperty('--orb-two-x', '0px');
+            root.style.setProperty('--orb-two-y', '0px');
+            root.style.setProperty('--orb-three-x', '0px');
+            root.style.setProperty('--orb-three-y', '0px');
         });
 
         document.addEventListener('click', (event) => {
@@ -86,8 +83,13 @@
                     orb.classList.remove('is-clicked');
                     void orb.offsetWidth;
                     orb.classList.add('is-clicked');
+                    window.setTimeout(() => orb.classList.remove('is-clicked'), 680);
                 }, index * 45);
             });
+        });
+
+        rickrollTrigger.addEventListener('click', () => {
+            window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank', 'noopener,noreferrer');
         });
     </script>
 </body>

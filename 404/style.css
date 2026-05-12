@@ -12,8 +12,12 @@
     --border-color: rgba(255, 255, 255, 0.1);
     --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
     --easing: cubic-bezier(0.2, 0, 0, 1);
-    --pointer-x: 0;
-    --pointer-y: 0;
+    --orb-one-x: 0px;
+    --orb-one-y: 0px;
+    --orb-two-x: 0px;
+    --orb-two-y: 0px;
+    --orb-three-x: 0px;
+    --orb-three-y: 0px;
     --click-x: 50vw;
     --click-y: 50vh;
 }
@@ -83,13 +87,7 @@ body::before {
         linear-gradient(135deg, var(--orb-a), var(--orb-b));
     filter: blur(1px);
     opacity: 0.72;
-    transform:
-        translate3d(
-            calc(var(--pointer-x) * var(--move-x)),
-            calc(var(--pointer-y) * var(--move-y)),
-            0
-        )
-        scale(var(--scale, 1));
+    transform: translate3d(var(--orb-x), var(--orb-y), 0) scale(var(--scale, 1));
     box-shadow:
         inset -18px -24px 42px rgba(0, 0, 0, 0.22),
         0 24px 80px var(--glow);
@@ -123,8 +121,8 @@ body::before {
     --size: clamp(220px, 28vw, 410px);
     --left: -7vw;
     --top: 8vh;
-    --move-x: 92px;
-    --move-y: 58px;
+    --orb-x: var(--orb-one-x);
+    --orb-y: var(--orb-one-y);
     --orb-a: rgba(187, 134, 252, 0.46);
     --orb-b: rgba(76, 115, 255, 0.28);
     --orb-inner: rgba(255, 180, 162, 0.36);
@@ -135,8 +133,8 @@ body::before {
     --size: clamp(180px, 24vw, 330px);
     --left: 72vw;
     --top: 15vh;
-    --move-x: -78px;
-    --move-y: 88px;
+    --orb-x: var(--orb-two-x);
+    --orb-y: var(--orb-two-y);
     --orb-a: rgba(255, 180, 162, 0.42);
     --orb-b: rgba(187, 134, 252, 0.24);
     --orb-inner: rgba(111, 220, 191, 0.32);
@@ -147,8 +145,8 @@ body::before {
     --size: clamp(260px, 34vw, 520px);
     --left: 52vw;
     --top: 68vh;
-    --move-x: -112px;
-    --move-y: -52px;
+    --orb-x: var(--orb-three-x);
+    --orb-y: var(--orb-three-y);
     --orb-a: rgba(111, 220, 191, 0.24);
     --orb-b: rgba(187, 134, 252, 0.34);
     --orb-inner: rgba(255, 180, 162, 0.26);
@@ -181,8 +179,7 @@ body::before {
     background: linear-gradient(145deg, rgba(33, 33, 46, 0.86), rgba(33, 33, 46, 0.54));
     box-shadow: var(--shadow);
     backdrop-filter: blur(24px);
-    transform-style: preserve-3d;
-    transition: transform 180ms var(--easing), border-color 300ms var(--easing);
+    transition: border-color 300ms var(--easing);
 }
 
 .container:hover {
@@ -219,26 +216,30 @@ body::before {
     box-shadow: 0 18px 54px rgba(187, 134, 252, 0.24);
 }
 
-.video-mask {
+.avatar-mask {
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
     border-radius: 50%;
+    cursor: pointer;
     background:
         linear-gradient(135deg, rgba(187, 134, 252, 0.3), rgba(255, 180, 162, 0.2)),
         var(--surface-strong);
 }
 
-.video-mask iframe {
+.avatar-mask img {
     position: absolute;
-    width: 178%;
+    inset: 0;
+    width: 100%;
     height: 100%;
-    top: 0;
-    left: 50%;
-    border: 0;
     object-fit: cover;
-    transform: translateX(-50%);
+    transition: transform 220ms var(--easing), filter 220ms var(--easing);
+}
+
+.avatar-mask:hover img {
+    transform: scale(1.06) rotate(2deg);
+    filter: saturate(1.12);
 }
 
 .fallback-icon {
@@ -250,7 +251,7 @@ body::before {
     font-size: 0.34em;
 }
 
-.video-mask.has-video .fallback-icon {
+.avatar-mask img + .fallback-icon {
     opacity: 0;
 }
 
@@ -340,10 +341,6 @@ h1 {
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-    }
-
-    .container {
-        transform: none !important;
     }
 
     .orb {
