@@ -431,7 +431,7 @@ body[data-device="android"] .container {
 }
 
 body[data-device="android"] .container::before {
-    content: "C:\\JettaX\\404.exe";
+    content: "/home/jettax";
     width: 100%;
     padding: 4px 6px;
     color: #fff;
@@ -469,7 +469,7 @@ body[data-device="android"] .zero-container {
 }
 
 body[data-device="android"] .avatar-mask {
-    border-radius: 0;
+    border-radius: 18px;
 }
 
 body[data-device="android"] h1 {

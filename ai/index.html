@@ -636,6 +636,7 @@
 
     .ee-window {
       width: min(440px, 88vw);
+      min-height: 320px;
       background: #c0c0c0;
       border-top: 2px solid #fff;
       border-left: 2px solid #fff;
@@ -660,8 +661,14 @@
     }
 
     .ee-window-body {
+      min-height: 280px;
       padding: 12px;
       color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
     }
 
     .ee-overlay.active {
@@ -748,6 +755,21 @@
       background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.1) 2px, rgba(255,255,255,.1) 4px);
       font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
       color: #000;
+      --bg-primary: #c0c0c0;
+      --bg-secondary: #c0c0c0;
+      --text-primary: #000;
+      --text-secondary: #222;
+      --accent-primary: #000080;
+      --accent-secondary: #404040;
+      --border-color: #000;
+      --glass-bg: #c0c0c0;
+      --surface-container: #c0c0c0;
+      --surface-container-high: #d4d4d4;
+      --surface-container-highest: #e0e0e0;
+      --surface-variant: #b4b4b4;
+      --primary-container: #808080;
+      --on-primary-container: #000;
+      --on-primary: #fff;
     }
 
     body[data-device="android"] .blob {
@@ -786,13 +808,95 @@
     body[data-device="android"] .composer,
     body[data-device="android"] .model-select {
       border-radius: 0;
-      background: #fff;
+      background: #d4d4d4;
       color: #000;
       border-top: 2px solid #808080;
       border-left: 2px solid #808080;
       border-right: 2px solid #fff;
       border-bottom: 2px solid #fff;
       box-shadow: none;
+    }
+
+    body[data-device="android"] .bubble {
+      border-radius: 0;
+      background: #d4d4d4;
+      color: #000;
+      border: 1px solid #000;
+      box-shadow: none;
+    }
+
+    body[data-device="android"] .bubble.me,
+    body[data-device="android"] .bubble.ai {
+      background: #d4d4d4;
+      color: #000;
+    }
+
+    body[data-device="android"] .bubble-copy-btn {
+      border-radius: 0;
+      background: #c0c0c0;
+      color: #000;
+      border-top: 1px solid #fff;
+      border-left: 1px solid #fff;
+      border-right: 1px solid #000;
+      border-bottom: 1px solid #000;
+      box-shadow: none;
+    }
+
+    body[data-device="android"] .link-item {
+      border-radius: 0;
+      background: #c0c0c0;
+      color: #000;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #000;
+      border-bottom: 2px solid #000;
+      box-shadow: none;
+    }
+
+    body[data-device="android"] .link-item:hover {
+      background: #d4d4d4;
+    }
+
+    body[data-device="android"] .ee-zone,
+    body[data-device="android"] .ee-zone2 {
+      border-radius: 0;
+      background: #c0c0c0;
+      color: #000;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #000;
+      border-bottom: 2px solid #000;
+      box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+    }
+
+    body[data-device="android"] .ee-window {
+      border-radius: 0;
+      background: #c0c0c0;
+      min-height: 300px;
+    }
+
+    body[data-device="android"] .ee-overlay {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    body[data-device="android"] .ee-video {
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    body[data-device="android"] .ee-close {
+      border-radius: 0;
+      background: #c0c0c0;
+      color: #000;
+    }
+
+    body[data-device="android"] .ee-titlebar {
+      border-radius: 0;
+    }
+
+    body[data-device="android"] .model-select,
+    body[data-device="android"] .composer-input {
+      border-radius: 0;
     }
   </style>
 </head>
@@ -1131,14 +1235,15 @@
         zone.classList.toggle('ee-pressed-1', tapCount === 1);
         zone.classList.toggle('ee-pressed-2', tapCount === 2);
         clearTimeout(tapTimer);
-        tapTimer = setTimeout(() => { tapCount = 0; zone.classList.remove('ee-pressed-1', 'ee-pressed-2'); }, 800);
+        tapTimer = setTimeout(() => { tapCount = 0; zone.classList.remove('ee-pressed-1', 'ee-pressed-2'); }, 550);
         if (tapCount >= 3) {
           tapCount = 0;
           zone.classList.remove('ee-pressed-1', 'ee-pressed-2');
           spawnParticles();
+          overlay.classList.add('active');
           eeText.style.display = '';
           eeVideo.style.display = '';
-          overlay.classList.add('active');
+          eeVideo.load();
           eeVideo.currentTime = 0;
           eeVideo.play().catch(() => {});
         }
@@ -1193,14 +1298,15 @@
         zone2.classList.toggle('ee-pressed-1', tapCount2 === 1);
         zone2.classList.toggle('ee-pressed-2', tapCount2 === 2);
         clearTimeout(tapTimer2);
-        tapTimer2 = setTimeout(() => { tapCount2 = 0; zone2.classList.remove('ee-pressed-1', 'ee-pressed-2'); }, 800);
+        tapTimer2 = setTimeout(() => { tapCount2 = 0; zone2.classList.remove('ee-pressed-1', 'ee-pressed-2'); }, 550);
         if (tapCount2 >= 3) {
           tapCount2 = 0;
           zone2.classList.remove('ee-pressed-1', 'ee-pressed-2');
           spawnParticles2();
+          overlay2.classList.add('active');
           eeText2.style.display = '';
           eeVideo2.style.display = '';
-          overlay2.classList.add('active');
+          eeVideo2.load();
           eeVideo2.currentTime = 0;
           eeVideo2.play().catch(() => {});
         }
