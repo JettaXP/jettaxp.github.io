@@ -52,6 +52,7 @@
         const container = document.querySelector('.container');
         const player = document.getElementById('rickroll-player');
         const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2, active: false };
+        let draggedOrb = null;
         const orbs = [...document.querySelectorAll('.orb')].map((node, index) => ({
             node,
             x: 120 + index * 150,
@@ -59,7 +60,11 @@
             vx: (index % 2 ? -1 : 1) * (1.6 + index * 0.18),
             vy: 0,
             radius: 100,
-            index
+            index,
+            dragOffsetX: 0,
+            dragOffsetY: 0,
+            lastX: 0,
+            lastY: 0
         }));
 
         const clampOrbs = () => {
@@ -84,6 +89,17 @@
             pointer.y = event.clientY;
             pointer.active = true;
 
+            if (draggedOrb) {
+                const nextX = event.clientX + draggedOrb.dragOffsetX;
+                const nextY = event.clientY + draggedOrb.dragOffsetY;
+                draggedOrb.vx = (nextX - draggedOrb.lastX) * 0.7;
+                draggedOrb.vy = (nextY - draggedOrb.lastY) * 0.7;
+                draggedOrb.x = nextX;
+                draggedOrb.y = nextY;
+                draggedOrb.lastX = nextX;
+                draggedOrb.lastY = nextY;
+            }
+
             const xAxis = (window.innerWidth / 2 - event.pageX) / 25;
             const yAxis = (window.innerHeight / 2 - event.pageY) / 25;
             container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
@@ -106,13 +122,38 @@
                 window.setTimeout(() => orb.node.classList.remove('is-jumping'), 360);
             });
 
-            if (!container.contains(event.target)) {
+            if (!container.contains(event.target) && !event.target.closest('.orb')) {
                 startRickroll();
             }
         });
 
+        orbs.forEach((orb) => {
+            orb.node.addEventListener('mousedown', (event) => {
+                event.preventDefault();
+                draggedOrb = orb;
+                pointer.active = true;
+                pointer.x = event.clientX;
+                pointer.y = event.clientY;
+                orb.dragOffsetX = orb.x - event.clientX;
+                orb.dragOffsetY = orb.y - event.clientY;
+                orb.lastX = orb.x;
+                orb.lastY = orb.y;
+                orb.vx = 0;
+                orb.vy = 0;
+                orb.node.classList.add('is-dragged');
+            });
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (!draggedOrb) return;
+            draggedOrb.node.classList.remove('is-dragged');
+            draggedOrb = null;
+        });
+
         const animate = () => {
             orbs.forEach((orb) => {
+                if (orb === draggedOrb) return;
+
                 orb.vy += 0.72;
 
                 if (pointer.active) {
@@ -156,6 +197,11 @@
             }
 
             orbs.forEach((orb) => {
+                if (orb === draggedOrb) {
+                    orb.node.style.transform = `translate3d(${orb.x - orb.radius}px, ${orb.y - orb.radius}px, 0)`;
+                    return;
+                }
+
                 orb.vx *= 0.992;
                 orb.vy *= 0.992;
                 orb.x += orb.vx;
