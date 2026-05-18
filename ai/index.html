@@ -1199,6 +1199,118 @@
             font-family: inherit !important;
         }
 
+
+  /* LINUX TTY AI STYLES */
+  body[data-device="linux"] .chat-container,
+  body[data-device="linux"] .top-bar,
+  body[data-device="linux"] .composer,
+  body[data-device="linux"] .ee-zone,
+  body[data-device="linux"] .ee-zone2,
+  body[data-device="linux"] .ee-overlay {
+    display: none !important;
+  }
+
+  body[data-device="linux"] {
+    background: #000 !important;
+    color: #cdd6f4 !important;
+    font-family: 'JetBrains Mono', Consolas, monospace !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #linux-tty-ai {
+    display: none;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: #000;
+  }
+
+  body[data-device="linux"] #linux-tty-ai {
+    display: flex;
+  }
+
+  #tty-output {
+    flex: 1;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+  }
+
+  #tty-input-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #11111b;
+    padding: 8px;
+    border: 1px solid #313244;
+  }
+
+  .tty-blue { color: #89b4fa; font-weight: bold; }
+  .tty-mauve { color: #cba6f7; font-weight: bold; }
+  .tty-green { color: #a6e3a1; font-weight: bold; }
+  .tty-red { color: #f38ba8; font-weight: bold; }
+  .tty-yellow { color: #f9e2af; font-weight: bold; }
+
+  #tty-input {
+    background: transparent;
+    border: none;
+    color: #cdd6f4;
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+    outline: none;
+  }
+
+  #tty-send {
+    background: #313244;
+    color: #cdd6f4;
+    border: 1px solid #45475a;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  #tty-send:hover { background: #45475a; }
+  #tty-send:active { background: #585b70; }
+
+  .tty-msg-user { margin-bottom: 8px; color: #a6e3a1; }
+  .tty-msg-ai { margin-bottom: 16px; color: #cdd6f4; }
+  .tty-msg-sys { margin-bottom: 8px; color: #89b4fa; }
+
+  .tty-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background-color: #cdd6f4;
+    animation: blink 1s step-end infinite;
+    vertical-align: bottom;
+  }
+
+  #tty-autocomplete {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: #181825;
+    border: 1px solid #313244;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 250px;
+    z-index: 100;
+  }
+  .tty-cmd-item {
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  .tty-cmd-item:hover, .tty-cmd-item.sel {
+    background: #313244;
+  }
+
 </style>
 </head>
 
@@ -1640,5 +1752,231 @@
       });
     })();
   </script>
+
+  <div id="linux-tty-ai" aria-hidden="true">
+    <div id="tty-output"></div>
+    <div id="tty-input-area" style="display: none;">
+      <span class="tty-prompt"><span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session</span> <span class="tty-green">~$</span></span>
+      <div style="position: relative; flex: 1;">
+        <div id="tty-autocomplete" style="display: none;"></div>
+        <input type="text" id="tty-input" autocomplete="off" spellcheck="false" autofocus />
+      </div>
+      <button id="tty-send">Send</button>
+    </div>
+  </div>
+
+
+  <script>
+    if (document.body.dataset.device === 'linux') {
+      const output = document.getElementById('tty-output');
+      const inputArea = document.getElementById('tty-input-area');
+      const input = document.getElementById('tty-input');
+      const sendBtn = document.getElementById('tty-send');
+      const autocomplete = document.getElementById('tty-autocomplete');
+      
+      const commands = [
+        { cmd: '/model', desc: 'Сменить модель' },
+        { cmd: '/github', desc: 'Мой GitHub' },
+        { cmd: '/easter1', desc: 'Секретка 1' },
+        { cmd: '/easter2', desc: 'Секретка 2' },
+        { cmd: '/jettax-tg', desc: 'Мой Telegram' }
+      ];
+
+      let selectedCmdIndex = -1;
+
+      const printText = (html) => {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        output.appendChild(div);
+        output.scrollTop = output.scrollHeight;
+      };
+
+      const typeSysMsg = (text, callback) => {
+        const div = document.createElement('div');
+        div.className = 'tty-msg-sys';
+        output.appendChild(div);
+        
+        let i = 0;
+        const typing = setInterval(() => {
+          div.innerHTML = text.substring(0, i) + '<span class="tty-cursor"></span>';
+          i++;
+          if (i > text.length) {
+            clearInterval(typing);
+            div.innerHTML = text;
+            if (callback) callback();
+          }
+        }, 30);
+      };
+
+      const typeAiMsg = (text, callback) => {
+        const div = document.createElement('div');
+        div.className = 'tty-msg-ai';
+        output.appendChild(div);
+        
+        let i = 0;
+        const typing = setInterval(() => {
+          div.innerHTML = text.substring(0, i) + '<span class="tty-cursor"></span>';
+          i++;
+          if (i > text.length) {
+            clearInterval(typing);
+            div.innerHTML = text;
+            output.scrollTop = output.scrollHeight;
+            if (callback) callback();
+          }
+        }, 15);
+      };
+
+      const bootSequence = () => {
+        typeSysMsg('bash jettax.xyz/ai/linux/.sh', () => {
+          setTimeout(() => {
+            printText('<span class="tty-blue">Loading AI module... OK</span>');
+            printText('<span class="tty-blue">Connecting to Neural Network... OK</span>');
+            printText('<span class="tty-yellow">Type / for commands.</span><br>');
+            inputArea.style.display = 'flex';
+            input.focus();
+          }, 500);
+        });
+      };
+
+      setTimeout(bootSequence, 400);
+
+      const updateAutocomplete = () => {
+        const val = input.value;
+        if (!val.startsWith('/')) {
+          autocomplete.style.display = 'none';
+          return;
+        }
+        
+        const search = val.toLowerCase();
+        const matches = commands.filter(c => c.cmd.toLowerCase().startsWith(search));
+        
+        if (matches.length === 0) {
+          autocomplete.style.display = 'none';
+          return;
+        }
+
+        autocomplete.innerHTML = '';
+        matches.forEach((m, idx) => {
+          const div = document.createElement('div');
+          div.className = 'tty-cmd-item' + (idx === selectedCmdIndex ? ' sel' : '');
+          div.innerHTML = '<span class="tty-mauve">' + m.cmd + '</span> <span class="tty-muted"> - ' + m.desc + '</span>';
+          div.addEventListener('click', () => {
+            input.value = m.cmd;
+            input.focus();
+            autocomplete.style.display = 'none';
+          });
+          autocomplete.appendChild(div);
+        });
+        autocomplete.style.display = 'block';
+      };
+
+      input.addEventListener('input', () => {
+        selectedCmdIndex = -1;
+        updateAutocomplete();
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (autocomplete.style.display === 'block') {
+          const items = autocomplete.querySelectorAll('.tty-cmd-item');
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedCmdIndex = (selectedCmdIndex + 1) % items.length;
+            updateAutocomplete();
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedCmdIndex = (selectedCmdIndex - 1 + items.length) % items.length;
+            updateAutocomplete();
+          } else if (e.key === 'Tab') {
+            e.preventDefault();
+            if (selectedCmdIndex >= 0 && selectedCmdIndex < items.length) {
+              input.value = items[selectedCmdIndex].querySelector('.tty-mauve').textContent;
+              autocomplete.style.display = 'none';
+            } else if (items.length > 0) {
+              input.value = items[0].querySelector('.tty-mauve').textContent;
+              autocomplete.style.display = 'none';
+            }
+          }
+        }
+        
+        if (e.key === 'Enter') {
+          if (autocomplete.style.display === 'block' && selectedCmdIndex >= 0) {
+             const items = autocomplete.querySelectorAll('.tty-cmd-item');
+             input.value = items[selectedCmdIndex].querySelector('.tty-mauve').textContent;
+             autocomplete.style.display = 'none';
+          } else {
+             sendBtn.click();
+          }
+        }
+      });
+
+      // Handle sending commands
+      sendBtn.addEventListener('click', () => {
+        const val = input.value.trim();
+        if (!val) return;
+        
+        input.value = '';
+        autocomplete.style.display = 'none';
+        
+        printText('<div class="tty-msg-user"><span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span><span class="tty-green">~$</span> ' + val + '</div>');
+        
+        inputArea.style.display = 'none';
+        
+        const restoreInput = () => {
+          inputArea.style.display = 'flex';
+          input.focus();
+        };
+
+        if (val === '/github') {
+          typeAiMsg('Redirecting to GitHub...', () => {
+            setTimeout(() => location.href = 'https://github.com/jettaxp', 500);
+          });
+        } else if (val === '/jettax-tg') {
+          typeAiMsg('Redirecting to Telegram...', () => {
+            setTimeout(() => location.href = 'https://t.me/jettaxp', 500);
+          });
+        } else if (val === '/easter1') {
+          typeAiMsg('Triggering Easter Egg 1...', () => {
+            const btn1 = document.querySelector('.ee-zone');
+            if(btn1) btn1.click();
+            restoreInput();
+          });
+        } else if (val === '/easter2') {
+          typeAiMsg('Triggering Easter Egg 2...', () => {
+            const btn2 = document.querySelector('.ee-zone2');
+            if(btn2) btn2.click();
+            restoreInput();
+          });
+        } else if (val.startsWith('/model')) {
+          const parts = val.split(' ');
+          if (parts.length > 1) {
+             typeAiMsg('Model switched to: ' + parts[1], restoreInput);
+          } else {
+             typeAiMsg('Available models: 
+- GPT-4o
+- Claude 3 Opus
+- LLaMA 3
+Usage: /model <name>', restoreInput);
+          }
+        } else if (val.startsWith('/')) {
+          typeAiMsg('Unknown command: ' + val, restoreInput);
+        } else {
+          // Regular chat simulation
+          typeAiMsg('...', () => {
+            setTimeout(() => {
+              output.lastChild.innerHTML = 'Нейросеть отвечает на: ' + val + '\n(Демо режим терминала)';
+              restoreInput();
+            }, 1000);
+          });
+        }
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!autocomplete.contains(e.target) && e.target !== input) {
+          autocomplete.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
 </body>
 </html>

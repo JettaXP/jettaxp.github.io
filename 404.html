@@ -110,6 +110,7 @@
 
         if (document.body.dataset.device === 'android') {
             document.addEventListener('click', (event) => {
+            if (document.body.dataset.device === 'linux') return;
                 if (!container.contains(event.target)) startRickroll();
             });
         } else {
@@ -273,7 +274,7 @@
                 '',
                 'pixel login: jettax',
                 'Password: ',
-                '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session-journal</span> <span class="tty-green">~$</span> bash 404.sh'
+                '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session</span> <span class="tty-green">~$</span> bash 404.sh'
             ];
             
             const ascii404 = `
@@ -303,6 +304,12 @@
                 }, 50);
             };
 
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && currentHtml.includes('Press Enter to return to main')) {
+                    location.href = '/';
+                }
+            });
             const runTty = () => {
                 // Line 0 & 1
                 currentHtml += lines[0] + '<br><br>';
@@ -320,11 +327,11 @@
                             setTimeout(() => {
                                 currentHtml += '<br>';
                                 // Line 4: type bash 404.sh
-                                currentHtml += '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session-journal</span> <span class="tty-green">~$</span> ';
+                                currentHtml += '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session</span> <span class="tty-green">~$</span> ';
                                 typeText('bash 404.sh', () => {
                                     setTimeout(() => {
                                         // Clear screen and show 404
-                                        currentHtml = '<div class="tty-ascii">' + ascii404 + '</div><br><span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session-journal</span> <span class="tty-green">~$</span> ';
+                                        currentHtml = '<div class="tty-ascii">' + ascii404 + '</div><br><span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session</span> <span class="tty-green">~$</span> ';
                                         tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
                                     }, 800);
                                 });
