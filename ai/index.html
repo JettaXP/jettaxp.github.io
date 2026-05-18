@@ -69,16 +69,18 @@
     body[data-device="macos"],
     body[data-device="ios"],
     body[data-device="ipados"] {
+      /* Slightly different palette for Apple-like devices */
       --accent-primary: #8ecbff;
-      --accent-secondary: #f3a6ff;
-      --surface-container: rgba(28, 28, 32, .58);
-      --surface-container-high: rgba(255,255,255,.11);
-      --surface-container-highest: rgba(255,255,255,.14);
-      --primary-container: rgba(142, 203, 255, .22);
+      --accent-secondary: #ffc48e;
+      --surface-container: rgba(20, 24, 30, .6);
+      --surface-container-high: rgba(255,255,255,.06);
+      --surface-container-highest: rgba(255,255,255,.09);
+      --primary-container: rgba(220, 235, 255, .16);
       --on-primary-container: #eaf6ff;
-      --fluid-a: rgba(10, 132, 255, .3);
-      --fluid-b: rgba(191, 90, 242, .25);
-      --fluid-c: rgba(48, 209, 88, .18);
+      --fluid-a: rgba(10, 132, 255, .28);
+      --fluid-b: rgba(255, 196, 120, .18);
+      --fluid-c: rgba(138, 180, 248, .12);
+      background: radial-gradient(circle at 20% 10%, rgba(142,203,255,0.08), transparent 25rem), radial-gradient(circle at 80% 20%, rgba(255,196,120,0.06), transparent 24rem), linear-gradient(145deg, #0b1220, #12151b 56%, #071018);
     }
 
     body[data-device="linux"] {
