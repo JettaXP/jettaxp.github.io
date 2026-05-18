@@ -18,6 +18,11 @@
             width: 100vw;
             height: 100vh;
             object-fit: contain;
+            cursor: pointer;
+        }
+
+        #audio-container {
+            display: none;
         }
     </style>
 </head>
@@ -25,11 +30,22 @@
 
     <video id="mainVideo" src="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/doc_2026-05-18_16-30-03.mp4" autoplay muted loop playsinline></video>
 
+    <div id="audio-container"></div>
+
     <script>
-        const video = document.getElementById('mainVideo');
+        const audioContainer = document.getElementById('audio-container');
+        let audioStarted = false;
 
         window.addEventListener('click', function() {
-            video.muted = false;
+            if (audioStarted) return;
+            audioStarted = true;
+
+            audioContainer.innerHTML = `
+                <iframe 
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
+                    allow="autoplay">
+                </iframe>
+            `;
         });
     </script>
 
