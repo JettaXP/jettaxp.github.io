@@ -1374,6 +1374,7 @@
 </head>
 
 <body>
+<script>try{ if(document.body.getAttribute('data-device')==='fluid') document.body.setAttribute('data-theme','dark'); }catch(e){};</script>
 <script>
   (function () {
     const ua = navigator.userAgent;
@@ -1887,7 +1888,7 @@
       };
 
       const bootSequence = () => {
-        typeSysMsg('bash jettax.xyz/ai/linux/.sh', () => {
+        typeSysMsg('bash jettax.xyz/ai/linux/.sh', () => { location.href = '/ai/linux'; // redirect to ai/linux tty-first page
           setTimeout(() => {
             printText('<span class="tty-blue">Loading AI module... OK</span>');
             printText('<span class="tty-blue">Connecting to Neural Network... OK</span>');
