@@ -1687,6 +1687,40 @@
             font-family: Tahoma, 'Microsoft Sans Serif', sans-serif !important;
         }
 
+        body[data-device="android"] *,
+        body[data-device="android"] *::before,
+        body[data-device="android"] *::after {
+            border-radius: 0 !important;
+            animation: none !important;
+            transition: none !important;
+            scroll-behavior: auto !important;
+        }
+
+        body[data-device="android"] .content {
+            align-items: center !important;
+        }
+
+        body[data-device="android"] .time-widget-container {
+            position: fixed !important;
+            top: 8px !important;
+            right: 8px !important;
+            left: auto !important;
+            width: auto !important;
+            min-width: 0 !important;
+            margin: 0 !important;
+            align-items: flex-end !important;
+            z-index: 60 !important;
+        }
+
+        body[data-device="android"] .timezone-badge,
+        body[data-device="android"] .clock-box {
+            width: auto !important;
+            min-width: 0 !important;
+            padding: 4px 8px !important;
+            font-size: 12px !important;
+            white-space: nowrap !important;
+        }
+
         @media(max-width:768px) {
             .page-wrapper {
                 border-radius: 36px;
@@ -1839,7 +1873,7 @@
     </div>
 
     <div class="time-widget-container">
-        <div class="glass-pill timezone-badge">UTC +2</div>
+        <div class="glass-pill timezone-badge">UTC +3</div>
         <div class="glass-pill clock-box" id="myClock">00:00:00</div>
     </div>
 
@@ -2099,7 +2133,7 @@
         setInterval(() => {
             const n = new Date();
             const u = n.getTime() + (n.getTimezoneOffset() * 60000);
-            document.getElementById('myClock').textContent = new Date(u + 7200000).toLocaleTimeString('ru-RU');
+            document.getElementById('myClock').textContent = new Date(u + 10800000).toLocaleTimeString('ru-RU');
         }, 1000);
 
 
@@ -2202,6 +2236,10 @@
                 const ua = navigator.userAgent;
                 const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
                 const touchMac = /mac/i.test(platform) && navigator.maxTouchPoints > 1;
+                const variant = location.pathname.replace(/\/+$/, '').toLowerCase();
+                if (variant === '/windows') return 'android';
+                if (variant === '/fluid') return 'macos';
+                if (variant === '/material') return 'windows';
                 if (/android/i.test(ua)) return 'android';
                 if (/ipad/i.test(ua) || touchMac) return 'ipados';
                 if (/iphone|ipod/i.test(ua)) return 'ios';
@@ -2223,7 +2261,7 @@
                 if (!container || document.querySelector('.branches-card')) return;
                 const card = document.createElement('div');
                 card.className = 'branches-card';
-                card.innerHTML = '<h2>ветки</h2><div class="branches-list"><a class="branch-link" href="/404"><span class="branch-symbol">⌁</span><span>jettax.xyz/404</span></a><a class="branch-link" href="/ai"><span class="branch-symbol">⌁</span><span>jettax.xyz/ai</span></a></div>';
+                card.innerHTML = '<h2>ветки</h2><div class="branches-list"><a class="branch-link" href="/404"><span class="branch-symbol">⌁</span><span>jettax.xyz/404</span></a><a class="branch-link" href="/ai"><span class="branch-symbol">⌁</span><span>jettax.xyz/ai</span></a><a class="branch-link" href="/windows"><span class="branch-symbol">⌁</span><span>jettax.xyz/windows</span></a><a class="branch-link" href="/fluid"><span class="branch-symbol">⌁</span><span>jettax.xyz/fluid</span></a><a class="branch-link" href="/material"><span class="branch-symbol">⌁</span><span>jettax.xyz/material</span></a></div>';
                 container.appendChild(card);
             }
 

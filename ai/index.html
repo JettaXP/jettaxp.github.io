@@ -1074,6 +1074,20 @@
     body[data-device="android"] .toast-right-avatar {
       border-radius: 0;
     }
+
+    body[data-device="android"] *,
+    body[data-device="android"] *::before,
+    body[data-device="android"] *::after {
+      border-radius: 0 !important;
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+
+    body[data-device="android"] .classic-dots::after {
+      animation: none !important;
+      content: '...';
+    }
   </style>
 </head>
 
