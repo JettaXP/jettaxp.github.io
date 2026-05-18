@@ -4,17 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>JettaX | Linux</title>
+  <style>
+    body { background: #0b0c0d; color: #cfe; font-family: monospace; padding: 24px; }
+    .term { max-width: 900px; margin: 24px auto; background: #050505; border-radius: 8px; padding: 18px; box-shadow: 0 12px 40px rgba(0,0,0,.6); }
+    .prompt { color: #8be; }
+    a { color: #8be; text-decoration: none; }
+    .dir { color: #9fd; margin-right: 14px; }
+  </style>
 </head>
 <body>
-  <script>
-    fetch('/index.html', { cache: 'no-cache' })
-      .then(response => response.text())
-      .then(html => {
-        html = html.replace('<head>', '<head><base href="/">');
-        document.open();
-        document.write(html);
-        document.close();
-      });
-  </script>
+  <div class="term">
+    <pre>
+EndeavourOS 7.0.8-arch1-1 (tty3)
+
+<span class="prompt">jettax@pixel:~$</span> ls
+  <span class="dir">projects/</span> <a href="/linux/projects">open</a>
+  <span class="dir">contacts/</span> <a href="/linux/contacts">open</a>
+  <span class="dir">notes/</span> <a href="/linux/notes">open</a>
+
+<span class="prompt">jettax@pixel:~$</span> cd projects
+<span class="prompt">jettax@pixel:~/projects$</span> 
+    </pre>
+  </div>
 </body>
 </html>

@@ -323,10 +323,10 @@ Press Enter to return to main...</span>`;
                             tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
                             setTimeout(() => {
                                 currentHtml += '<br>';
-                                currentHtml += '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session-journal</span> <span class="tty-green">~$</span> ';
+                                currentHtml += '<span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> ';
                                 typeText('bash 404.sh', () => {
                                     setTimeout(() => {
-                                        currentHtml = '<div class="tty-ascii">' + ascii404 + '</div><br><span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session-journal</span> <span class="tty-green">~$</span> ';
+                                        currentHtml = '<div class="tty-ascii">' + ascii404 + '</div><br><span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> ';
                                         tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
                                     }, 800);
                                 });
