@@ -1,156 +1,345 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>JettaX | Linux (TTY)</title>
-  <style>
-    :root{--bg:#000;--fg:#cdd6f4;--muted:#7c8598;--accent:#89b4fa}
-    html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family: 'JetBrains Mono', monospace, monospace}
-    .container{max-width:1100px;margin:18px auto;padding:12px}
-    .top-links{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-    .top-links a{color:var(--fg);text-decoration:none;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:14px}
-
-    .tty{background:#060606;border-radius:8px;padding:16px;box-shadow:0 12px 40px rgba(0,0,0,.6);min-height:300px;overflow:auto}
-    #tty-output{white-space:pre-wrap;font-family:inherit;line-height:1.4}
-    .prompt{color:var(--accent)}
-    .input-line{display:flex;gap:8px;align-items:center;margin-top:8px}
-    #cmd{flex:1;padding:8px;border-radius:6px;border:1px solid #222;background:#070707;color:var(--fg);font-family:inherit}
-    .cursor{display:inline-block;width:8px;height:1em;background:var(--fg);vertical-align:bottom;animation:blink 1s steps(2,end) infinite}
-    @keyframes blink{50%{opacity:0}}
-
-    .panes{display:flex;gap:18px;margin-top:18px}
-    .left-pane{width:48%;background:#070707;padding:12px;border-radius:8px}
-    .right-pane{width:52%;background:#070707;padding:12px;border-radius:8px}
-    .links-list a{display:block;color:var(--fg);text-decoration:none;padding:6px;border-radius:6px}
-    .site-tree{margin-top:12px;background:#050505;padding:10px;border-radius:6px;color:var(--muted);font-size:13px;max-height:320px;overflow:auto}
-
-    /* hide floating windows only on linux pages */
-    .ee-zone, .ee-zone2, .ee-overlay, .ee-window, .blob { display: none !important; }
-
-    .ascii{color:#cba6f7}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Страница не найдена | JettaX</title>
+    <meta name="description" content="Страница не найдена на сайте JettaX.">
+    <link rel="icon" href="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/jettax.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link rel="stylesheet" href="/404/style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="top-links" id="top-links">
-      <!-- short links: nick + URL -->
-      <a href="https://t.me/jettaxp" target="_blank">Telegram — @jettaxp</a>
-      <a href="https://github.com/JettaXP" target="_blank">GitHub — jettaxp</a>
-      <a href="https://www.last.fm/user/JettaXP" target="_blank">Last.fm — @JettaXP</a>
-      <a href="https://steamcommunity.com/id/jettaxp" target="_blank">Steam — jettaxp</a>
-      <a href="https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android" target="_blank">Clash Royale — JettaXGG</a>
-      <span style="color:var(--muted)">Discord — jettax03 (nick)</span>
-    </div>
-
-    <div class="tty" id="tty">
-      <div id="tty-output">EndeavourOS 7.0.8-arch1-1 (tty3)
-
-<span class="prompt">jettax@pixel:~$</span> bash jettax.xyz/linux/.sh<span class="cursor"></span></div>
-
-      <div class="input-line" id="input-line" style="display:none">
-        <span class="prompt">jettax@pixel:~$</span>
-        <input id="cmd" placeholder="Напиши сообщение (Enter — отправить). '/' — команды (/model, /models, /easter1, /easter2)" />
-      </div>
-    </div>
-
-    <div class="panes">
-      <div class="left-pane" id="bio-pane">
-        <h3>Обо мне</h3>
-        <div id="now-playing">Последний трек: <span id="track-name">—</span> — <span id="track-artist">—</span></div>
-        <div style="margin-top:12px;font-size:13px;color:var(--muted)">
-          Welcome to my bio!
-          <p>Я — Philipp, живу в Днепре, Украина.</p>
+    <script>
+        (function () {
+            const ua = navigator.userAgent;
+            const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+            const touchMac = /mac/i.test(platform) && navigator.maxTouchPoints > 1;
+            const path = location.pathname.replace(/\/+$/, '').toLowerCase();
+            let device = 'linux';
+            if (path.endsWith('/windows')) device = 'android';
+            else if (path.endsWith('/fluid')) device = 'fluid';
+            else if (path.endsWith('/macos')) device = 'macos';
+            else if (path.endsWith('/ios')) device = 'ios';
+            else if (path.endsWith('/ipados')) device = 'ipados';
+            else if (path.endsWith('/linux')) device = 'linux';
+            else if (path.endsWith('/material')) device = 'windows';
+            else if (/android/i.test(ua)) device = 'android';
+            else if (/ipad/i.test(ua) || touchMac) device = 'ipados';
+            else if (/iphone|ipod/i.test(ua)) device = 'ios';
+            else if (/macintosh|mac os x/i.test(ua)) device = 'macos';
+            else if (/win/i.test(platform) || /windows/i.test(ua)) device = 'windows';
+            document.body.dataset.device = device;
+        })();
+    </script>
+    <main class="page-shell" aria-labelledby="page-title">
+        <div class="orb-layer" aria-hidden="true">
+            <span class="orb orb-one"></span>
+            <span class="orb orb-two"></span>
+            <span class="orb orb-three"></span>
+            <span class="orb orb-four"></span>
+            <span class="orb orb-five"></span>
+            <span class="orb orb-six"></span>
         </div>
-      </div>
-      <div class="right-pane">
-        <h3>Короткие ссылки</h3>
-        <div class="links-list" id="links-list">
-          <!-- populated by script -->
-        </div>
-        <div class="site-tree" id="site-tree">
-          <!-- long tree with full URLs -->
-        </div>
-      </div>
+
+        <section class="container">
+            <div class="error-code" aria-label="Ошибка 404">
+                <span class="digit">4</span>
+                <div class="zero-container" aria-hidden="true">
+                    <div class="avatar-mask">
+                        <img src="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/jettax.png" alt="">
+                        <span class="material-symbols-outlined fallback-icon">question_mark</span>
+                    </div>
+                </div>
+                <span class="digit">4</span>
+            </div>
+
+            <h1 id="page-title">Страница не найдена</h1>
+            <p class="message">Такой страницы нет. Зато есть повод вернуться на главную и сделать вид, что этого перехода не было.</p>
+
+            <div class="actions">
+                <a href="/" class="cta-button">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                    Вернуться на главную
+                </a>
+            </div>
+        </section>
+    </main>
+    <div id="linux-tty-overlay" aria-hidden="true">
+        <div id="tty-content"></div>
     </div>
-  </div>
+    <div id="rickroll-player" aria-hidden="true"></div>
 
-  <script>
-    // Last.fm config (copied from main site)
-    const LASTFM_API = 'https://ws.audioscrobbler.com/2.0/';
-    const LASTFM_KEY = '9456ce29b8b500ab019e56d2b1ccab1f';
-    const LASTFM_USER = 'JettaXP';
+    <script>
+        const container = document.querySelector('.container');
+        const player = document.getElementById('rickroll-player');
+        const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2, active: false };
+        let draggedOrb = null;
+        const orbs = [...document.querySelectorAll('.orb')].map((node, index) => ({
+            node,
+            x: 120 + index * 150,
+            y: 120 + (index % 3) * 55,
+            vx: (index % 2 ? -1 : 1) * (1.6 + index * 0.18),
+            vy: 0,
+            radius: 100,
+            index,
+            dragOffsetX: 0,
+            dragOffsetY: 0,
+            lastX: 0,
+            lastY: 0
+        }));
 
-    async function updateNowPlaying(){ try{
-      const res = await fetch(`${LASTFM_API}?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`);
-      const d = await res.json();
-      const track = d?.recenttracks?.track?.[0];
-      if(track){ document.getElementById('track-name').textContent = track.name || '—'; document.getElementById('track-artist').textContent = track.artist['#text'] || '—'; }
-    }catch(e){console.warn('lastfm',e);} }
-    updateNowPlaying(); setInterval(updateNowPlaying, 90_000);
+        const clampOrbs = () => {
+            orbs.forEach((orb) => {
+                orb.radius = orb.node.getBoundingClientRect().width / 2;
+                orb.x = Math.min(Math.max(orb.x, orb.radius), window.innerWidth - orb.radius);
+                orb.y = Math.min(Math.max(orb.y, orb.radius), window.innerHeight - orb.radius);
+            });
+        };
 
-    // populate short links and full site tree
-    const shortLinks = [
-      {t:'Telegram',u:'https://t.me/jettaxp',s:'@jettaxp'},
-      {t:'GitHub',u:'https://github.com/JettaXP',s:'jettaxp'},
-      {t:'Last.fm',u:'https://www.last.fm/user/JettaXP',s:'@JettaXP'},
-      {t:'Steam',u:'https://steamcommunity.com/id/jettaxp',s:'jettaxp'},
-      {t:'Clash Royale',u:'https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android',s:'JettaXGG'}
-    ];
-    const linksList = document.getElementById('links-list'); shortLinks.forEach(l=>{ const a=document.createElement('a'); a.href=l.u; a.target='_blank'; a.textContent = `${l.t} — ${l.s}`; linksList.appendChild(a); });
+        const startRickroll = () => {
+            if (document.body.dataset.device === 'linux') return;
+            if (player.firstChild) return;
+            const iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&playsinline=1&rel=0';
+            iframe.title = 'Rickroll audio';
+            iframe.allow = 'autoplay; encrypted-media';
+            player.appendChild(iframe);
+        };
 
-    const tree = [`https://jettax.xyz/404/404`, `https://jettax.xyz/ai/ai`, `https://jettax.xyz/os/os`, `https://jettax.xyz/ai/os/ai/os`, `https://jettax.xyz/404/os/404/os`, `https://jettax.xyz/windows/windows`, `https://jettax.xyz/fluid/fluid`, `https://jettax.xyz/material/material`, `https://jettax.xyz/linux/linux`, `https://jettax.xyz/macos/macos`, `https://jettax.xyz/ios/ios`, `https://jettax.xyz/ipados/ipados`, `https://jettax.xyz/ai/windows/ai/windows`, `https://jettax.xyz/ai/fluid/ai/fluid`, `https://jettax.xyz/ai/material/ai/material`];
-    document.getElementById('site-tree').textContent = tree.join('\n');
+        if (document.body.dataset.device === 'android') {
+            document.addEventListener('click', (event) => {
+                if (document.body.dataset.device === 'linux') return;
+                if (!container.contains(event.target)) startRickroll();
+            });
+        } else {
+        document.addEventListener('mousemove', (event) => {
+            pointer.x = event.clientX;
+            pointer.y = event.clientY;
+            pointer.active = true;
 
-    // AI endpoint config (obfuscated key copied from ai/index.html)
-    const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
-    function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
-    const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
+            if (draggedOrb) {
+                const nextX = event.clientX + draggedOrb.dragOffsetX;
+                const nextY = event.clientY + draggedOrb.dragOffsetY;
+                draggedOrb.vx = (nextX - draggedOrb.lastX) * 0.7;
+                draggedOrb.vy = (nextY - draggedOrb.lastY) * 0.7;
+                draggedOrb.x = nextX;
+                draggedOrb.y = nextY;
+                draggedOrb.lastX = nextX;
+                draggedOrb.lastY = nextY;
+            }
 
-    const models = ['pplx-gpt-5.1','gpt-5-mini','sonar-pro','sonar-deep-research'];
-    let selectedModel = models[0];
+            const xAxis = (window.innerWidth / 2 - event.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - event.pageY) / 25;
+            container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
 
-    const ttyOutput = document.getElementById('tty-output');
-    const inputLine = document.getElementById('input-line');
-    const cmd = document.getElementById('cmd');
+        document.addEventListener('mouseleave', () => {
+            pointer.active = false;
+            container.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        });
 
-    function append(line, cls){ const d=document.createElement('div'); if(cls) d.className=cls; d.textContent = line; ttyOutput.appendChild(d); ttyOutput.scrollTop = ttyOutput.scrollHeight; }
+        document.addEventListener('click', (event) => {
+            if (document.body.dataset.device === 'linux') return;
+            orbs.forEach((orb) => {
+                const dx = orb.x - event.clientX;
+                const dy = orb.y - event.clientY;
+                const distance = Math.hypot(dx, dy) || 1;
+                const force = Math.max(0.35, 1 - distance / 900);
+                orb.vx += (dx / distance) * (8 + force * 16);
+                orb.vy -= 22 + force * 18;
+                orb.node.classList.add('is-jumping');
+                window.setTimeout(() => orb.node.classList.remove('is-jumping'), 360);
+            });
 
-    function typeAnimation(lines, cb){ let i=0; function next(){ if(i>=lines.length){ cb&&cb(); return;} const line = lines[i++]; let j=0; const el=document.createElement('div'); ttyOutput.appendChild(el); ttyOutput.scrollTop = ttyOutput.scrollHeight; const t=setInterval(()=>{ el.textContent += line.charAt(j++); ttyOutput.scrollTop = ttyOutput.scrollHeight; if(j>line.length){ clearInterval(t); next(); } }, 35); }
-      next(); }
+            if (!container.contains(event.target) && !event.target.closest('.orb')) {
+                startRickroll();
+            }
+        });
 
-    // run initial tty script then show shell
-    setTimeout(()=>{
-      typeAnimation(['bash jettax.xyz/linux/.sh',''], ()=>{ document.querySelector('.cursor').style.display='none'; inputLine.style.display='flex'; cmd.focus(); append('\n[TTY] Bash script started. Type your message to send to AI. Use /models, /model <name>, /easter1, /easter2, /clear'); });
-    }, 400);
+        orbs.forEach((orb) => {
+            orb.node.addEventListener('mousedown', (event) => {
+                event.preventDefault();
+                draggedOrb = orb;
+                pointer.active = true;
+                pointer.x = event.clientX;
+                pointer.y = event.clientY;
+                orb.dragOffsetX = orb.x - event.clientX;
+                orb.dragOffsetY = orb.y - event.clientY;
+                orb.lastX = orb.x;
+                orb.lastY = orb.y;
+                orb.vx = 0;
+                orb.vy = 0;
+                orb.node.classList.add('is-dragged');
+            });
+        });
 
-    async function ask(q){ if(!q) return; append('> '+q); // keep history
-      // add to chat history minimal
-      const chatHistory = [{role:'user',content:q}];
-      const typ = append('... thinking');
-      try{
-        const r = await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:selectedModel,messages:chatHistory})});
-        const data = await r.json().catch(()=>({}));
-        let text = data.choices && data.choices.length ? (data.choices[0].message?.content || data.choices[0].text) : data.error?.message || ('http '+r.status);
-        // replace typing indicator
-        ttyOutput.removeChild(ttyOutput.lastChild); append('AI: ' + text);
-      }catch(e){ ttyOutput.removeChild(ttyOutput.lastChild); append('ошибка: '+(e?.message||e)); }
-    }
+        document.addEventListener('mouseup', () => {
+            if (!draggedOrb) return;
+            draggedOrb.node.classList.remove('is-dragged');
+            draggedOrb = null;
+        });
 
-    cmd.addEventListener('keydown', (e)=>{
-      if(e.key==='Enter'){ e.preventDefault(); const v=cmd.value.trim(); if(!v) return; if(v.startsWith('/')){ // commands
-          const parts = v.split(/\s+/); const c = parts[0]; if(c === '/clear'){ ttyOutput.innerHTML=''; append('EndeavourOS 7.0.8-arch1-1 (tty3)'); }
-          else if(c === '/models'){ // animated list
-            typeAnimation(['Available models:']); models.forEach(m=>{ setTimeout(()=>append(' - '+m), 400*models.indexOf(m)); });
-          } else if(c === '/model'){ if(parts[1] && models.includes(parts[1])){ selectedModel = parts[1]; append('Model set to '+selectedModel); } else append('Usage: /model <name> — available: '+models.join(', ')); }
-          else if(c === '/easter1'){ append('\n\n' + '（пасхалка 1）' + '\n'); }
-          else if(c === '/easter2'){ append('\n\n' + '（пасхалка 2）' + '\n'); }
-          else { append('Unknown command: '+v); }
-          cmd.value=''; return; }
-        // normal message -> send to AI
-        ask(v); cmd.value=''; }
-    });
+        const animate = () => {
+            orbs.forEach((orb) => {
+                if (orb === draggedOrb) return;
 
-  </script>
+                orb.vy += 0.72;
+
+                if (pointer.active) {
+                    const dx = orb.x - pointer.x;
+                    const dy = orb.y - pointer.y;
+                    const distance = Math.hypot(dx, dy) || 1;
+                    const repelRadius = orb.radius + 180;
+                    if (distance < repelRadius) {
+                        const force = (1 - distance / repelRadius) * 4.2;
+                        orb.vx += (dx / distance) * force;
+                        orb.vy += (dy / distance) * force;
+                    }
+                }
+            });
+
+            for (let i = 0; i < orbs.length; i += 1) {
+                for (let j = i + 1; j < orbs.length; j += 1) {
+                    const a = orbs[i];
+                    const b = orbs[j];
+                    const dx = b.x - a.x;
+                    const dy = b.y - a.y;
+                    const distance = Math.hypot(dx, dy) || 1;
+                    const minDistance = a.radius + b.radius + 10;
+                    if (distance < minDistance) {
+                        const nx = dx / distance;
+                        const ny = dy / distance;
+                        const overlap = (minDistance - distance) / 2;
+                        a.x -= nx * overlap;
+                        a.y -= ny * overlap;
+                        b.x += nx * overlap;
+                        b.y += ny * overlap;
+
+                        const relativeVelocity = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+                        const impulse = Math.max(0.5, -relativeVelocity * 0.62);
+                        a.vx -= nx * impulse;
+                        a.vy -= ny * impulse;
+                        b.vx += nx * impulse;
+                        b.vy += ny * impulse;
+                    }
+                }
+            }
+
+            orbs.forEach((orb) => {
+                if (orb === draggedOrb) {
+                    orb.node.style.transform = `translate3d(${orb.x - orb.radius}px, ${orb.y - orb.radius}px, 0)`;
+                    return;
+                }
+
+                orb.vx *= 0.992;
+                orb.vy *= 0.992;
+                orb.x += orb.vx;
+                orb.y += orb.vy;
+
+                const minX = orb.radius;
+                const maxX = window.innerWidth - orb.radius;
+                const minY = orb.radius;
+                const maxY = window.innerHeight - orb.radius;
+
+                if (orb.x < minX || orb.x > maxX) {
+                    orb.x = Math.min(Math.max(orb.x, minX), maxX);
+                    orb.vx *= -0.72;
+                }
+
+                if (orb.y < minY || orb.y > maxY) {
+                    orb.y = Math.min(Math.max(orb.y, minY), maxY);
+                    orb.vy *= -0.64;
+                    orb.vx *= 0.965;
+                }
+
+                orb.node.style.transform = `translate3d(${orb.x - orb.radius}px, ${orb.y - orb.radius}px, 0)`;
+            });
+
+            requestAnimationFrame(animate);
+        };
+
+        window.addEventListener('resize', clampOrbs);
+        clampOrbs();
+        animate();
+        }
+    </script>
+
+    <script>
+        if (document.body.dataset.device === 'linux') { // ensure no floating ee windows
+            const _s = document.createElement('style'); _s.textContent = '.ee-zone, .ee-overlay, .ee-window, .blob { display:none !important; }'; document.head.appendChild(_s);
+            const tty = document.getElementById('tty-content');
+            let step = 0;
+            const lines = [
+                'EndeavourOS 7.0.8-arch1-1 (tty3)',
+                '',
+                'pixel login: jettax',
+                'Password: ',
+                '<span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> bash 404.sh'
+            ];
+            
+            const ascii404 = `  _  _    ___   _  _  
+ | || |  / _ \\ | || | 
+ | || |_| | | || || |_ 
+ |__   _| |_| ||__   _|
+    |_|  \\___/    |_|  
+
+<span class="tty-muted">Такой страницы нет. Зато есть повод вернуться на главную и сделать вид, что этого перехода не было.
+Press Enter to return to main...</span>`;
+
+            let currentHtml = '';
+            
+            const typeText = (text, callback) => {
+                let i = 0;
+                const typing = setInterval(() => {
+                    tty.innerHTML = currentHtml + text.substring(0, i) + '<span class="tty-cursor"></span>';
+                    i++;
+                    if (i > text.length) {
+                        clearInterval(typing);
+                        currentHtml += text + '<br>';
+                        tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
+                        callback();
+                    }
+                }, 50);
+            };
+
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && currentHtml.includes('Press Enter to return to main')) {
+                    location.href = '/';
+                }
+            });
+            const runTty = () => {
+                currentHtml += lines[0] + '<br><br>';
+                tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
+                
+                setTimeout(() => {
+                    currentHtml += 'pixel login: ';
+                    typeText('jettax', () => {
+                        setTimeout(() => {
+                            currentHtml += 'Password: ';
+                            tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
+                            setTimeout(() => {
+                                currentHtml += '<br>';
+                                currentHtml += '<span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> ';
+                                typeText('bash 404.sh', () => {
+                                    setTimeout(() => {
+                                        currentHtml = '<div class="tty-ascii">' + ascii404 + '</div><br><span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> ';
+                                        tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
+                                    }, 800);
+                                });
+                            }, 2500);
+                        }, 500);
+                    });
+                }, 500);
+            };
+            
+            setTimeout(runTty, 500);
+        }
+    </script>
 </body>
 </html>
+
