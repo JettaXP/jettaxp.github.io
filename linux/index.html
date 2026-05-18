@@ -6,11 +6,10 @@
 <title>JettaX | Linux (TTY)</title>
 <style>
   body{background:#000;color:#cdd6f4;font-family:monospace;margin:0;height:100vh}
-  .term{padding:18px;box-sizing:border-box;height:100%;width:100%}
-  #screen{max-width:980px;line-height:1.4;white-space:pre-wrap;word-break:break-word}
+  .term{padding:24px;box-sizing:border-box;height:100%;width:100%}
+  #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:16px}
   .prompt{color:#89b4fa}
   .muted{color:#7c8598}
-  .ascii{color:#cba6f7}
   .tty-cursor{display:inline-block;width:8px;height:1em;background:#cdd6f4;vertical-align:bottom;animation:blink 1s steps(2,end) infinite}
   @keyframes blink{50%{opacity:0}}
 </style>
@@ -22,10 +21,8 @@
 pixel login: </pre>
   </div>
 <script>
-// Minimal canonical TTY emulation for /linux
 const screen = document.getElementById('screen');
 let canReturn = false;
-// Full links list (use full URLs)
 const links = [
   {k:'1',t:'Telegram',u:'https://t.me/jettaxp'},
   {k:'2',t:'TikTok',u:'https://www.tiktok.com/@jettax03'},
@@ -36,31 +33,19 @@ const links = [
   {k:'7',t:'Brawl Stars',u:'https://link.brawlstars.com/invite/friend/ru?tag=PQPCUPRQP&token=8dphjwnw'},
   {k:'8',t:'Last.fm',u:'https://www.last.fm/user/JettaXP'}
 ];
-
 function append(text){ screen.innerHTML += text; window.scrollTo(0,document.body.scrollHeight); }
 function typeText(text, speed=45){ return new Promise(res=>{ let i=0; const t=setInterval(()=>{ append(text.charAt(i++)); if(i>text.length-1){ clearInterval(t); res(); } }, speed); }); }
-
 async function runTTY(){
-  // type login
   await typeText('jettax');
   await new Promise(r=>setTimeout(r,400));
   append('\nPassword: ');
-  // show nothing for password (just wait)
   await new Promise(r=>setTimeout(r,2500));
   append('\n\n');
   append('<span class="prompt">jettax@pixel:~$</span> bash jettax.xyz/linux/.sh\n');
   await new Promise(r=>setTimeout(r,600));
-
-  // ascii banner
-  const ascii = `  _  _    ___   _  _  \n | || |  / _ \\ | || | \n | || |_| | | || || |_ \n |__   _| |_| ||__   _|\n    |_|  \\___/    |_|  \n`;
-  append('\n'); append('\n'); append(ascii);
   append('\n');
-
-  // Bio content
   append('Welcome to my bio!\n');
   append('Я — Philipp, живу в Днепре, Украина.\n');
-
-  // Last.fm now playing (single fetch)
   try{
     const LASTFM_API = 'https://ws.audioscrobbler.com/2.0/';
     const LASTFM_KEY = '9456ce29b8b500ab019e56d2b1ccab1f';
@@ -75,26 +60,15 @@ async function runTTY(){
       append(`${now}: ${name} — ${artist}\n`);
     } else append('Последний трек: —\n');
   }catch(e){ append('Последний трек: —\n'); }
-
   append('\nLinks:');
   links.forEach(l=>{ append('\n['+l.k+'] '+l.t+' — '+l.u); });
-
   append('\n\nPress Enter to return to main...\n');
   canReturn = true;
 }
-
 runTTY();
-
-// key handler: numbers open links; Enter returns only when canReturn true
 window.addEventListener('keydown', (e)=>{
-  if(e.key === 'Enter'){
-    if(canReturn) location.href = '/';
-    return;
-  }
-  if(/[1-9]/.test(e.key)){
-    const found = links.find(x=>x.k === e.key);
-    if(found) window.open(found.u, '_blank');
-  }
+  if(e.key === 'Enter'){ if(canReturn) location.href = '/'; return; }
+  if(/[1-9]/.test(e.key)){ const found = links.find(x=>x.k === e.key); if(found) window.open(found.u, '_blank'); }
 });
 </script>
 </body>

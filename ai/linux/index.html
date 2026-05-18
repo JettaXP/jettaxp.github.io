@@ -1,83 +1,58 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>JettaX | AI Linux (TTY)</title>
-  <style>
-    body{background:#000;color:#cdd6f4;font-family:monospace;padding:18px}
-    #tty{max-width:1100px;margin:18px auto;background:#060606;border-radius:8px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.6)}
-    .tty-line{white-space:pre-wrap}
-    #composer{margin-top:12px}
-    #q{width:100%;padding:8px;border-radius:6px;border:1px solid #222;background:#080808;color:#cdd6f4;font-family:inherit}
-    .tty-cursor{display:inline-block;width:8px;height:1em;background:#cdd6f4;vertical-align:bottom;animation:blink 1s steps(2,end) infinite}
-    @keyframes blink{50%{opacity:0}}
-    .tty-prompt{color:#89b4fa}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JettaX | AI Linux (TTY)</title>
+<style>
+  body{background:#000;color:#cdd6f4;font-family:monospace;margin:0;height:100vh}
+  .term{padding:18px;box-sizing:border-box;height:100%;width:100%}
+  #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:15px}
+  .prompt{color:#89b4fa}
+  .tty-input{margin-top:8px}
+  #cmd{width:100%;padding:8px;border-radius:6px;border:1px solid #222;background:#070707;color:var(--fg);font-family:inherit}
+  .tty-cursor{display:inline-block;width:8px;height:1em;background:#cdd6f4;vertical-align:bottom;animation:blink 1s steps(2,end) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .muted{color:#7c8598}
+</style>
 </head>
-<body data-device="linux">
-  <div id="tty">
-    <div id="tty-content"><div class="tty-line">EndeavourOS 7.0.8-arch1-1 (tty3)
+<body>
+  <div class="term">
+    <pre id="screen">EndeavourOS 7.0.8-arch1-1 (tty3)
 
-jettax@pixel:~$ bash jettax.xyz/ai/linux/.sh</div></div>
-    <div id="composer">
-      <input id="q" placeholder="Напиши сообщение (Enter — отправить). Введи '/' для команд" />
+pixel login: </pre>
+    <div class="tty-input" style="display:none">
+      <div class="prompt">jettax@pixel:~$</div>
+      <input id="cmd" placeholder="Напиши сообщение (Enter — отправить). '/' — команды (/models, /model, /easter1, /easter2, /clear)" />
     </div>
   </div>
+<script>
+const screen = document.getElementById('screen');
+const inputWrap = document.querySelector('.tty-input');
+const cmd = document.getElementById('cmd');
+let chatHistory = [];
+let selectedModel = 'pplx-gpt-5.1';
+function append(text){ screen.innerHTML += text; window.scrollTo(0,document.body.scrollHeight); }
+function typeText(text,speed=40){ return new Promise(res=>{ let i=0; const t=setInterval(()=>{ append(text.charAt(i++)); if(i>text.length-1){ clearInterval(t); res(); } }, speed); }); }
+async function runTTY(){ await typeText('jettax'); await new Promise(r=>setTimeout(r,400)); append('\nPassword: '); await new Promise(r=>setTimeout(r,2500)); append('\n\n'); append('<span class="prompt">jettax@pixel:~$</span> bash jettax.xyz/ai/linux.sh\n'); await new Promise(r=>setTimeout(r,600)); append('\nAI TTY initialized. Type message and press Enter.\n'); inputWrap.style.display='block'; cmd.focus(); }
+runTTY();
 
-  <script>
-    // minimal API helpers copied from main ai page
-    const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
-    function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
-    const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
+const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
+function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
+const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
+async function sendToAI(text){ append('\n> '+text+'\n'); chatHistory.push({role:'user',content:text}); append('... thinking\n'); try{ const r=await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:selectedModel,messages:chatHistory})}); const data=await r.json().catch(()=>({})); let textResp = data.choices && data.choices.length ? (data.choices[0].message?.content||data.choices[0].text) : data.error?.message || ('http '+r.status); append('AI: '+textResp+'\n'); chatHistory.push({role:'assistant',content:textResp}); }catch(e){ append('ошибка: '+(e?.message||e)+'\n'); } }
 
-    const qEl = document.getElementById('q');
-    const ttyContent = document.getElementById('tty-content');
-
-    const MAX_MEMORY = 25; let chatHistory = [];
-    function addToHistory(role, content){ chatHistory.push({role, content}); if(chatHistory.length>MAX_MEMORY) chatHistory = chatHistory.slice(chatHistory.length-MAX_MEMORY); }
-
-    function appendTTYLine(text){ const d=document.createElement('div'); d.className='tty-line'; d.textContent=text; ttyContent.appendChild(d); ttyContent.scrollTop = ttyContent.scrollHeight; }
-    function addTyping(){ const d=document.createElement('div'); d.className='tty-line'; d.id='__typing'; d.textContent='... думает ...'; ttyContent.appendChild(d); ttyContent.scrollTop = ttyContent.scrollHeight; return d; }
-
-    async function ask(q){ if(!q) return; appendTTYLine('> ' + q); addToHistory('user', q); const typingEl = addTyping(); try{
-      const r = await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:'pplx-gpt-5.1',messages:chatHistory.slice()})});
-      const data = await r.json().catch(()=>({}));
-      let text;
-      if(data.choices && data.choices.length>0) text = data.choices[0].message?.content || data.choices[0].text || 'пустой ответ';
-      else text = data.error?.message || data.error || ('http '+r.status);
-      typingEl.remove(); appendTTYLine('AI: ' + text); addToHistory('assistant', text);
-    }catch(e){ typingEl.remove(); appendTTYLine('ошибка: ' + (e?.message || e)); }
-  }
-
-    // simple command palette: typing '/' opens suggestions
-    const commands = [
-      {cmd:'/help',desc:'Показать команды'},
-      {cmd:'/links',desc:'Показать ссылки'},
-      {cmd:'/clear',desc:'Очистить экран'}
-    ];
-
-    let palette = null;
-    function openPalette(prefix){ closePalette(); palette = document.createElement('div'); palette.style.background='#0b0c0d'; palette.style.border='1px solid #222'; palette.style.padding='6px'; palette.style.marginTop='6px'; palette.style.borderRadius='6px'; const matches = commands.filter(c=>c.cmd.startsWith(prefix)); matches.forEach(m=>{ const el=document.createElement('div'); el.textContent = m.cmd + ' — ' + m.desc; el.style.padding='4px'; el.style.cursor='pointer'; el.addEventListener('click', ()=>{ qEl.value = m.cmd; qEl.focus(); closePalette(); }); palette.appendChild(el); }); document.getElementById('composer').appendChild(palette); }
-    function closePalette(){ if(palette && palette.parentNode) palette.parentNode.removeChild(palette); palette=null; }
-
-    qEl.addEventListener('keydown',(e)=>{
-      if(e.key==='Enter'){ e.preventDefault(); const v=qEl.value.trim(); if(!v) return; if(v.startsWith('/')){
-        // handle local commands
-        if(v === '/clear'){ ttyContent.innerHTML=''; appendTTYLine('EndeavourOS 7.0.8-arch1-1 (tty3)'); }
-        else if(v === '/links'){ appendTTYLine('Links: t.me/jettaxp | GitHub: github.com/JettaXP | Clash Royale: https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android'); }
-        else if(v === '/help'){ appendTTYLine('Commands: /help, /links, /clear'); }
-        else { appendTTYLine('Unknown command: ' + v); }
-        qEl.value = ''; closePalette(); return;
-      }
-      // send to AI
-      ask(v); qEl.value = ''; }
-      else if(e.key === '/' ){ setTimeout(()=>openPalette(qEl.value||'/'),10); }
-      else { if(qEl.value.startsWith('/')) openPalette(qEl.value); else closePalette(); }
-    });
-
-    // focus
-    qEl.focus();
-  </script>
+const models = ['pplx-gpt-5.1','gpt-5-mini','sonar-pro','sonar-deep-research'];
+cmd.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); const v=cmd.value.trim(); if(!v) return; if(v.startsWith('/')){ const parts=v.split(/\s+/); const c=parts[0]; if(c==='/clear'){ screen.innerHTML=''; } else if(c==='/models'){ // animate list
+  append('\nAvailable models:\n'); models.forEach((m,i)=> setTimeout(()=>append(' - '+m+'\n'), i*220));
+ } else if(c==='/model'){ if(parts[1] && models.includes(parts[1])){ selectedModel=parts[1]; append('\nModel set to '+selectedModel+'\n'); } else append('\nUsage: /model <name> — available: '+models.join(', ')+'\n'); }
+ else if(c==='/easter1'){ append('\n[easter1] playing video (placeholder)\n'); }
+ else if(c==='/easter2'){ append('\n[easter2] animation (placeholder)\n'); }
+ else { append('\nUnknown command: '+v+'\n'); }
+ cmd.value=''; return; }
+ // normal message
+ sendToAI(v); cmd.value=''; }
+});
+</script>
 </body>
 </html>
