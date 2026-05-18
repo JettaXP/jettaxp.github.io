@@ -5,15 +5,39 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JettaX | AI Linux (TTY)</title>
 <style>
-  body{background:#000;color:#cdd6f4;font-family: 'JetBrains Mono', monospace;margin:0;height:100vh}
-  .term{padding:10px;box-sizing:border-box;height:100%;width:100%}
-  #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:15px}
+  body{background:#000;color:#cdd6f4;font-family: 'JetBrains Mono', monospace;margin:0;height:100vh;overflow:hidden}
+  .term{padding:10px;box-sizing:border-box;height:100%;width:100%;display:flex;flex-direction:column}
+  #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:15px;flex:1;overflow-y:auto;margin:0}
   .prompt{color:#89b4fa}
-  .tty-input{margin-top:8px}
-  #cmd{width:100%;padding:8px;border-radius:6px;border:1px solid #222;background:#070707;color:var(--fg);font-family:inherit}
-  .tty-cursor{display:inline-block;width:8px;height:1em;background:#cdd6f4;vertical-align:bottom;animation:blink 1s steps(2,end) infinite}
-  @keyframes blink{50%{opacity:0}}
+  .tty-input{margin-top:8px;position:relative;max-width:980px}
+  #cmd{width:100%;padding:10px;border-radius:6px;border:1px solid #222;background:#070707;color:#cdd6f4;font-family:inherit;box-sizing:border-box;outline:none}
+  #cmd:focus{border-color:#89b4fa}
   .muted{color:#7c8598}
+  .suggest-panel{position:absolute;bottom:100%;left:0;width:100%;background:#11111b;border:1px solid #45475a;border-radius:6px;margin-bottom:5px;display:none;z-index:100;box-shadow:0 -5px 15px rgba(0,0,0,0.5)}
+  .suggest-item{padding:8px 12px;cursor:pointer;color:#a6adc8;font-size:14px;border-bottom:1px solid #1e1e2e}
+  .suggest-item:last-child{border-bottom:none}
+  .suggest-item:hover, .suggest-item.active{background:#313244;color:#f5c2e7}
+  .ee-overlay {position:fixed;inset:0;z-index:10000;background:rgba(20,18,24,0.95);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s ease;font-family:system-ui, -apple-system, sans-serif}
+  .ee-overlay.active {opacity:1;pointer-events:auto}
+  .ee-window {width:min(440px, 88vw);background:#211f26;border:1px solid rgba(207, 188, 255, 0.22);border-radius:28px;padding:24px;box-shadow:0 24px 70px rgba(0,0,0,.5);position:relative;text-align:center}
+  .ee-text {font-size:52px;font-weight:700;color:#cfbcff;margin-bottom:15px;text-shadow:0 0 40px rgba(207,188,255,0.6);animation:eeExplode 0.6s cubic-bezier(0.17, 0.67, 0.21, 1.2) forwards}
+  .ee-close {position:absolute;top:16px;right:16px;background:#2b2930;border:1px solid rgba(207, 188, 255, 0.22);color:#e6e0e9;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;z-index:10002}
+  .ee-close:hover {background:#36343b}
+  .ee-video {width:100%;border-radius:18px;box-shadow:0 16px 38px rgba(0,0,0,.3);margin-top:10px;display:none}
+  .ee-particle {position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:10001;animation:eeParticle 1s ease-out forwards}
+  .support-card {background:#2b2930;border-radius:24px;padding:16px;border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;gap:12px;text-align:left;color:#e6e0e9;margin-top:10px}
+  .support-header {display:flex;align-items:center;gap:12px}
+  .support-avatar {width:44px;height:44px;border-radius:50%;background:#cfbcff;display:flex;align-items:center;justify-content:center;color:#381e72;font-weight:bold}
+  .support-btn {align-self:flex-start;background:#cfbcff;color:#381e72;padding:8px 16px;border-radius:999px;text-decoration:none;font-weight:bold;font-size:14px}
+  @keyframes eeExplode {
+    0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+    50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  @keyframes eeParticle {
+    0% { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+  }
 </style>
 </head>
 <body>
@@ -22,37 +46,187 @@
 
 pixel login: </pre>
     <div class="tty-input" style="display:none">
-      <div class="prompt">jettax@pixel:~$</div>
-      <input id="cmd" placeholder="Напиши сообщение (Enter — отправить). '/' — команды (/models, /model, /easter1, /easter2, /clear)" />
+      <div class="suggest-panel" id="suggest"></div>
+      <div class="prompt" style="margin-bottom:4px">jettax@pixel:~$</div>
+      <input id="cmd" autocomplete="off" placeholder="Напиши сообщение или '/' для команд (/help, /support, /easter1)..." />
     </div>
   </div>
+
+  <div class="ee-overlay" id="easterOverlay">
+    <div class="ee-window">
+      <button class="ee-close" onclick="closeEaster()">×</button>
+      <div class="ee-text" id="easterTitle">allah</div>
+      <div style="color:#e6e0e9; opacity:0.7; font-size:14px;" id="easterDesc"></div>
+      <video class="ee-video" id="easterVid" controls autoplay loop playsinline></video>
+      <div id="supportContent" style="display:none">
+        <div class="support-card">
+          <div class="support-header">
+            <div class="support-avatar">JX</div>
+            <div>
+              <div style="font-weight:bold">JettaX Support</div>
+              <div style="font-size:12px;opacity:0.6">Система поддержки пользователей</div>
+            </div>
+          </div>
+          <div style="font-size:14px;line-height:1.4">Если у вас возникли проблемы с конфигурацией TTY или подключением к ИИ-моделям, вы можете связаться напрямую.</div>
+          <a href="https://t.me/jettaxp" target="_blank" class="support-btn">Написать в Telegram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script>
 const screen = document.getElementById('screen');
 const inputWrap = document.querySelector('.tty-input');
 const cmd = document.getElementById('cmd');
+const suggest = document.getElementById('suggest');
+const easterOverlay = document.getElementById('easterOverlay');
+const easterTitle = document.getElementById('easterTitle');
+const easterDesc = document.getElementById('easterDesc');
+const easterVid = document.getElementById('easterVid');
+const supportContent = document.getElementById('supportContent');
+
 let chatHistory = [];
 let selectedModel = 'pplx-gpt-5.1';
-function append(text){ screen.innerHTML += text; window.scrollTo(0,document.body.scrollHeight); }
+const models = ['pplx-gpt-5.1','gpt-5-mini','sonar-pro','sonar-deep-research'];
+const commands = ['/help', '/models', '/model', '/easter1', '/easter2', '/support', '/clear', '/github', '/jettax-tg'];
+
+function append(text){ screen.innerHTML += text; screen.scrollTop = screen.scrollHeight; }
 function typeText(text,speed=40){ return new Promise(res=>{ let i=0; const t=setInterval(()=>{ append(text.charAt(i++)); if(i>text.length-1){ clearInterval(t); res(); } }, speed); }); }
-async function runTTY(){ await typeText('jettax'); await new Promise(r=>setTimeout(r,400)); append('\nPassword: '); await new Promise(r=>setTimeout(r,2500)); append('\n\n'); append('<span class="tty-blue">jettax<\/span><span class="tty-mauve">@pixel<\/span> <span class="tty-green">~$<\/span> bash jettax.xyz/ai/linux.sh\n'); await new Promise(r=>setTimeout(r,600)); append('\nAI TTY initialized. Type message and press Enter.\n'); inputWrap.style.display='block'; cmd.focus(); }
+
+async function runTTY(){ 
+  await typeText('jettax'); 
+  await new Promise(r=>setTimeout(r,400)); 
+  append('\nPassword: '); 
+  await new Promise(r=>setTimeout(r,1500)); 
+  append('\n\n'); 
+  append('<span style="color:#89b4fa">jettax</span><span style="color:#cba6f7">@pixel</span> <span style="color:#a6e3a1">~$</span> bash jettax.xyz/ai/linux.sh\n'); 
+  await new Promise(r=>setTimeout(r,600)); 
+  append('\nAI TTY initialized. Type message and press Enter.\n'); 
+  inputWrap.style.display='block'; 
+  cmd.focus(); 
+}
 runTTY();
 
 const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
 function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
 const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
-async function sendToAI(text){ append('\n> '+text+'\n'); chatHistory.push({role:'user',content:text}); append('... thinking\n'); try{ const r=await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:selectedModel,messages:chatHistory})}); const data=await r.json().catch(()=>({})); let textResp = data.choices && data.choices.length ? (data.choices[0].message?.content||data.choices[0].text) : data.error?.message || ('http '+r.status); append('Chat: '+textResp+'\n'); chatHistory.push({role:'assistant',content:textResp}); }catch(e){ append('ошибка: '+(e?.message||e)+'\n'); } }
 
-const models = ['pplx-gpt-5.1','gpt-5-mini','sonar-pro','sonar-deep-research'];
-cmd.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); const v=cmd.value.trim(); if(!v) return; if(v.startsWith('/')){ const parts=v.split(/\s+/); const c=parts[0]; if(c==='/clear'){ screen.innerHTML=''; } else if(c==='/models'){ // animate list
-  append('\nAvailable models:\n'); models.forEach((m,i)=> setTimeout(()=>append(' - '+m+'\n'), i*220));
- } else if(c==='/model'){ if(parts[1] && models.includes(parts[1])){ selectedModel=parts[1]; append('\nModel set to '+selectedModel+'\n'); } else append('\nUsage: /model <name> — available: '+models.join(', ')+'\n'); }
- else if(c==='/easter1'){ append('\n[easter1] playing video (placeholder)\n'); }
- else if(c==='/easter2'){ append('\n[easter2] animation (placeholder)\n'); } else if(c==='/help'){ append('\nCommands:\n /models — show models\n /model <name> — select model\n /easter1 — play easter video\n /easter2 — play easter animation\n /clear — clear screen\n /github — open GitHub\n /jettax-tg — open Telegram\n'); } else if(c==='/github'){ append('\nGitHub: https://github.com/JettaXP\n'); } else if(c==='/jettax-tg'){ append('\nTelegram: https://t.me/jettaxp\n'); }
- else { append('\nUnknown command: '+v+'\n'); }
- cmd.value=''; return; }
- sendToAI(v); cmd.value=''; }
+async function sendToAI(text){ 
+  append('\n> '+text+'\n'); 
+  chatHistory.push({role:'user',content:text}); 
+  append('... thinking\n'); 
+  try{ 
+    const r=await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:selectedModel,messages:chatHistory})}); 
+    const data=await r.json().catch(()=>({})); 
+    let textResp = data.choices && data.choices.length ? (data.choices[0].message?.content||data.choices[0].text) : data.error?.message || ('http '+r.status); 
+    append('Chat: '+textResp+'\n'); 
+    chatHistory.push({role:'assistant',content:textResp}); 
+  }catch(e){ 
+    append('ошибка: '+(e?.message||e)+'\n'); 
+  } 
+}
+
+function triggerEaster(type) {
+  easterOverlay.classList.add('active');
+  supportContent.style.display = 'none';
+  easterVid.style.display = 'none';
+  easterVid.pause();
+  
+  if(type === 1) {
+    easterTitle.style.display = 'block';
+    easterTitle.textContent = "allah";
+    easterDesc.textContent = "⚙️ Воспроизведение видео";
+    easterVid.src = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
+    easterVid.style.display = 'block';
+    easterVid.play().catch(()=>{});
+  } else if(type === 2) {
+    easterTitle.style.display = 'block';
+    easterTitle.textContent = "✨ ДИСКО ✨";
+    easterDesc.textContent = "🎉 Запуск частиц квантового спектра";
+    easterVid.src = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
+    easterVid.style.display = 'block';
+    easterVid.play().catch(()=>{});
+    createParticles();
+  } else if(type === 'support') {
+    easterTitle.style.display = 'none';
+    easterDesc.textContent = "";
+    supportContent.style.display = 'block';
+  }
+}
+
+function closeEaster() {
+  easterOverlay.classList.remove('active');
+  easterVid.pause();
+}
+
+function createParticles() {
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.classList.add('ee-particle');
+    p.style.left = '50%';
+    p.style.top = '50%';
+    p.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`;
+    const dx = (Math.random() - 0.5) * 400 + 'px';
+    const dy = (Math.random() - 0.5) * 400 + 'px';
+    p.style.setProperty('--dx', dx);
+    p.style.setProperty('--dy', dy);
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1000);
+  }
+}
+
+cmd.addEventListener('input', () => {
+  const v = cmd.value.trim();
+  if (v.startsWith('/')) {
+    const filtered = commands.filter(c => c.startsWith(v));
+    if (filtered.length > 0) {
+      suggest.innerHTML = filtered.map(c => `<div class="suggest-item" onclick="selectSuggest('${c}')">${c}</div>`).join('');
+      suggest.style.display = 'block';
+    } else {
+      suggest.style.display = 'none';
+    }
+  } else {
+    suggest.style.display = 'none';
+  }
+});
+
+function selectSuggest(cmdText) {
+  cmd.value = cmdText + ' ';
+  suggest.style.display = 'none';
+  cmd.focus();
+}
+
+cmd.addEventListener('keydown',(e)=>{ 
+  if(e.key==='Enter'){ 
+    e.preventDefault(); 
+    const v=cmd.value.trim(); 
+    suggest.style.display = 'none';
+    if(!v) return; 
+    
+    if(v.startsWith('/')){ 
+      const parts=v.split(/\s+/); 
+      const c=parts[0]; 
+      if(c==='/clear'){ screen.innerHTML=''; } 
+      else if(c==='/models'){ 
+        append('\nAvailable models:\n'); models.forEach((m,i)=> setTimeout(()=>append(' - '+m+'\n'), i*150));
+      } else if(c==='/model'){ 
+        if(parts[1] && models.includes(parts[1])){ selectedModel=parts[1]; append('\nModel set to '+selectedModel+'\n'); } 
+        else append('\nUsage: /model <name> — available: '+models.join(', ')+'\n'); 
+      }
+      else if(c==='/easter1'){ append('\n[easter1] Открытие видео плеера...\n'); triggerEaster(1); }
+      else if(c==='/easter2'){ append('\n[easter2] Открытие анимационного плеера...\n'); triggerEaster(2); } 
+      else if(c==='/support'){ append('\n[support] Открытие панели поддержки...\n'); triggerEaster('support'); }
+      else if(c==='/help'){ 
+        append('\nCommands:\n /models — show models\n /model <name> — select model\n /easter1 — play easter video 1\n /easter2 — play easter video 2\n /support — open support card\n /clear — clear screen\n /github — open GitHub\n /jettax-tg — open Telegram\n'); 
+      } 
+      else if(c==='/github'){ append('\nGitHub: https://github.com/JettaXPn'); } 
+      else if(c==='/jettax-tg'){ append('\nTelegram: https://t.me/jettaxpn'); }
+      else { append('\nUnknown command: '+v+'\n'); }
+      cmd.value=''; return; 
+    }
+    sendToAI(v); cmd.value=''; 
+  }
 });
 </script>
 </body>
 </html>
-
