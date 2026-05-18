@@ -276,7 +276,7 @@
                 '',
                 'pixel login: jettax',
                 'Password: ',
-                '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session</span> <span class="tty-green">~$</span> bash 404.sh'
+                '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session-journal</span> <span class="tty-green">~$</span> bash 404.sh'
             ];
             
             const ascii404 = `  _  _    ___   _  _  
@@ -285,7 +285,8 @@
  |__   _| |_| ||__   _|
     |_|  \\___/    |_|  
 
-<span class="tty-muted">Press Enter to return to main...</span>`;
+<span class="tty-muted">Такой страницы нет. Зато есть повод вернуться на главную и сделать вид, что этого перехода не было.
+Press Enter to return to main...</span>`;
 
             let currentHtml = '';
             
@@ -310,27 +311,21 @@
                 }
             });
             const runTty = () => {
-                // Line 0 & 1
                 currentHtml += lines[0] + '<br><br>';
                 tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
                 
                 setTimeout(() => {
-                    // Line 2: type jettax
                     currentHtml += 'pixel login: ';
                     typeText('jettax', () => {
                         setTimeout(() => {
-                            // Line 3: Password
                             currentHtml += 'Password: ';
                             tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
-                            // Wait 2.5s for invisible password typing
                             setTimeout(() => {
                                 currentHtml += '<br>';
-                                // Line 4: type bash 404.sh
-                                currentHtml += '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session</span> <span class="tty-green">~$</span> ';
+                                currentHtml += '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session-journal</span> <span class="tty-green">~$</span> ';
                                 typeText('bash 404.sh', () => {
                                     setTimeout(() => {
-                                        // Clear screen and show 404
-                                        currentHtml = '<div class="tty-ascii">' + ascii404 + '</div><br><span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session</span> <span class="tty-green">~$</span> ';
+                                        currentHtml = '<div class="tty-ascii">' + ascii404 + '</div><br><span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session-journal</span> <span class="tty-green">~$</span> ';
                                         tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
                                     }, 800);
                                 });

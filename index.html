@@ -2593,7 +2593,8 @@
             }
 
             function initDeviceAdditions() {
-                document.body.dataset.device = detectOS();
+                const dev = detectOS();
+                document.body.dataset.device = dev;
                 updateThemeColors(currentHue);
                 addBranches();
                 let tries = 0;
@@ -2602,103 +2603,43 @@
                     const done = updateDevices();
                     if (done || tries > 20) clearInterval(timer);
                 }, 100);
-            }
 
-            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initDeviceAdditions);
-            else initDeviceAdditions();
-        })();
-    </script>
+                if (dev === 'linux') {
+                    const term1 = document.getElementById('term1-content');
+                    const term2 = document.getElementById('term2-content');
+                    const term3 = document.getElementById('term3-content');
+                    if (!term1 || !term2 || !term3) return;
 
-    <div id="linux-twm-overlay" aria-hidden="true">
-        <div class="wm-container">
-            <div class="col left-col">
-                <div class="window" id="window1">
-                    <div class="titlebar">
-                        <div class="titlebar-left">
-                            <div class="titlebar-dots">
-                                <div class="dot red"></div>
-                                <div class="dot yellow"></div>
-                                <div class="dot green"></div>
-                            </div>
-                            <span>~</span>
-                        </div>
-                    </div>
-                    <div class="content" id="term1-content"></div>
-                </div>
-            </div>
-            <div class="col right-col">
-                <div class="window" id="window2">
-                    <div class="titlebar">
-                        <div class="titlebar-left">
-                            <div class="titlebar-dots">
-                                <div class="dot red"></div>
-                                <div class="dot yellow"></div>
-                                <div class="dot green"></div>
-                            </div>
-                            <span>neofetch</span>
-                        </div>
-                    </div>
-                    <div class="content" id="term2-content"></div>
-                </div>
-                <div class="window" id="window3">
-                    <div class="titlebar">
-                        <div class="titlebar-left">
-                            <div class="titlebar-dots">
-                                <div class="dot red"></div>
-                                <div class="dot yellow"></div>
-                                <div class="dot green"></div>
-                            </div>
-                            <span>info</span>
-                        </div>
-                    </div>
-                    <div class="content" id="term3-content"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    const pHTML = '<div class="prompt"><span class="p-user">jettax</span><span class="p-at">@</span><span class="p-host">endeavouros</span><span class="p-path">~</span><span class="p-arrow">$</span></div>';
 
+                    const tCmd = (term, command, callback) => {
+                        const cmdSpan = document.createElement('span');
+                        term.appendChild(cmdSpan);
+                        const cursor = document.createElement('span');
+                        cursor.className = 'cursor';
+                        term.appendChild(cursor);
 
-    <script>
-        if (document.body.dataset.device === 'linux') {
-            const term1 = document.getElementById('term1-content');
-            const term2 = document.getElementById('term2-content');
-            const term3 = document.getElementById('term3-content');
-            
-            const promptHTML = '<div class="prompt"><span class="p-user">jettax</span><span class="p-at">@</span><span class="p-host">endeavouros</span><span class="p-path">~</span><span class="p-arrow">$</span></div>';
+                        let i = 0;
+                        const typing = setInterval(() => {
+                            cmdSpan.textContent += command[i];
+                            i++;
+                            if (i === command.length) {
+                                clearInterval(typing);
+                                setTimeout(() => {
+                                    cursor.remove();
+                                    term.appendChild(document.createElement('br'));
+                                    if (callback) callback();
+                                }, 400);
+                            }
+                        }, 40);
+                    };
 
-            const typeCommand = (term, command, callback) => {
-                const cmdSpan = document.createElement('span');
-                term.appendChild(cmdSpan);
-                const cursor = document.createElement('span');
-                cursor.className = 'cursor';
-                term.appendChild(cursor);
-
-                let i = 0;
-                const typing = setInterval(() => {
-                    cmdSpan.textContent += command[i];
-                    i++;
-                    if (i === command.length) {
-                        clearInterval(typing);
-                        setTimeout(() => {
-                            cursor.remove();
-                            term.appendChild(document.createElement('br'));
-                            if (callback) callback();
-                        }, 400);
-                    }
-                }, 40);
-            };
-
-            const addPrompt = (term) => {
-                term.insertAdjacentHTML('beforeend', promptHTML);
-            };
-
-            const runWMAnimation = () => {
-                addPrompt(term1);
-                typeCommand(term1, 'start_wm && neofetch', () => {
-                    document.body.classList.add('state-2');
-                    
-                    setTimeout(() => {
-                        const ascii = `      /\\
+                    const runWM = () => {
+                        term1.insertAdjacentHTML('beforeend', pHTML);
+                        tCmd(term1, 'start_wm && neofetch', () => {
+                            document.body.classList.add('state-2');
+                            setTimeout(() => {
+                                const asc = `      /\\
     //  \\\\
    //    \\\\
  / /      \\ \\
@@ -2706,44 +2647,45 @@
    \\\\    //
     \\\\  //
       \\/`;
-                        
-                        term2.innerHTML = '<div class="linux-ascii">' + ascii + '</div>' + 
-                            '<div><strong>jettax@endeavouros</strong><br>' +
-                            '-----------<br>' +
-                            '<strong>OS:</strong> EndeavourOS Linux<br>' +
-                            '<strong>Host:</strong> JettaX PC<br>' +
-                            '<strong>Uptime:</strong> 12 days<br>' +
-                            '<strong>Packages:</strong> 1337 (pacman)<br>' +
-                            '<strong>Shell:</strong> bash 5.1.16<br>' +
-                            '<strong>WM:</strong> Custom TWM<br>' +
-                            '<strong>Theme:</strong> Catppuccin Mocha<br>' +
-                            '</div><div style="clear:both"></div><br>';
-                        
-                        addPrompt(term1);
-                        typeCommand(term1, 'cat links.txt', () => {
-                            term1.insertAdjacentHTML('beforeend', 
-                                '<a class="twm-link" href="https://t.me/jettaxp" target="_blank">Telegram</a><br>' +
-                                '<a class="twm-link" href="https://github.com/jettaxp" target="_blank">GitHub</a><br>' +
-                                '<a class="twm-link" href="https://www.tiktok.com/@jettax03" target="_blank">TikTok</a><br>' +
-                                '<a class="twm-link" href="https://steamcommunity.com/id/jettaxp" target="_blank">Steam</a><br><br>'
-                            );
-                            addPrompt(term1);
-                            
-                            typeCommand(term1, 'open_info', () => {
-                                document.body.classList.add('state-3');
-                                setTimeout(() => {
-                                    term3.innerHTML = '<strong>Филипп</strong><br>Днепр, Украина<br><br>Делаю всякую дичь в фигме.<br><br>Devices:<br>- Huawei INE-LX1<br>- Pixel 7a<br>- Redmi 8<br>- PC (i3 10th gen, GTX 950)<br>';
-                                    addPrompt(term1);
-                                    
-                                }, 600);
-                            });
+                                term2.innerHTML = '<div class="linux-ascii">' + asc + '</div>' + 
+                                    '<div><strong>jettax@endeavouros</strong><br>' +
+                                    '-----------<br>' +
+                                    '<strong>OS:</strong> EndeavourOS Linux<br>' +
+                                    '<strong>Host:</strong> JettaX PC<br>' +
+                                    '<strong>Uptime:</strong> 12 days<br>' +
+                                    '<strong>Packages:</strong> 1337 (pacman)<br>' +
+                                    '<strong>Shell:</strong> bash 5.1.16<br>' +
+                                    '<strong>WM:</strong> Custom TWM<br>' +
+                                    '<strong>Theme:</strong> Catppuccin Mocha<br>' +
+                                    '</div><div style="clear:both"></div><br>';
+                                
+                                term1.insertAdjacentHTML('beforeend', pHTML);
+                                tCmd(term1, 'cat links.txt', () => {
+                                    term1.insertAdjacentHTML('beforeend', 
+                                        '<a class="twm-link" href="https://t.me/jettaxp" target="_blank">Telegram</a><br>' +
+                                        '<a class="twm-link" href="https://github.com/jettaxp" target="_blank">GitHub</a><br>' +
+                                        '<a class="twm-link" href="https://www.tiktok.com/@jettax03" target="_blank">TikTok</a><br>' +
+                                        '<a class="twm-link" href="https://steamcommunity.com/id/jettaxp" target="_blank">Steam</a><br><br>'
+                                    );
+                                    term1.insertAdjacentHTML('beforeend', pHTML);
+                                    tCmd(term1, 'open_info', () => {
+                                        document.body.classList.add('state-3');
+                                        setTimeout(() => {
+                                            term3.innerHTML = '<strong>Филипп</strong><br>Днепр, Украина<br><br>Делаю всякую дичь в фигме.<br><br>Devices:<br>- Huawei INE-LX1<br>- Pixel 7a<br>- Redmi 8<br>- PC (i3 10th gen, GTX 950)<br>';
+                                            term1.insertAdjacentHTML('beforeend', pHTML);
+                                        }, 600);
+                                    });
+                                });
+                            }, 600);
                         });
-                    }, 600);
-                });
-            };
+                    };
+                    setTimeout(runWM, 500);
+                }
+            }
 
-            setTimeout(runWMAnimation, 500);
-        }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initDeviceAdditions);
+            else initDeviceAdditions();
+        })();
     </script>
 
 </body>
