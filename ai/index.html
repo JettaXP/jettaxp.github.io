@@ -1200,6 +1200,63 @@
         }
 
 
+        body[data-device="fluid"] {
+            background-color: #f3f3f3;
+            background-image: none;
+            color: #202020;
+            font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif !important;
+            --bg-primary: #fafafa;
+            --bg-secondary: rgba(255, 255, 255, 0.7);
+            --text-primary: #1a1a1a;
+            --text-secondary: #5c5c5c;
+            --accent-primary: #0067c0;
+            --accent-secondary: #005fb8;
+            --border-color: rgba(0, 0, 0, 0.05);
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --surface-container: rgba(243, 243, 243, 0.8);
+            --surface-variant: rgba(255, 255, 255, 0.8);
+        }
+
+        body[data-theme="dark"][data-device="fluid"], body[data-theme="dark"] [data-device="fluid"] {
+            background-color: #202020;
+            color: #ffffff;
+            --bg-primary: #202020;
+            --bg-secondary: rgba(40, 40, 40, 0.7);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #60cdff;
+            --accent-secondary: #4cc2ff;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(40, 40, 40, 0.6);
+            --surface-container: rgba(32, 32, 32, 0.8);
+            --surface-variant: rgba(44, 44, 44, 0.8);
+        }
+
+        body[data-device="fluid"] .card,
+        body[data-device="fluid"] .chat,
+        body[data-device="fluid"] .composer,
+        body[data-device="fluid"] .android-toast,
+        body[data-device="fluid"] .ee-window {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            backdrop-filter: blur(40px) saturate(1.5);
+            border-radius: 8px !important;
+        }
+
+        body[data-device="fluid"] .bubble {
+            border-radius: 4px !important;
+        }
+
+        body[data-device="fluid"] .send-btn,
+        body[data-device="fluid"] .composer-input,
+        body[data-device="fluid"] .model-select,
+        body[data-device="fluid"] .bubble-copy-btn,
+        body[data-device="fluid"] .hint a,
+        body[data-device="fluid"] .footer-link {
+            border-radius: 4px !important;
+        }
+
   /* LINUX TTY AI STYLES */
   body[data-device="linux"] .chat-container,
   body[data-device="linux"] .top-bar,
@@ -1323,7 +1380,8 @@
     const path = location.pathname.replace(/\/+$/, '').toLowerCase();
     let device = 'linux';
     if (path.endsWith('/windows')) device = 'android';
-    else if (path.endsWith('/fluid') || path.endsWith('/macos')) device = 'macos';
+    else if (path.endsWith('/fluid')) device = 'fluid';
+    else if (path.endsWith('/macos')) device = 'macos';
     else if (path.endsWith('/ios')) device = 'ios';
     else if (path.endsWith('/ipados')) device = 'ipados';
     else if (path.endsWith('/linux')) device = 'linux';
@@ -1951,11 +2009,7 @@
           if (parts.length > 1) {
              typeAiMsg('Model switched to: ' + parts[1], restoreInput);
           } else {
-             typeAiMsg('Available models: 
-- GPT-4o
-- Claude 3 Opus
-- LLaMA 3
-Usage: /model <name>', restoreInput);
+             typeAiMsg(`Available models: \n- pplx-gpt-5.1\n- gpt-5-mini\n- sonar-pro\n- sonar-deep-research\nUsage: /model <name>`, restoreInput);
           }
         } else if (val.startsWith('/')) {
           typeAiMsg('Unknown command: ' + val, restoreInput);
