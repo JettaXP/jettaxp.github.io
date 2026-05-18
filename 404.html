@@ -269,7 +269,8 @@
     </script>
 
     <script>
-        if (document.body.dataset.device === 'linux') {
+        if (document.body.dataset.device === 'linux') { // ensure no floating ee windows
+            const _s = document.createElement('style'); _s.textContent = '.ee-zone, .ee-overlay, .ee-window, .blob { display:none !important; }'; document.head.appendChild(_s);
             const tty = document.getElementById('tty-content');
             let step = 0;
             const lines = [

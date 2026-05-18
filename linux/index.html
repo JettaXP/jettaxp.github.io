@@ -32,7 +32,10 @@ EndeavourOS 7.0.8-arch1-1 (tty3)
   <div class="layout clearfix" id="layout">
     <div class="pane left" id="bio">
       <h3>Bio</h3>
-      <p>Привет — здесь краткая биография jettax. Небольшой текст, который занимает левую панель. Можно добавить контакты и ссылки.</p>
+      <div id="bio-content">
+        <p>Привет — я jettax. Здесь кратко: разработчик, проекты: <a href="https://github.com/JettaXP">GitHub</a>, контакт: <a href="https://t.me/jettaxp">Telegram</a>.</p>
+        <p>Эта панель — настоящая TTY-эмуляция. Навигация: стрелки и Enter.</p>
+      </div>
     </div>
     <div class="pane right" id="links">
       <h3>Дерево ссылок</h3>
@@ -47,7 +50,7 @@ EndeavourOS 7.0.8-arch1-1 (tty3)
       </div>
     </div>
   </div>
-
+  <style> .ee-zone, .ee-overlay, .ee-window, .blob { display:none !important; }</style>
   <script>
     const tty = document.getElementById('tty-content');
     const layout = document.getElementById('layout');

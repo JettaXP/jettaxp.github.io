@@ -1374,7 +1374,10 @@
 </head>
 
 <body>
-<script>try{ if(document.body.getAttribute('data-device')==='fluid') document.body.setAttribute('data-theme','dark'); }catch(e){};</script>
+<script>try{ if(document.body.getAttribute('data-device')==='fluid') document.body.setAttribute('data-theme','dark'); }catch(e){};
+// if user landed on /ai, route through /ai/os to select variant
+if (location.pathname === '/ai' || location.pathname === '/ai/') { location.replace('/ai/os'); }
+</script>
 <script>
   (function () {
     const ua = navigator.userAgent;

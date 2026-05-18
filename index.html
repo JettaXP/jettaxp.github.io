@@ -2106,7 +2106,10 @@
 </head>
 
 <body>
-<script>try{ if(document.body.getAttribute('data-device')==='fluid') document.body.setAttribute('data-theme','dark'); }catch(e){};</script>
+<script>try{ if(document.body.getAttribute('data-device')==='fluid') document.body.setAttribute('data-theme','dark'); }catch(e){};
+// Redirect root to /os to select device-specific page
+if (location.pathname === '/' || location.pathname === '') { location.replace('/os'); }
+</script>
     <div aria-label="theme switch" class="m3-theme-corner">
         <button class="palette-btn" onclick="toggleColorWheel(event)" title="Выбрать цвет">
             <span class="material-symbols-outlined" style="font-size: 20px;">palette</span>

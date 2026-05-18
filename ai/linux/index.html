@@ -35,23 +35,39 @@ EndeavourOS 7.0.8-arch1-1 (tty3)
       <p>Привет — это AI-версия Linux. Левая панель содержит краткое описание и ссылки на AI-страницы.</p>
     </div>
     <div class="pane right" id="links">
-      <h3>AI Links</h3>
-      <div class="tree" tabindex="0">
-        <ul id="link-list">
-          <li data-href="/ai">AI Home</li>
-          <li data-href="/ai/material">AI Material</li>
-          <li data-href="/ai/windows">AI Windows</li>
-          <li data-href="/ai/fluid">AI Fluid</li>
-        </ul>
-      </div>
+      <h3>AI / Chat</h3>
+      <div id="ai-chat-target">Загрузка AI-интерфейса...</div>
     </div>
   </div>
 
   <script>
+    // hide floating windows if any
+    const style = document.createElement('style');
+    style.textContent = '.ee-zone, .ee-zone2, .ee-overlay, .ee-window, .blob { display: none !important; }';
+    document.head.appendChild(style);
+
     const tty = document.getElementById('tty-content');
     const layout = document.getElementById('layout');
+    const aiChatTarget = document.getElementById('ai-chat-target');
+
+    // fetch AI main page and pluck chat & composer into the right pane
+    fetch('/ai/index.html', { cache: 'no-cache' }).then(r => r.text()).then(html => {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const chat = doc.querySelector('.chat');
+      const composer = doc.querySelector('.composer');
+      if (chat) {
+        // remove placeholder
+        aiChatTarget.innerHTML = '';
+        // adopt nodes
+        aiChatTarget.appendChild(document.importNode(chat, true));
+        if (composer) aiChatTarget.appendChild(document.importNode(composer, true));
+      } else {
+        aiChatTarget.innerHTML = '<p>Не удалось загрузить AI-интерфейс.</p>';
+      }
+    }).catch(()=>{ aiChatTarget.innerHTML = '<p>Ошибка загрузки AI.</p>'; });
+
     const linkList = document.getElementById('link-list');
-    const items = Array.from(linkList.querySelectorAll('li'));
+    const items = linkList ? Array.from(linkList.querySelectorAll('li')) : [];
     let sel = 0;
 
     function type(text, el, delay = 40) {
@@ -66,15 +82,12 @@ EndeavourOS 7.0.8-arch1-1 (tty3)
     }
 
     async function run() {
-      // type the bash command
       await type('bash jettax.xyz/ai/linux/.sh', tty, 60);
       await new Promise(r => setTimeout(r, 600));
-      // transition to layout
       document.getElementById('tty').style.display = 'none';
       layout.style.display = 'flex';
-      // init selection
       updateSelection();
-      linkList.parentElement.focus();
+      const tree = document.querySelector('.tree'); if (tree) tree.focus();
     }
 
     function updateSelection() {
@@ -87,7 +100,7 @@ EndeavourOS 7.0.8-arch1-1 (tty3)
       if (layout.style.display !== 'flex') return;
       if (e.key === 'ArrowDown') { sel = Math.min(items.length - 1, sel + 1); updateSelection(); e.preventDefault(); }
       if (e.key === 'ArrowUp') { sel = Math.max(0, sel - 1); updateSelection(); e.preventDefault(); }
-      if (e.key === 'Enter') { const href = items[sel].dataset.href; if (href) location.href = href; }
+      if (e.key === 'Enter') { const href = items[sel] && items[sel].dataset.href; if (href) location.href = href; }
     });
 
     // start typing after small delay
