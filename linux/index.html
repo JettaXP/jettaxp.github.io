@@ -1,77 +1,101 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>JettaX | Linux (TTY Bio)</title>
-  <style>
-    body{background:#000;color:#cdd6f4;font-family:monospace;padding:20px}
-    .tty{max-width:1000px;margin:20px auto;background:#060606;border-radius:8px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.6)}
-    .tty pre{white-space:pre-wrap;word-break:break-word;font-family:inherit}
-    .tty .prompt{color:#89b4fa}
-    .links{margin-top:12px}
-    .link-btn{display:inline-block;margin:6px 6px;padding:6px 10px;background:#0b0c0d;border:1px solid rgba(255,255,255,0.04);color:var(--fg);border-radius:6px;text-decoration:none}
-    .note{color:#7c8598;font-size:13px;margin-top:10px}
-    .ascii{color:#cba6f7;white-space:pre;font-family:inherit}
-    .tty-cursor{display:inline-block;width:8px;height:1em;background:#cdd6f4;vertical-align:bottom;animation:blink 1s steps(2,end) infinite}
-    @keyframes blink{50%{opacity:0}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JettaX | Linux (TTY)</title>
+<style>
+  body{background:#000;color:#cdd6f4;font-family:monospace;margin:0;height:100vh}
+  .term{padding:18px;box-sizing:border-box;height:100%;width:100%}
+  #screen{max-width:980px;line-height:1.4;white-space:pre-wrap;word-break:break-word}
+  .prompt{color:#89b4fa}
+  .muted{color:#7c8598}
+  .ascii{color:#cba6f7}
+  .tty-cursor{display:inline-block;width:8px;height:1em;background:#cdd6f4;vertical-align:bottom;animation:blink 1s steps(2,end) infinite}
+  @keyframes blink{50%{opacity:0}}
+</style>
 </head>
 <body>
-  <div class="tty" id="tty">
-    <pre id="tty-content">EndeavourOS 7.0.8-arch1-1 (tty3)
+  <div class="term">
+    <pre id="screen">EndeavourOS 7.0.8-arch1-1 (tty3)
 
 pixel login: </pre>
   </div>
+<script>
+// Minimal canonical TTY emulation for /linux
+const screen = document.getElementById('screen');
+let canReturn = false;
+// Full links list (use full URLs)
+const links = [
+  {k:'1',t:'Telegram',u:'https://t.me/jettaxp'},
+  {k:'2',t:'TikTok',u:'https://www.tiktok.com/@jettax03'},
+  {k:'3',t:'Steam',u:'https://steamcommunity.com/id/jettaxp'},
+  {k:'4',t:'Epic Games',u:'https://www.epicgames.com/'},
+  {k:'5',t:'GitHub',u:'https://github.com/JettaXP'},
+  {k:'6',t:'Clash Royale',u:'https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android'},
+  {k:'7',t:'Brawl Stars',u:'https://link.brawlstars.com/invite/friend/ru?tag=PQPCUPRQP&token=8dphjwnw'},
+  {k:'8',t:'Last.fm',u:'https://www.last.fm/user/JettaXP'}
+];
 
-  <script>
-    // TTY bio emulation (based on 404 TTY)
-    const tty = document.getElementById('tty-content');
-    const links = [
-      {k:'1',t:'Telegram',u:'https://t.me/jettaxp'},
-      {k:'2',t:'GitHub',u:'https://github.com/JettaXP'},
-      {k:'3',t:'Last.fm',u:'https://www.last.fm/user/JettaXP'},
-      {k:'4',t:'Steam',u:'https://steamcommunity.com/id/jettaxp'},
-      {k:'5',t:'Clash Royale',u:'https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android'}
-    ];
+function append(text){ screen.innerHTML += text; window.scrollTo(0,document.body.scrollHeight); }
+function typeText(text, speed=45){ return new Promise(res=>{ let i=0; const t=setInterval(()=>{ append(text.charAt(i++)); if(i>text.length-1){ clearInterval(t); res(); } }, speed); }); }
 
-    function typeText(target, text, speed=60){ return new Promise(res=>{ let i=0; const iv=setInterval(()=>{ target.innerHTML += text.charAt(i++); target.scrollTop = target.scrollHeight; if(i>text.length-1){ clearInterval(iv); res(); } }, speed); }); }
+async function runTTY(){
+  // type login
+  await typeText('jettax');
+  await new Promise(r=>setTimeout(r,400));
+  append('\nPassword: ');
+  // show nothing for password (just wait)
+  await new Promise(r=>setTimeout(r,2500));
+  append('\n\n');
+  append('<span class="prompt">jettax@pixel:~$</span> bash jettax.xyz/linux/.sh\n');
+  await new Promise(r=>setTimeout(r,600));
 
-    async function run(){
-      // type login
-      await typeText(tty, 'jettax');
-      await new Promise(r=>setTimeout(r,400));
-      tty.innerHTML += '\nPassword: ';
-      // fake password typing
-      await typeText(tty, '********', 120);
-      await new Promise(r=>setTimeout(r,600));
-      tty.innerHTML += '\n\n<span class="prompt">jettax@pixel:~$</span> bash jettax.xyz/linux/bio.sh\n';
-      await new Promise(r=>setTimeout(r,700));
+  // ascii banner
+  const ascii = `  _  _    ___   _  _  \n | || |  / _ \\ | || | \n | || |_| | | || || |_ \n |__   _| |_| ||__   _|\n    |_|  \\___/    |_|  \n`;
+  append('\n'); append('\n'); append(ascii);
+  append('\n');
 
-      // show ascii bio (canonical style)
-      const ascii = `  _  _    ___   _  _  \n | || |  / _ \\ | || | \n | || |_| | | || || |_ \n |__   _| |_| ||__   _|\n    |_|  \\___/    |_|  \n`;
-      tty.innerHTML += '<div class="ascii">' + ascii + '</div>\n';
+  // Bio content
+  append('Welcome to my bio!\n');
+  append('Я — Philipp, живу в Днепре, Украина.\n');
 
-      // show TTY bio content
-      tty.innerHTML += '\nWelcome to my bio!\n';
-      tty.innerHTML += 'Я — Philipp, живу в Днепре, Украина.\n';
-      tty.innerHTML += 'Последний трек: (подключается Last.fm)\n\n';
+  // Last.fm now playing (single fetch)
+  try{
+    const LASTFM_API = 'https://ws.audioscrobbler.com/2.0/';
+    const LASTFM_KEY = '9456ce29b8b500ab019e56d2b1ccab1f';
+    const LASTFM_USER = 'JettaXP';
+    const res = await fetch(`${LASTFM_API}?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`);
+    const d = await res.json();
+    const track = d?.recenttracks?.track?.[0];
+    if(track){
+      const now = track['@attr'] && track['@attr'].nowplaying ? 'Сейчас играет' : 'Последний трек';
+      const name = track.name || '—';
+      const artist = track.artist?.['#text'] || '—';
+      append(`${now}: ${name} — ${artist}\n`);
+    } else append('Последний трек: —\n');
+  }catch(e){ append('Последний трек: —\n'); }
 
-      // brief links (numbered)
-      tty.innerHTML += 'Links (press number to open):\n';
-      links.forEach(l=>{ tty.innerHTML += `[${l.k}] ${l.t} — ${l.u}\n`; });
+  append('\nLinks:');
+  links.forEach(l=>{ append('\n['+l.k+'] '+l.t+' — '+l.u); });
 
-      tty.innerHTML += '\nPress Enter to return to main...\n';
-      // attach key handler
-      window.addEventListener('keydown', (e)=>{
-        if(e.key === 'Enter') location.href = '/';
-        if(['1','2','3','4','5'].includes(e.key)){
-          const item = links.find(x=>x.k===e.key); if(item) window.open(item.u, '_blank');
-        }
-      });
-    }
+  append('\n\nPress Enter to return to main...\n');
+  canReturn = true;
+}
 
-    setTimeout(run, 600);
-  </script>
+runTTY();
+
+// key handler: numbers open links; Enter returns only when canReturn true
+window.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){
+    if(canReturn) location.href = '/';
+    return;
+  }
+  if(/[1-9]/.test(e.key)){
+    const found = links.find(x=>x.k === e.key);
+    if(found) window.open(found.u, '_blank');
+  }
+});
+</script>
 </body>
 </html>
