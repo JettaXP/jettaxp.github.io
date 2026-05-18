@@ -563,60 +563,57 @@
       position: fixed;
       bottom: 18px;
       left: 18px;
-      min-width: 54px;
-      height: 38px;
+      min-width: 58px;
+      height: 42px;
       z-index: 9999;
       cursor: pointer;
-      background: #9a9a9a;
-      color: #111;
-      border-top: 2px solid #f5f5f5;
-      border-left: 2px solid #f5f5f5;
-      border-right: 2px solid #404040;
-      border-bottom: 2px solid #404040;
-      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+      background: var(--surface-container-high);
+      color: var(--accent-primary);
+      border: 1px solid rgba(207, 188, 255, 0.28);
+      border-radius: 18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.24);
+      font-family: 'Comfortaa', cursive;
       font-weight: 700;
       font-size: 12px;
       padding: 0 12px;
+      transition: transform .16s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
     }
 
     .ee-zone2 {
       position: fixed;
       bottom: 18px;
       right: 18px;
-      min-width: 54px;
-      height: 38px;
+      min-width: 58px;
+      height: 42px;
       z-index: 9999;
       cursor: pointer;
-      background: #9a9a9a;
-      color: #111;
-      border-top: 2px solid #f5f5f5;
-      border-left: 2px solid #f5f5f5;
-      border-right: 2px solid #404040;
-      border-bottom: 2px solid #404040;
-      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+      background: var(--surface-container-high);
+      color: var(--accent-primary);
+      border: 1px solid rgba(207, 188, 255, 0.28);
+      border-radius: 18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.24);
+      font-family: 'Comfortaa', cursive;
       font-weight: 700;
       font-size: 12px;
       padding: 0 12px;
+      transition: transform .16s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
     }
 
     .ee-zone.ee-pressed-1,
     .ee-zone2.ee-pressed-1 {
-      border-top-color: #606060;
-      border-left-color: #606060;
-      border-right-color: #f5f5f5;
-      border-bottom-color: #f5f5f5;
-      background: #8c8c8c;
-      transform: translateY(1px);
+      background: color-mix(in srgb, var(--accent-primary) 16%, var(--surface-container-high));
+      border-color: rgba(207, 188, 255, 0.48);
+      box-shadow: 0 6px 18px rgba(0,0,0,.22), inset 0 0 0 1px rgba(207,188,255,.12);
+      transform: scale(.96);
     }
 
     .ee-zone.ee-pressed-2,
     .ee-zone2.ee-pressed-2 {
-      border-top-color: #202020;
-      border-left-color: #202020;
-      border-right-color: #fff;
-      border-bottom-color: #fff;
-      background: #777;
-      transform: translateY(2px);
+      background: var(--accent-primary);
+      color: var(--on-primary);
+      border-color: var(--accent-primary);
+      box-shadow: 0 4px 14px rgba(207,188,255,.28);
+      transform: scale(.91);
     }
 
     .ee-overlay {
@@ -637,33 +634,31 @@
     .ee-window {
       width: min(440px, 88vw);
       min-height: 320px;
-      background: #c0c0c0;
-      border-top: 2px solid #fff;
-      border-left: 2px solid #fff;
-      border-right: 2px solid #000;
-      border-bottom: 2px solid #000;
-      padding: 2px;
-      box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+      background: var(--surface-container);
+      border: 1px solid rgba(207, 188, 255, 0.22);
+      border-radius: 28px;
+      padding: 12px;
+      box-shadow: 0 24px 70px rgba(0,0,0,.44);
     }
 
     .ee-titlebar {
-      height: 24px;
+      min-height: 34px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      padding: 2px 3px 2px 6px;
-      color: #fff;
-      background: #000080;
-      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
-      font-size: 12px;
+      padding: 4px 4px 10px 6px;
+      color: var(--text-secondary);
+      background: transparent;
+      font-family: 'Comfortaa', cursive;
+      font-size: 13px;
       font-weight: 700;
     }
 
     .ee-window-body {
       min-height: 280px;
       padding: 12px;
-      color: #000;
+      color: var(--text-primary);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -693,8 +688,8 @@
 
     .ee-video {
       width: min(380px, 75vw);
-      border-radius: 0;
-      box-shadow: none;
+      border-radius: 18px;
+      box-shadow: 0 16px 38px rgba(0,0,0,.3);
       animation: eeSlideUp 0.5s cubic-bezier(0.17, 0.67, 0.21, 1.2) 0.3s both;
     }
 
@@ -722,15 +717,12 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      background: #c0c0c0;
-      border-top: 1px solid #fff;
-      border-left: 1px solid #fff;
-      border-right: 1px solid #000;
-      border-bottom: 1px solid #000;
-      color: #000;
-      width: 18px;
-      height: 16px;
-      border-radius: 0;
+      background: var(--surface-container-high);
+      border: 1px solid rgba(207, 188, 255, 0.22);
+      color: var(--text-primary);
+      width: 32px;
+      height: 32px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -740,13 +732,13 @@
     }
 
     .ee-close:hover {
-      background: #b0b0b0;
+      background: color-mix(in srgb, var(--accent-primary) 14%, var(--surface-container-high));
     }
 
     .ee-titlebar .ee-close {
       position: static;
       flex: 0 0 auto;
-      font-size: 12px;
+      font-size: 18px;
       line-height: 1;
     }
 
@@ -823,7 +815,8 @@
       color: #000;
       border: 1px solid #000;
       box-shadow: none;
-      animation: classicFadeIn 0.3s ease forwards;
+      animation: classicFadeIn 0.12s steps(2, end) forwards;
+      transition: none;
     }
 
     body[data-device="android"] .bubble.me,
@@ -860,6 +853,8 @@
 
     body[data-device="android"] .ee-zone,
     body[data-device="android"] .ee-zone2 {
+      min-width: 54px;
+      height: 38px;
       border-radius: 0;
       background: #c0c0c0;
       color: #000;
@@ -868,31 +863,56 @@
       border-right: 2px solid #000;
       border-bottom: 2px solid #000;
       box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+      transition: none;
+      transform: none;
     }
 
     body[data-device="android"] .ee-window {
       border-radius: 0;
       background: #c0c0c0;
       min-height: 300px;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #000;
+      border-bottom: 2px solid #000;
+      padding: 2px;
+      box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
     }
 
     body[data-device="android"] .ee-overlay {
       background: rgba(0, 0, 0, 0.7);
+      transition: none;
     }
 
     body[data-device="android"] .ee-video {
       border-radius: 0;
       box-shadow: none;
+      animation: none;
     }
 
     body[data-device="android"] .ee-close {
       border-radius: 0;
       background: #c0c0c0;
       color: #000;
+      width: 18px;
+      height: 16px;
+      border-top: 1px solid #fff;
+      border-left: 1px solid #fff;
+      border-right: 1px solid #000;
+      border-bottom: 1px solid #000;
+      font-size: 12px;
+      transition: none;
     }
 
     body[data-device="android"] .ee-titlebar {
       border-radius: 0;
+      min-height: 24px;
+      padding: 2px 3px 2px 6px;
+      color: #fff;
+      background: #000080;
+      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+      font-size: 12px;
     }
 
     body[data-device="android"] .model-select,
@@ -939,7 +959,10 @@
     /* Android Overrides */
     body[data-device="android"] .ee-text {
       color: #555555;
-      text-shadow: 0 0 40px rgba(0,0,0,0.6), 0 0 80px rgba(0,0,0,0.3);
+      text-shadow: none;
+      animation: none;
+      font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+      font-size: 34px;
     }
 
     body[data-device="android"] .ee-zone.ee-pressed-1,
@@ -952,8 +975,6 @@
       border-bottom-color: #fff;
       box-shadow: inset 1px 1px #808080, inset -1px -1px #dfdfdf;
       transform: none;
-      padding-top: 2px;
-      padding-left: 14px;
     }
 
     body[data-device="android"] .android-toast {
@@ -1001,7 +1022,7 @@
     <div class="ee-titlebar"><span>/home/jettax/easter-1</span><button class="ee-close" id="eeClose">&times;</button></div>
     <div class="ee-window-body">
       <div class="ee-text" id="eeText" style="display:none">привет</div>
-      <video class="ee-video" id="eeVideo" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-46-41.mp4" playsinline controls></video>
+      <video class="ee-video" id="eeVideo" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-46-41.mp4" playsinline controls preload="auto"></video>
     </div>
   </div>
 </div>
@@ -1011,7 +1032,7 @@
     <div class="ee-titlebar"><span>/home/jettax/easter-2</span><button class="ee-close" id="eeClose2">&times;</button></div>
     <div class="ee-window-body">
       <div class="ee-text" id="eeText2" style="display:none">окак да</div>
-      <video class="ee-video" id="eeVideo2" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-55-16.mp4" playsinline controls></video>
+      <video class="ee-video" id="eeVideo2" style="display:none" src="https://raw.githubusercontent.com/JettaXP/pix/refs/heads/jettax.xyz/video_2026-05-09_21-55-16.mp4" playsinline controls preload="auto"></video>
     </div>
   </div>
 </div>
@@ -1294,6 +1315,7 @@
       let tapTimer = 0;
 
       function spawnParticles() {
+        if (document.body.dataset.device === 'android') return;
         const cx = window.innerWidth / 2;
         const cy = window.innerHeight / 2;
         const colors = ['#cfbcff','#eaddff','#ff7eb3','#7effdb','#ffe156'];
@@ -1327,7 +1349,6 @@
           overlay.classList.add('active');
           eeText.style.display = '';
           eeVideo.style.display = '';
-          eeVideo.load();
           eeVideo.currentTime = 0;
           eeVideo.play().catch(() => {});
         }
@@ -1357,6 +1378,7 @@
       let tapTimer2 = 0;
 
       function spawnParticles2() {
+        if (document.body.dataset.device === 'android') return;
         const cx = window.innerWidth / 2;
         const cy = window.innerHeight / 2;
         const colors = ['#ff7eb3','#ffe156','#7effdb','#cfbcff','#ff6b6b'];
@@ -1390,7 +1412,6 @@
           overlay2.classList.add('active');
           eeText2.style.display = '';
           eeVideo2.style.display = '';
-          eeVideo2.load();
           eeVideo2.currentTime = 0;
           eeVideo2.play().catch(() => {});
         }
