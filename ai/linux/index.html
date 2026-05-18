@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JettaX | AI Linux (TTY)</title>
 <style>
-  body{background:#000;color:#cdd6f4;font-family:monospace;margin:0;height:100vh}
-  .term{padding:18px;box-sizing:border-box;height:100%;width:100%}
+  body{background:#000;color:#cdd6f4;font-family: 'JetBrains Mono', monospace;margin:0;height:100vh}
+  .term{padding:10px;box-sizing:border-box;height:100%;width:100%}
   #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:15px}
   .prompt{color:#89b4fa}
   .tty-input{margin-top:8px}
@@ -34,13 +34,13 @@ let chatHistory = [];
 let selectedModel = 'pplx-gpt-5.1';
 function append(text){ screen.innerHTML += text; window.scrollTo(0,document.body.scrollHeight); }
 function typeText(text,speed=40){ return new Promise(res=>{ let i=0; const t=setInterval(()=>{ append(text.charAt(i++)); if(i>text.length-1){ clearInterval(t); res(); } }, speed); }); }
-async function runTTY(){ await typeText('jettax'); await new Promise(r=>setTimeout(r,400)); append('\nPassword: '); await new Promise(r=>setTimeout(r,2500)); append('\n\n'); append('<span class="prompt">jettax@pixel:~$</span> bash jettax.xyz/ai/linux.sh\n'); await new Promise(r=>setTimeout(r,600)); append('\nAI TTY initialized. Type message and press Enter.\n'); inputWrap.style.display='block'; cmd.focus(); }
+async function runTTY(){ await typeText('jettax'); await new Promise(r=>setTimeout(r,400)); append('\nPassword: '); await new Promise(r=>setTimeout(r,2500)); append('\n\n'); append('<span class="tty-blue">jettax<\/span><span class="tty-mauve">@pixel<\/span> <span class="tty-green">~$<\/span> bash jettax.xyz/ai/linux.sh\n'); await new Promise(r=>setTimeout(r,600)); append('\nAI TTY initialized. Type message and press Enter.\n'); inputWrap.style.display='block'; cmd.focus(); }
 runTTY();
 
 const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
 function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
 const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
-async function sendToAI(text){ append('\n> '+text+'\n'); chatHistory.push({role:'user',content:text}); append('... thinking\n'); try{ const r=await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:selectedModel,messages:chatHistory})}); const data=await r.json().catch(()=>({})); let textResp = data.choices && data.choices.length ? (data.choices[0].message?.content||data.choices[0].text) : data.error?.message || ('http '+r.status); append('AI: '+textResp+'\n'); chatHistory.push({role:'assistant',content:textResp}); }catch(e){ append('ошибка: '+(e?.message||e)+'\n'); } }
+async function sendToAI(text){ append('\n> '+text+'\n'); chatHistory.push({role:'user',content:text}); append('... thinking\n'); try{ const r=await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:selectedModel,messages:chatHistory})}); const data=await r.json().catch(()=>({})); let textResp = data.choices && data.choices.length ? (data.choices[0].message?.content||data.choices[0].text) : data.error?.message || ('http '+r.status); append('Chat: '+textResp+'\n'); chatHistory.push({role:'assistant',content:textResp}); }catch(e){ append('ошибка: '+(e?.message||e)+'\n'); } }
 
 const models = ['pplx-gpt-5.1','gpt-5-mini','sonar-pro','sonar-deep-research'];
 cmd.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); const v=cmd.value.trim(); if(!v) return; if(v.startsWith('/')){ const parts=v.split(/\s+/); const c=parts[0]; if(c==='/clear'){ screen.innerHTML=''; } else if(c==='/models'){ // animate list
@@ -56,3 +56,4 @@ cmd.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); c
 </script>
 </body>
 </html>
+

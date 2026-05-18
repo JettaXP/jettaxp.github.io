@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JettaX | Linux (TTY)</title>
 <style>
-  body{background:#000;color:#cdd6f4;font-family:monospace;margin:0;height:100vh}
-  .term{padding:24px;box-sizing:border-box;height:100%;width:100%}
+  body{background:#000;color:#cdd6f4;font-family: 'JetBrains Mono', monospace;margin:0;height:100vh}
+  .term{padding:10px;box-sizing:border-box;height:100%;width:100%}
   #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:16px}
   .prompt{color:#89b4fa}
   .muted{color:#7c8598}
@@ -26,7 +26,7 @@ let canReturn = false;
 const links = [
   {k:'1',t:'Telegram',u:'https://t.me/jettaxp'},
   {k:'2',t:'TikTok',u:'https://www.tiktok.com/@jettax03'},
-  {k:'3',t:'Steam',u:'https://steamcommunity.com/id/jettaxp'},
+  {k:'3',t:'Steam',u:'https://steamcommunity.com/id/jettax'},
   {k:'4',t:'Epic Games',u:'https://www.epicgames.com/'},
   {k:'5',t:'GitHub',u:'https://github.com/JettaXP'},
   {k:'6',t:'Clash Royale',u:'https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android'},
@@ -41,7 +41,7 @@ async function runTTY(){
   append('\nPassword: ');
   await new Promise(r=>setTimeout(r,2500));
   append('\n\n');
-  append('<span class="prompt">jettax@pixel:~$</span> bash jettax.xyz/linux/.sh\n');
+  append('<span class="tty-blue">jettax<\/span><span class="tty-mauve">@pixel<\/span> <span class="tty-green">~$<\/span> bash jettax.xyz/linux/.sh\n');
   await new Promise(r=>setTimeout(r,600));
   append('\n');
   append('Welcome to my bio!\n');
@@ -73,3 +73,5 @@ window.addEventListener('keydown', (e)=>{
 </script>
 </body>
 </html>
+
+
