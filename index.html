@@ -2029,6 +2029,79 @@
             line-height: 1.2;
         }
 
+        body[data-device="fluid"] {
+            background-color: #f3f3f3;
+            background-image: none;
+            color: #202020;
+            font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif !important;
+            --bg-primary: #fafafa;
+            --bg-secondary: rgba(255, 255, 255, 0.7);
+            --text-primary: #1a1a1a;
+            --text-secondary: #5c5c5c;
+            --accent-primary: #0067c0;
+            --accent-secondary: #005fb8;
+            --border-color: rgba(0, 0, 0, 0.05);
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --surface-container: rgba(243, 243, 243, 0.8);
+            --surface-variant: rgba(255, 255, 255, 0.8);
+        }
+
+        body[data-theme="dark"][data-device="fluid"], body[data-theme="dark"] [data-device="fluid"] {
+            background-color: #202020;
+            color: #ffffff;
+            --bg-primary: #202020;
+            --bg-secondary: rgba(40, 40, 40, 0.7);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #60cdff;
+            --accent-secondary: #4cc2ff;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(40, 40, 40, 0.6);
+            --surface-container: rgba(32, 32, 32, 0.8);
+            --surface-variant: rgba(44, 44, 44, 0.8);
+        }
+
+        body[data-device="fluid"] .page-wrapper,
+        body[data-device="fluid"] .md3-surface,
+        body[data-device="fluid"] .devices-card,
+        body[data-device="fluid"] .branches-card,
+        body[data-device="fluid"] .m3-bottom-nav,
+        body[data-device="fluid"] .m3-theme-corner,
+        body[data-device="fluid"] .glass-pill {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            backdrop-filter: blur(40px) saturate(1.5);
+            border-radius: 8px !important;
+        }
+
+        body[data-device="fluid"] .link-item,
+        body[data-device="fluid"] .device-item,
+        body[data-device="fluid"] .branch-link,
+        body[data-device="fluid"] .m3-nav-item {
+            border-radius: 4px !important;
+        }
+
+        body[data-device="fluid"] .link-item:hover {
+            background: rgba(120, 120, 120, 0.1);
+        }
+
+        body[data-device="fluid"] .avatar-wrapper {
+            border-radius: 50%;
+            mask: none;
+            -webkit-mask: none;
+            animation: none;
+            overflow: hidden;
+        }
+        
+        body[data-device="fluid"] .avatar-img {
+            animation: none;
+        }
+        
+        body[data-device="fluid"] .play-action-btn {
+            border-radius: 4px;
+        }
+
 </style>
 </head>
 
@@ -2479,7 +2552,7 @@
                 const touchMac = /mac/i.test(platform) && navigator.maxTouchPoints > 1;
                 const variant = location.pathname.replace(/\/+$/, '').toLowerCase();
                 if (variant === '/windows') return 'android';
-                if (variant === '/fluid') return 'macos';
+                if (variant === '/fluid') return 'fluid';
                 if (variant === '/material') return 'windows';
                 if (variant === '/macos') return 'macos';
                 if (variant === '/ios') return 'ios';
@@ -2625,7 +2698,14 @@
                     document.body.classList.add('state-2');
                     
                     setTimeout(() => {
-                        const ascii = "      /\\\n    //  \\\\\n   //    \\\\\n / /      \\ \\\n \\ \\      / /\n   \\\\    //\n    \\\\  //\n      \\/";
+                        const ascii = `      /\\
+    //  \\\\
+   //    \\\\
+ / /      \\ \\
+ \\ \\      / /
+   \\\\    //
+    \\\\  //
+      \\/`;
                         
                         term2.innerHTML = '<div class="linux-ascii">' + ascii + '</div>' + 
                             '<div><strong>jettax@endeavouros</strong><br>' +

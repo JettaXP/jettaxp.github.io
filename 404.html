@@ -21,7 +21,8 @@
             const path = location.pathname.replace(/\/+$/, '').toLowerCase();
             let device = 'linux';
             if (path.endsWith('/windows')) device = 'android';
-            else if (path.endsWith('/fluid') || path.endsWith('/macos')) device = 'macos';
+            else if (path.endsWith('/fluid')) device = 'fluid';
+            else if (path.endsWith('/macos')) device = 'macos';
             else if (path.endsWith('/ios')) device = 'ios';
             else if (path.endsWith('/ipados')) device = 'ipados';
             else if (path.endsWith('/linux')) device = 'linux';
@@ -141,6 +142,7 @@
         });
 
         document.addEventListener('click', (event) => {
+            if (document.body.dataset.device === 'linux') return;
             orbs.forEach((orb) => {
                 const dx = orb.x - event.clientX;
                 const dy = orb.y - event.clientY;
@@ -277,16 +279,13 @@
                 '<span class="tty-blue">jettax</span> <span class="tty-mauve">@pixel_telethon.session</span> <span class="tty-green">~$</span> bash 404.sh'
             ];
             
-            const ascii404 = `
-      /\\
-    //  \\      <span class="tty-blue">404 - Страница не найдена</span>
-   //    \\     Такой страницы нет. Зато есть повод
- / /      \ \    вернуться на главную и сделать вид,
- \ \      / /    что этого перехода не было.
-   \\    //     
-    \\  //      <a href="/" style="color: #cba6f7; text-decoration: underline;">Вернуться на главную</a>
-      \/      
-`;
+            const ascii404 = `  _  _    ___   _  _  
+ | || |  / _ \\ | || | 
+ | || |_| | | || || |_ 
+ |__   _| |_| ||__   _|
+    |_|  \\___/    |_|  
+
+<span class="tty-muted">Press Enter to return to main...</span>`;
 
             let currentHtml = '';
             
