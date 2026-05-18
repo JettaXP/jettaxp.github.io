@@ -1799,7 +1799,237 @@
         body[data-device="linux"] .branches-card {
             border-radius: 18px;
         }
-    </style>
+    
+        body[data-device="macos"],
+        body[data-device="ios"],
+        body[data-device="ipados"],
+        body[data-device="apple"] {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, sans-serif !important;
+        }
+        body[data-device="macos"] .page-wrapper,
+        body[data-device="ios"] .page-wrapper,
+        body[data-device="ipados"] .page-wrapper,
+        body[data-device="apple"] .page-wrapper,
+        body[data-device="macos"] .card,
+        body[data-device="ios"] .card,
+        body[data-device="ipados"] .card,
+        body[data-device="apple"] .card {
+            border-radius: 20px !important;
+        }
+        body[data-device="macos"] .md3-surface,
+        body[data-device="ios"] .md3-surface,
+        body[data-device="ipados"] .md3-surface,
+        body[data-device="apple"] .md3-surface,
+        body[data-device="macos"] .devices-card,
+        body[data-device="ios"] .devices-card,
+        body[data-device="ipados"] .devices-card,
+        body[data-device="apple"] .devices-card,
+        body[data-device="macos"] .branches-card,
+        body[data-device="ios"] .branches-card,
+        body[data-device="ipados"] .branches-card,
+        body[data-device="apple"] .branches-card,
+        body[data-device="macos"] .chat,
+        body[data-device="ios"] .chat,
+        body[data-device="ipados"] .chat,
+        body[data-device="apple"] .chat,
+        body[data-device="macos"] .composer,
+        body[data-device="ios"] .composer,
+        body[data-device="ipados"] .composer,
+        body[data-device="apple"] .composer {
+            border-radius: 14px !important;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+        }
+        body[data-device="macos"] .link-item,
+        body[data-device="ios"] .link-item,
+        body[data-device="ipados"] .link-item,
+        body[data-device="apple"] .link-item,
+        body[data-device="macos"] .bubble,
+        body[data-device="ios"] .bubble,
+        body[data-device="ipados"] .bubble,
+        body[data-device="apple"] .bubble {
+            border-radius: 10px !important;
+        }
+        body[data-device="macos"] .link-icon,
+        body[data-device="ios"] .link-icon,
+        body[data-device="ipados"] .link-icon,
+        body[data-device="apple"] .link-icon,
+        body[data-device="macos"] .send-btn,
+        body[data-device="ios"] .send-btn,
+        body[data-device="ipados"] .send-btn,
+        body[data-device="apple"] .send-btn {
+            border-radius: 8px !important;
+        }
+        body[data-device="macos"] h1,
+        body[data-device="ios"] h1,
+        body[data-device="ipados"] h1,
+        body[data-device="apple"] h1,
+        body[data-device="macos"] h2,
+        body[data-device="ios"] h2,
+        body[data-device="ipados"] h2,
+        body[data-device="apple"] h2,
+        body[data-device="macos"] .title,
+        body[data-device="ios"] .title,
+        body[data-device="ipados"] .title,
+        body[data-device="apple"] .title {
+            font-weight: 600 !important;
+            letter-spacing: -0.5px !important;
+        }
+        body[data-device="macos"] .m3-bottom-nav,
+        body[data-device="ios"] .m3-bottom-nav,
+        body[data-device="ipados"] .m3-bottom-nav,
+        body[data-device="apple"] .m3-bottom-nav {
+            border-radius: 20px !important;
+            bottom: 20px !important;
+        }
+        body[data-device="macos"] .m3-nav-item,
+        body[data-device="ios"] .m3-nav-item,
+        body[data-device="ipados"] .m3-nav-item,
+        body[data-device="apple"] .m3-nav-item,
+        body[data-device="macos"] .composer-input,
+        body[data-device="ios"] .composer-input,
+        body[data-device="ipados"] .composer-input,
+        body[data-device="apple"] .composer-input {
+            border-radius: 12px !important;
+            font-family: inherit !important;
+        }
+
+
+        body[data-device="linux"] #main-content,
+        body[data-device="linux"] .m3-theme-corner,
+        body[data-device="linux"] .time-widget-container,
+        body[data-device="linux"] .m3-bottom-nav {
+            display: none !important;
+        }
+
+        #linux-twm-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #1e1e2e;
+            color: #cdd6f4;
+            font-family: 'JetBrains Mono', monospace, 'Courier New', Courier;
+            z-index: 9999;
+        }
+
+        body[data-device="linux"] {
+            background: #11111b !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+        }
+
+        body[data-device="linux"] #linux-twm-overlay {
+            display: block;
+        }
+
+        .wm-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            padding: 16px;
+            gap: 16px;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: flex 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+        }
+        .left-col { flex: 1; }
+        .right-col {
+            flex: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .window {
+            background: #1e1e2e;
+            border: 2px solid #313244;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        #window1 { flex: 1; }
+        #window2 { flex: 1; transition: flex 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        #window3 {
+            flex: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: flex 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+        }
+
+        body.state-2 .right-col { flex: 1; opacity: 1; overflow: visible; }
+        body.state-3 #window3 { flex: 1; opacity: 1; overflow: visible; }
+
+        .titlebar {
+            background: #181825;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: #a6adc8;
+            border-bottom: 2px solid #313244;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .titlebar-left { display: flex; align-items: center; gap: 8px; }
+        .titlebar-dots { display: flex; gap: 6px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot.red { background: #f38ba8; }
+        .dot.yellow { background: #f9e2af; }
+        .dot.green { background: #a6e3a1; }
+
+        .content {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .prompt { margin-bottom: 8px; }
+        .p-user { color: #89b4fa; font-weight: bold; }
+        .p-at { color: #cdd6f4; }
+        .p-host { color: #cba6f7; font-weight: bold; }
+        .p-path { color: #a6e3a1; font-weight: bold; margin-left: 6px; }
+        .p-arrow { color: #fab387; margin: 0 6px; }
+        
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1em;
+            background-color: #cdd6f4;
+            animation: blink 1s step-end infinite;
+            vertical-align: bottom;
+        }
+        
+        .twm-link {
+            color: #89b4fa;
+            text-decoration: underline;
+            cursor: pointer;
+            outline: none;
+        }
+        .twm-link:focus {
+            background-color: rgba(137, 180, 250, 0.2);
+        }
+
+        .linux-ascii {
+            color: #cba6f7;
+            white-space: pre;
+            font-size: 12px;
+            float: left;
+            margin-right: 20px;
+            line-height: 1.2;
+        }
+
+</style>
 </head>
 
 <body>
@@ -2231,7 +2461,7 @@
             function initThemeCorner() { const t = document.getElementById('themeToggle'); if (!t) return; const read = () => document.body.getAttribute('data-theme') || localStorage.getItem('theme') || 'dark'; const sync = () => { t.checked = (read() === 'dark'); }; new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] }); t.addEventListener('change', () => { const theme = t.checked ? 'dark' : 'light'; const run = () => { if (typeof window.selectTheme === 'function') window.selectTheme(theme); else { document.body.setAttribute('data-theme', theme); localStorage.setItem('theme', theme); } }; if (document.startViewTransition) document.startViewTransition(run); else run(); }); sync(); }
             function initTabs() {
                 try {
-                    const body = document.body; const content = document.getElementById('main-content'); const wrapper = content ? content.querySelector('.page-wrapper') : null; const container = wrapper ? wrapper.querySelector('.container') : null; if (!container) return; const playerSurface = container.querySelector('.md3-surface'); const linksSurface = document.getElementById('links-surface'); if (!playerSurface) return; const stage = document.createElement('div'); stage.className = 'tab-stage'; const tabMain = document.createElement('div'); tabMain.id = 'tab-main'; tabMain.className = 'tab-panel'; const hint = document.createElement('div'); hint.className = 'm3-main-hint'; hint.textContent = 'Это моё био. Тут есть мои линки и другая инфа.'; tabMain.appendChild(hint); tabMain.appendChild(playerSurface); const tabLinks = document.createElement('div'); tabLinks.id = 'tab-links'; tabLinks.className = 'tab-panel'; if (linksSurface) { linksSurface.style.display = 'flex'; tabLinks.appendChild(linksSurface); } const tabDevices = document.createElement('div'); tabDevices.id = 'tab-devices'; tabDevices.className = 'tab-panel'; const dw = document.createElement('div'); dw.className = 'devices-card'; dw.innerHTML = '<h2>Мои устройства</h2><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">smartphone</span> Телефоны</h3><div class="device-item"><div class="device-name">Huawei INE-LX1 <span class="device-status status-default">основной</span></div><div class="device-specs">Основной.</div></div><div class="device-item"><div class="device-name">Samsung Galaxy S20FE <span class="device-status status-rip">сломан экран</span></div><div class="device-specs">хз что с ним делать, пока лежит без дела.</div></div><div class="device-item"><div class="device-name">Pixel 7a <span class="device-status status-rip">rip battery</span></div><div class="device-specs">дохлая батарея, тоже без нормального запаса энергии.</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">computer</span> ПК</h3><div class="device-item"><div class="device-name">Windows 11</div><div class="device-specs">Intel Core i3-10105F @ 3.70GHz<br/>NVIDIA GTX 950<br/>16GB DDR4</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">laptop</span> Ноутбук</h3><div class="device-item"><div class="device-name">Asus Vivobook S 15</div><div class="device-specs">Дополнительный ноутбук</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">watch</span> Дополнительно</h3><div class="device-item"><div class="device-name">Pixel Watch 1</div><div class="device-specs">Часы</div></div><div class="device-item"><div class="device-name">Pixel Buds A-series</div><div class="device-specs">Наушники</div></div></div>'; tabDevices.appendChild(dw); const tabInfo = document.createElement('div'); tabInfo.id = 'tab-info'; tabInfo.className = 'tab-panel'; const bio = document.querySelector('#welcome-overlay p'); if (bio) { const card = document.createElement('div'); card.className = 'md3-surface'; const title = document.createElement('div'); title.className = 'm3-info-title'; title.textContent = 'Информация'; const p = document.createElement('p'); p.textContent = 'Я Филипп, живу в Днепре, Украина.'; p.style.margin = '0'; card.appendChild(title); card.appendChild(p); tabInfo.appendChild(card); } const pb = document.createElement('div'); pb.className = 'm3-pets-block'; const pt = document.createElement('div'); pt.className = 'm3-info-title'; pt.textContent = 'Мои питомцы'; const pl = document.createElement('div'); pl.className = 'm3-pets-list';[["Lukas", "шпиц", "1 год", "31 июля"], ["Umka", "шпиц", "1 год", "31 июля"], ["Vishnya", "шпиц", "1 год", "31 июля"], ["Jetta", "помчи", "5 лет", "8 февраля"]].forEach(it => { const row = document.createElement('div'); row.className = 'm3-pet-row'; const name = document.createElement('span'); name.className = 'm3-pet-name'; name.textContent = it[0]; const meta = document.createElement('span'); meta.className = 'm3-pet-meta'; meta.textContent = it[1] + ' · ' + it[2] + ' · ' + it[3]; row.appendChild(name); row.appendChild(meta); pl.appendChild(row); }); pb.appendChild(pt); pb.appendChild(pl); tabInfo.appendChild(pb); const bday = document.createElement('div'); bday.className = 'm3-bday-card'; bday.innerHTML = '<div class="m3-info-title">Мой день рождения</div><div class="m3-bday-text">10 ноября</div>'; tabInfo.appendChild(bday); stage.appendChild(tabMain); stage.appendChild(tabLinks); stage.appendChild(tabDevices); stage.appendChild(tabInfo);
+                    const body = document.body; const content = document.getElementById('main-content'); const wrapper = content ? content.querySelector('.page-wrapper') : null; const container = wrapper ? wrapper.querySelector('.container') : null; if (!container) return; const playerSurface = container.querySelector('.md3-surface'); const linksSurface = document.getElementById('links-surface'); if (!playerSurface) return; const stage = document.createElement('div'); stage.className = 'tab-stage'; const tabMain = document.createElement('div'); tabMain.id = 'tab-main'; tabMain.className = 'tab-panel'; const hint = document.createElement('div'); hint.className = 'm3-main-hint'; hint.textContent = 'Это моё био. Тут есть мои линки и другая инфа.'; tabMain.appendChild(hint); tabMain.appendChild(playerSurface); const tabLinks = document.createElement('div'); tabLinks.id = 'tab-links'; tabLinks.className = 'tab-panel'; if (linksSurface) { linksSurface.style.display = 'flex'; tabLinks.appendChild(linksSurface); } const tabDevices = document.createElement('div'); tabDevices.id = 'tab-devices'; tabDevices.className = 'tab-panel'; const dw = document.createElement('div'); dw.className = 'devices-card'; dw.innerHTML = '<h2>Мои устройства</h2><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">smartphone</span> Телефоны</h3><div class="device-item"><div class="device-name">Huawei INE-LX1 <span class="device-status status-default">основной</span></div><div class="device-specs">Основной.</div></div><div class="device-item"><div class="device-name">Samsung Galaxy S20FE <span class="device-status status-rip">сломан экран</span></div><div class="device-specs">хз что с ним делать, пока лежит без дела.</div></div><div class="device-item"><div class="device-name">Pixel 7a <span class="device-status status-rip">rip battery</span></div><div class="device-specs">дохлая батарея, тоже без нормального запаса энергии.</div></div><div class="device-item"><div class="device-name">Redmi 8 <span class="device-status status-default">working</span></div><div class="device-specs">main?</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">computer</span> ПК</h3><div class="device-item"><div class="device-name">Windows 11</div><div class="device-specs">Intel Core i3-10105F @ 3.70GHz<br/>NVIDIA GTX 950<br/>16GB DDR4</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">laptop</span> Ноутбук</h3><div class="device-item"><div class="device-name">Asus Vivobook S 15</div><div class="device-specs">Дополнительный ноутбук</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">watch</span> Дополнительно</h3><div class="device-item"><div class="device-name">Pixel Watch 1</div><div class="device-specs">Часы</div></div><div class="device-item"><div class="device-name">Pixel Buds A-series</div><div class="device-specs">Наушники</div></div></div>'; tabDevices.appendChild(dw); const tabInfo = document.createElement('div'); tabInfo.id = 'tab-info'; tabInfo.className = 'tab-panel'; const bio = document.querySelector('#welcome-overlay p'); if (bio) { const card = document.createElement('div'); card.className = 'md3-surface'; const title = document.createElement('div'); title.className = 'm3-info-title'; title.textContent = 'Информация'; const p = document.createElement('p'); p.textContent = 'Я Филипп, живу в Днепре, Украина.'; p.style.margin = '0'; card.appendChild(title); card.appendChild(p); tabInfo.appendChild(card); } const pb = document.createElement('div'); pb.className = 'm3-pets-block'; const pt = document.createElement('div'); pt.className = 'm3-info-title'; pt.textContent = 'Мои питомцы'; const pl = document.createElement('div'); pl.className = 'm3-pets-list';[["Lukas", "шпиц", "1 год", "31 июля"], ["Umka", "шпиц", "1 год", "31 июля"], ["Vishnya", "шпиц", "1 год", "31 июля"], ["Jetta", "помчи", "5 лет", "8 февраля"]].forEach(it => { const row = document.createElement('div'); row.className = 'm3-pet-row'; const name = document.createElement('span'); name.className = 'm3-pet-name'; name.textContent = it[0]; const meta = document.createElement('span'); meta.className = 'm3-pet-meta'; meta.textContent = it[1] + ' · ' + it[2] + ' · ' + it[3]; row.appendChild(name); row.appendChild(meta); pl.appendChild(row); }); pb.appendChild(pt); pb.appendChild(pl); tabInfo.appendChild(pb); const bday = document.createElement('div'); bday.className = 'm3-bday-card'; bday.innerHTML = '<div class="m3-info-title">Мой день рождения</div><div class="m3-bday-text">10 ноября</div>'; tabInfo.appendChild(bday); stage.appendChild(tabMain); stage.appendChild(tabLinks); stage.appendChild(tabDevices); stage.appendChild(tabInfo);
 
                     const ts = document.createElement('div'); ts.className = 'md3-surface';
                     ts.style.padding = '24px';
@@ -2254,6 +2484,7 @@
                 if (variant === '/macos') return 'macos';
                 if (variant === '/ios') return 'ios';
                 if (variant === '/ipados') return 'ipados';
+                if (variant === '/linux') return 'linux';
                 if (/android/i.test(ua)) return 'android';
                 if (/ipad/i.test(ua) || touchMac) return 'ipados';
                 if (/iphone|ipod/i.test(ua)) return 'ios';
@@ -2266,7 +2497,7 @@
             function updateDevices() {
                 const card = document.querySelector('#tab-devices .devices-card');
                 if (!card) return false;
-                card.innerHTML = '<h2>Мои устройства</h2><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">smartphone</span> Телефоны</h3><div class="device-item"><div class="device-name">Huawei INE-LX1 <span class="device-status status-default">основной</span></div><div class="device-specs">Основной.</div></div><div class="device-item"><div class="device-name">Samsung Galaxy S20FE <span class="device-status status-rip">сломан экран</span></div><div class="device-specs">хз что с ним делать, пока лежит без дела.</div></div><div class="device-item"><div class="device-name">Pixel 7a <span class="device-status status-rip">rip battery</span></div><div class="device-specs">дохлая батарея, тоже без нормального запаса энергии.</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">computer</span> ПК</h3><div class="device-item"><div class="device-name">Windows 11</div><div class="device-specs">Intel Core i3-10105F @ 3.70GHz<br/>NVIDIA GTX 950<br/>16GB DDR4</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">laptop</span> Ноутбук</h3><div class="device-item"><div class="device-name">Asus Vivobook S 15</div><div class="device-specs">Дополнительный ноутбук</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">watch</span> Дополнительно</h3><div class="device-item"><div class="device-name">Pixel Watch 1</div><div class="device-specs">Часы</div></div><div class="device-item"><div class="device-name">Pixel Buds A-series</div><div class="device-specs">Наушники</div></div></div>';
+                card.innerHTML = '<h2>Мои устройства</h2><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">smartphone</span> Телефоны</h3><div class="device-item"><div class="device-name">Huawei INE-LX1 <span class="device-status status-default">основной</span></div><div class="device-specs">Основной.</div></div><div class="device-item"><div class="device-name">Samsung Galaxy S20FE <span class="device-status status-rip">сломан экран</span></div><div class="device-specs">хз что с ним делать, пока лежит без дела.</div></div><div class="device-item"><div class="device-name">Pixel 7a <span class="device-status status-rip">rip battery</span></div><div class="device-specs">дохлая батарея, тоже без нормального запаса энергии.</div></div><div class="device-item"><div class="device-name">Redmi 8 <span class="device-status status-default">working</span></div><div class="device-specs">main?</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">computer</span> ПК</h3><div class="device-item"><div class="device-name">Windows 11</div><div class="device-specs">Intel Core i3-10105F @ 3.70GHz<br/>NVIDIA GTX 950<br/>16GB DDR4</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">laptop</span> Ноутбук</h3><div class="device-item"><div class="device-name">Asus Vivobook S 15</div><div class="device-specs">Дополнительный ноутбук</div></div></div><div class="device-category"><h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle">watch</span> Дополнительно</h3><div class="device-item"><div class="device-name">Pixel Watch 1</div><div class="device-specs">Часы</div></div><div class="device-item"><div class="device-name">Pixel Buds A-series</div><div class="device-specs">Наушники</div></div></div>';
                 return true;
             }
 
@@ -2304,6 +2535,137 @@
             else initDeviceAdditions();
         })();
     </script>
+
+    <div id="linux-twm-overlay" aria-hidden="true">
+        <div class="wm-container">
+            <div class="col left-col">
+                <div class="window" id="window1">
+                    <div class="titlebar">
+                        <div class="titlebar-left">
+                            <div class="titlebar-dots">
+                                <div class="dot red"></div>
+                                <div class="dot yellow"></div>
+                                <div class="dot green"></div>
+                            </div>
+                            <span>~</span>
+                        </div>
+                    </div>
+                    <div class="content" id="term1-content"></div>
+                </div>
+            </div>
+            <div class="col right-col">
+                <div class="window" id="window2">
+                    <div class="titlebar">
+                        <div class="titlebar-left">
+                            <div class="titlebar-dots">
+                                <div class="dot red"></div>
+                                <div class="dot yellow"></div>
+                                <div class="dot green"></div>
+                            </div>
+                            <span>neofetch</span>
+                        </div>
+                    </div>
+                    <div class="content" id="term2-content"></div>
+                </div>
+                <div class="window" id="window3">
+                    <div class="titlebar">
+                        <div class="titlebar-left">
+                            <div class="titlebar-dots">
+                                <div class="dot red"></div>
+                                <div class="dot yellow"></div>
+                                <div class="dot green"></div>
+                            </div>
+                            <span>info</span>
+                        </div>
+                    </div>
+                    <div class="content" id="term3-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        if (document.body.dataset.device === 'linux') {
+            const term1 = document.getElementById('term1-content');
+            const term2 = document.getElementById('term2-content');
+            const term3 = document.getElementById('term3-content');
+            
+            const promptHTML = '<div class="prompt"><span class="p-user">jettax</span><span class="p-at">@</span><span class="p-host">endeavouros</span><span class="p-path">~</span><span class="p-arrow">$</span></div>';
+
+            const typeCommand = (term, command, callback) => {
+                const cmdSpan = document.createElement('span');
+                term.appendChild(cmdSpan);
+                const cursor = document.createElement('span');
+                cursor.className = 'cursor';
+                term.appendChild(cursor);
+
+                let i = 0;
+                const typing = setInterval(() => {
+                    cmdSpan.textContent += command[i];
+                    i++;
+                    if (i === command.length) {
+                        clearInterval(typing);
+                        setTimeout(() => {
+                            cursor.remove();
+                            term.appendChild(document.createElement('br'));
+                            if (callback) callback();
+                        }, 400);
+                    }
+                }, 40);
+            };
+
+            const addPrompt = (term) => {
+                term.insertAdjacentHTML('beforeend', promptHTML);
+            };
+
+            const runWMAnimation = () => {
+                addPrompt(term1);
+                typeCommand(term1, 'start_wm && neofetch', () => {
+                    document.body.classList.add('state-2');
+                    
+                    setTimeout(() => {
+                        const ascii = "      /\\\n    //  \\\\\n   //    \\\\\n / /      \\ \\\n \\ \\      / /\n   \\\\    //\n    \\\\  //\n      \\/";
+                        
+                        term2.innerHTML = '<div class="linux-ascii">' + ascii + '</div>' + 
+                            '<div><strong>jettax@endeavouros</strong><br>' +
+                            '-----------<br>' +
+                            '<strong>OS:</strong> EndeavourOS Linux<br>' +
+                            '<strong>Host:</strong> JettaX PC<br>' +
+                            '<strong>Uptime:</strong> 12 days<br>' +
+                            '<strong>Packages:</strong> 1337 (pacman)<br>' +
+                            '<strong>Shell:</strong> bash 5.1.16<br>' +
+                            '<strong>WM:</strong> Custom TWM<br>' +
+                            '<strong>Theme:</strong> Catppuccin Mocha<br>' +
+                            '</div><div style="clear:both"></div><br>';
+                        
+                        addPrompt(term1);
+                        typeCommand(term1, 'cat links.txt', () => {
+                            term1.insertAdjacentHTML('beforeend', 
+                                '<a class="twm-link" href="https://t.me/jettaxp" target="_blank">Telegram</a><br>' +
+                                '<a class="twm-link" href="https://github.com/jettaxp" target="_blank">GitHub</a><br>' +
+                                '<a class="twm-link" href="https://www.tiktok.com/@jettax03" target="_blank">TikTok</a><br>' +
+                                '<a class="twm-link" href="https://steamcommunity.com/id/jettaxp" target="_blank">Steam</a><br><br>'
+                            );
+                            addPrompt(term1);
+                            
+                            typeCommand(term1, 'open_info', () => {
+                                document.body.classList.add('state-3');
+                                setTimeout(() => {
+                                    term3.innerHTML = '<strong>Филипп</strong><br>Днепр, Украина<br><br>Делаю всякую дичь в фигме.<br><br>Devices:<br>- Huawei INE-LX1<br>- Pixel 7a<br>- Redmi 8<br>- PC (i3 10th gen, GTX 950)<br>';
+                                    addPrompt(term1);
+                                    
+                                }, 600);
+                            });
+                        });
+                    }, 600);
+                });
+            };
+
+            setTimeout(runWMAnimation, 500);
+        }
+    </script>
+
 </body>
 
 </html>
