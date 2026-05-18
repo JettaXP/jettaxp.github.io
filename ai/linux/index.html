@@ -6,10 +6,10 @@
 <title>JettaX | AI Linux (TTY)</title>
 <style>
   body{background:#000;color:#cdd6f4;font-family: 'JetBrains Mono', monospace;margin:0;height:100vh;overflow:hidden}
-  .term{padding:10px;box-sizing:border-box;height:100%;width:100%;display:flex;flex-direction:column;position:relative}
-  #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:15px;flex:1;overflow-y:auto;margin:0;padding-bottom:120px}
+  .term{padding:10px;box-sizing:border-box;height:100%;width:100%;display:flex;flex-direction:column}
+  #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:15px;flex:1;overflow-y:auto;margin:0}
   .prompt{color:#89b4fa}
-  .tty-input{position:absolute;bottom:10px;left:10px;right:10px;max-width:980px;background:#000;z-index:50}
+  .tty-input{margin-top:8px;position:relative;max-width:980px}
   #cmd{width:100%;padding:10px;border-radius:6px;border:1px solid #222;background:#070707;color:#cdd6f4;font-family:inherit;box-sizing:border-box;outline:none}
   #cmd:focus{border-color:#89b4fa}
   .muted{color:#7c8598}
@@ -24,19 +24,11 @@
   .ee-close {position:absolute;top:16px;right:16px;background:#2b2930;border:1px solid rgba(207, 188, 255, 0.22);color:#e6e0e9;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;z-index:10002}
   .ee-close:hover {background:#36343b}
   .ee-video {width:100%;border-radius:18px;box-shadow:0 16px 38px rgba(0,0,0,.3);margin-top:10px;display:none}
-  .ee-particle {position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:10001;animation:eeParticle 1s ease-out forwards}
-  .support-card {background:#2b2930;border-radius:24px;padding:16px;border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;gap:12px;text-align:left;color:#e6e0e9;margin-top:10px}
-  .support-header {display:flex;align-items:center;gap:12px}
-  .support-avatar {width:44px;height:44px;border-radius:50%;background:#cfbcff;display:flex;align-items:center;justify-content:center;color:#381e72;font-weight:bold}
-  .support-btn {align-self:flex-start;background:#cfbcff;color:#381e72;padding:8px 16px;border-radius:999px;text-decoration:none;font-weight:bold;font-size:14px}
+  
   @keyframes eeExplode {
     0% { transform: scale(0) rotate(-20deg); opacity: 0; }
     50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
     100% { transform: scale(1) rotate(0deg); opacity: 1; }
-  }
-  @keyframes eeParticle {
-    0% { transform: translate(0,0) scale(1); opacity: 1; }
-    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
   }
 </style>
 </head>
@@ -48,29 +40,15 @@ pixel login: </pre>
     <div class="tty-input" style="display:none">
       <div class="suggest-panel" id="suggest"></div>
       <div class="prompt" style="margin-bottom:4px">jettax@pixel:~$</div>
-      <input id="cmd" autocomplete="off" placeholder="Напиши сообщение или '/' для команд (/help, /support, /easter1)..." />
+      <input id="cmd" autocomplete="off" placeholder="Напиши сообщение или '/' для команд (/help, /easter1)..." />
     </div>
   </div>
 
   <div class="ee-overlay" id="easterOverlay">
     <div class="ee-window">
       <button class="ee-close" onclick="closeEaster()">×</button>
-      <div class="ee-text" id="easterTitle">allah</div>
-      <div style="color:#e6e0e9; opacity:0.7; font-size:14px;" id="easterDesc"></div>
+      <div class="ee-text" id="easterTitle"></div>
       <video class="ee-video" id="easterVid" controls autoplay loop playsinline></video>
-      <div id="supportContent" style="display:none">
-        <div class="support-card">
-          <div class="support-header">
-            <div class="support-avatar">JX</div>
-            <div>
-              <div style="font-weight:bold">JettaX Support</div>
-              <div style="font-size:12px;opacity:0.6">Система поддержки пользователей</div>
-            </div>
-          </div>
-          <div style="font-size:14px;line-height:1.4">Если у вас возникли проблемы с конфигурацией TTY или подключением к ИИ-моделям, вы можете связаться напрямую.</div>
-          <a href="https://t.me/jettaxp" target="_blank" class="support-btn">Написать в Telegram</a>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -81,14 +59,12 @@ const cmd = document.getElementById('cmd');
 const suggest = document.getElementById('suggest');
 const easterOverlay = document.getElementById('easterOverlay');
 const easterTitle = document.getElementById('easterTitle');
-const easterDesc = document.getElementById('easterDesc');
 const easterVid = document.getElementById('easterVid');
-const supportContent = document.getElementById('supportContent');
 
 let chatHistory = [];
 let selectedModel = 'pplx-gpt-5.1';
 const models = ['pplx-gpt-5.1','gpt-5-mini','sonar-pro','sonar-deep-research'];
-const commands = ['/help', '/models', '/model', '/easter1', '/easter2', '/support', '/clear', '/github', '/jettax-tg'];
+const commands = ['/help', '/models', '/model', '/easter1', '/easter2', '/clear', '/github', '/jettax-tg'];
 
 function append(text){ screen.innerHTML += text; screen.scrollTop = screen.scrollHeight; }
 function typeText(text,speed=40){ return new Promise(res=>{ let i=0; const t=setInterval(()=>{ append(text.charAt(i++)); if(i>text.length-1){ clearInterval(t); res(); } }, speed); }); }
@@ -128,51 +104,27 @@ async function sendToAI(text){
 
 function triggerEaster(type) {
   easterOverlay.classList.add('active');
-  supportContent.style.display = 'none';
   easterVid.style.display = 'none';
   easterVid.pause();
   
   if(type === 1) {
     easterTitle.style.display = 'block';
-    easterTitle.textContent = "allah";
-    easterDesc.textContent = "⚙️ Воспроизведение видео 1";
+    easterTitle.textContent = "окак";
     easterVid.src = "https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/video_2026-05-09_21-46-41.mp4";
     easterVid.style.display = 'block';
     easterVid.play().catch(()=>{});
   } else if(type === 2) {
     easterTitle.style.display = 'block';
-    easterTitle.textContent = "✨ ДИСКО ✨";
-    easterDesc.textContent = "🎉 Воспроизведение видео 2";
+    easterTitle.textContent = "привет";
     easterVid.src = "https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/video_2026-05-09_21-55-16.mp4";
     easterVid.style.display = 'block';
     easterVid.play().catch(()=>{});
-    createParticles();
-  } else if(type === 'support') {
-    easterTitle.style.display = 'none';
-    easterDesc.textContent = "";
-    supportContent.style.display = 'block';
   }
 }
 
 function closeEaster() {
   easterOverlay.classList.remove('active');
   easterVid.pause();
-}
-
-function createParticles() {
-  for (let i = 0; i < 40; i++) {
-    const p = document.createElement('div');
-    p.classList.add('ee-particle');
-    p.style.left = '50%';
-    p.style.top = '50%';
-    p.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`;
-    const dx = (Math.random() - 0.5) * 400 + 'px';
-    const dy = (Math.random() - 0.5) * 400 + 'px';
-    p.style.setProperty('--dx', dx);
-    p.style.setProperty('--dy', dy);
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 1000);
-  }
 }
 
 cmd.addEventListener('input', () => {
@@ -213,11 +165,10 @@ cmd.addEventListener('keydown',(e)=>{
         if(parts[1] && models.includes(parts[1])){ selectedModel=parts[1]; append('\nModel set to '+selectedModel+'\n'); } 
         else append('\nUsage: /model <name> — available: '+models.join(', ')+'\n'); 
       }
-      else if(c==='/easter1'){ append('\n[easter1] Запуск видео...\n'); triggerEaster(1); }
-      else if(c==='/easter2'){ append('\n[easter2] Запуск видео...\n'); triggerEaster(2); } 
-      else if(c==='/support'){ append('\n[support] Открытие панели поддержки...\n'); triggerEaster('support'); }
+      else if(c==='/easter1'){ append('\n[easter1] Запуск видео 1...\n'); triggerEaster(1); }
+      else if(c==='/easter2'){ append('\n[easter2] Запуск видео 2...\n'); triggerEaster(2); } 
       else if(c==='/help'){ 
-        append('\nCommands:\n /models — show models\n /model <name> — select model\n /easter1 — play easter video 1\n /easter2 — play easter video 2\n /support — open support card\n /clear — clear screen\n /github — open GitHub\n /jettax-tg — open Telegram\n'); 
+        append('\nCommands:\n /models — show models\n /model <name> — select model\n /easter1 — play easter video 1\n /easter2 — play easter video 2\n /clear — clear screen\n /github — open GitHub\n /jettax-tg — open Telegram\n'); 
       } 
       else if(c==='/github'){ window.open('https://github.com/JettaXP', '_blank'); append('\n[system] Открыт GitHub в новой вкладке\n'); } 
       else if(c==='/jettax-tg'){ window.open('https://t.me/jettaxp', '_blank'); append('\n[system] Открыт Telegram в новой вкладке\n'); }
