@@ -1721,6 +1721,17 @@
             white-space: nowrap !important;
         }
 
+        body[data-device="android"] .m3-nav-item.active,
+        body[data-device="android"] .theme-option.active,
+        body[data-device="android"] .device-status,
+        body[data-device="android"] .status-default,
+        body[data-device="android"] .status-secondary,
+        body[data-device="android"] .status-rip {
+            background: #000080 !important;
+            color: #fff !important;
+            -webkit-text-fill-color: #fff !important;
+        }
+
         @media(max-width:768px) {
             .page-wrapper {
                 border-radius: 36px;
@@ -2240,6 +2251,9 @@
                 if (variant === '/windows') return 'android';
                 if (variant === '/fluid') return 'macos';
                 if (variant === '/material') return 'windows';
+                if (variant === '/macos') return 'macos';
+                if (variant === '/ios') return 'ios';
+                if (variant === '/ipados') return 'ipados';
                 if (/android/i.test(ua)) return 'android';
                 if (/ipad/i.test(ua) || touchMac) return 'ipados';
                 if (/iphone|ipod/i.test(ua)) return 'ios';
@@ -2257,12 +2271,21 @@
             }
 
             function addBranches() {
-                const container = document.querySelector('#main-content .container');
-                if (!container || document.querySelector('.branches-card')) return;
-                const card = document.createElement('div');
-                card.className = 'branches-card';
-                card.innerHTML = '<h2>ветки</h2><div class="branches-list"><a class="branch-link" href="/404"><span class="branch-symbol">⌁</span><span>jettax.xyz/404</span></a><a class="branch-link" href="/ai"><span class="branch-symbol">⌁</span><span>jettax.xyz/ai</span></a><a class="branch-link" href="/windows"><span class="branch-symbol">⌁</span><span>jettax.xyz/windows</span></a><a class="branch-link" href="/fluid"><span class="branch-symbol">⌁</span><span>jettax.xyz/fluid</span></a><a class="branch-link" href="/material"><span class="branch-symbol">⌁</span><span>jettax.xyz/material</span></a></div>';
-                container.appendChild(card);
+                const list = document.querySelector('#links-surface .links-section');
+                if (!list || document.querySelector('[data-branches-links]')) return;
+                const divider = document.createElement('div');
+                divider.setAttribute('data-branches-links', 'true');
+                divider.className = 'link-item';
+                divider.style.cursor = 'default';
+                divider.innerHTML = '<span class="material-symbols-outlined link-icon">account_tree</span><div class="link-content"><span class="link-title">Ветки сайта</span><span class="link-subtitle">версии страниц</span></div>';
+                list.appendChild(divider);
+                [['/404','jettax.xyz/404'],['/ai','jettax.xyz/ai'],['/os','jettax.xyz/os'],['/ai/os','jettax.xyz/ai/os'],['/404/os','jettax.xyz/404/os'],['/windows','jettax.xyz/windows'],['/fluid','jettax.xyz/fluid'],['/material','jettax.xyz/material'],['/linux','jettax.xyz/linux'],['/macos','jettax.xyz/macos'],['/ios','jettax.xyz/ios'],['/ipados','jettax.xyz/ipados'],['/ai/windows','jettax.xyz/ai/windows'],['/ai/fluid','jettax.xyz/ai/fluid'],['/ai/material','jettax.xyz/ai/material'],['/404/windows','jettax.xyz/404/windows'],['/404/fluid','jettax.xyz/404/fluid'],['/404/material','jettax.xyz/404/material']].forEach(([href, label]) => {
+                    const a = document.createElement('a');
+                    a.className = 'link-item';
+                    a.href = href;
+                    a.innerHTML = '<span class="material-symbols-outlined link-icon">subdirectory_arrow_right</span><div class="link-content"><span class="link-title">' + label + '</span><span class="link-subtitle">' + href + '</span></div><span class="material-symbols-outlined arrow">chevron_right</span>';
+                    list.appendChild(a);
+                });
             }
 
             function initDeviceAdditions() {

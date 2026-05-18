@@ -1,0 +1,3 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JettaX OS</title></head><body><script>
+(function(){const ua=navigator.userAgent;const p=(navigator.userAgentData?.platform||navigator.platform||'').toLowerCase();const touchMac=/mac/i.test(p)&&navigator.maxTouchPoints>1;let to='/material';if(/android/i.test(ua))to='/material';else if(/ipad/i.test(ua)||touchMac)to='/ipados';else if(/iphone|ipod/i.test(ua))to='/ios';else if(/macintosh|mac os x/i.test(ua))to='/macos';else if(/linux/i.test(p)||/linux/i.test(ua))to='/linux';else if(/win/i.test(p)||/windows/i.test(ua))to=Math.random()<.5?'/windows':'/fluid';location.replace(to);})();
+</script></body></html>

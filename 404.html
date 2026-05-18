@@ -18,8 +18,15 @@
             const ua = navigator.userAgent;
             const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
             const touchMac = /mac/i.test(platform) && navigator.maxTouchPoints > 1;
+            const path = location.pathname.replace(/\/+$/, '').toLowerCase();
             let device = 'linux';
-            if (/android/i.test(ua)) device = 'android';
+            if (path.endsWith('/windows')) device = 'android';
+            else if (path.endsWith('/fluid') || path.endsWith('/macos')) device = 'macos';
+            else if (path.endsWith('/ios')) device = 'ios';
+            else if (path.endsWith('/ipados')) device = 'ipados';
+            else if (path.endsWith('/linux')) device = 'linux';
+            else if (path.endsWith('/material')) device = 'windows';
+            else if (/android/i.test(ua)) device = 'android';
             else if (/ipad/i.test(ua) || touchMac) device = 'ipados';
             else if (/iphone|ipod/i.test(ua)) device = 'ios';
             else if (/macintosh|mac os x/i.test(ua)) device = 'macos';

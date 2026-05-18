@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>jettax@pixel</title>
+  <style>
+    :root{--bg:#0d1117;--panel:#111827;--panel2:#0b1220;--line:#2dd4bf;--accent:#8b5cf6;--text:#d1fae5;--muted:#86a3a3}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(circle at 10% 0%,rgba(45,212,191,.16),transparent 28rem),radial-gradient(circle at 90% 100%,rgba(139,92,246,.16),transparent 30rem),var(--bg);color:var(--text);font-family:Consolas,"Cascadia Code","JetBrains Mono",monospace;overflow:hidden}
+    .grid{height:100vh;padding:14px;display:grid;grid-template-columns:1.1fr .9fr;grid-template-rows:1fr 1fr;gap:12px}
+    .win{background:linear-gradient(145deg,rgba(17,24,39,.94),rgba(11,18,32,.94));border:1px solid rgba(45,212,191,.28);box-shadow:0 18px 45px rgba(0,0,0,.34);padding:18px;overflow:auto;outline:0}
+    .win.active{border-color:#facc15;box-shadow:0 0 0 2px rgba(250,204,21,.38),0 18px 45px rgba(0,0,0,.34)}
+    .term{white-space:pre-wrap;line-height:1.45;font-size:14px}
+    .prompt{color:var(--line)} .key{color:#facc15}.muted{color:var(--muted)} a{color:var(--text);text-decoration:none}.row{display:flex;justify-content:space-between;gap:18px;border-bottom:1px dashed rgba(45,212,191,.18);padding:7px 0}.list{display:grid;gap:9px}.item{border:1px solid rgba(45,212,191,.22);padding:10px;background:rgba(45,212,191,.05)}.item:focus,.item.sel{border-color:#facc15;background:rgba(250,204,21,.12);outline:0}.small{font-size:12px;color:var(--muted);margin-top:10px}
+    @media(max-width:760px){body{overflow:auto}.grid{height:auto;min-height:100vh;grid-template-columns:1fr;grid-template-rows:auto;padding:10px}.win{min-height:220px}}
+  </style>
+</head>
+<body>
+  <main class="grid" id="grid">
+    <section class="win active" tabindex="0" data-window="0">
+      <div class="term"><span class="prompt">jettax@pixel</span> ~ fastfetch
+
+      ██████╗ ██╗  ██╗ █████╗ ██╗  ██╗
+      ██╔══██╗██║ ██╔╝██╔══██╗██║ ██╔╝
+      ██║  ██║█████╔╝ ███████║█████╔╝
+      ██║  ██║██╔═██╗ ██╔══██║██╔═██╗
+      ╚██████╔╝██║  ██╗██║  ██║██║  ██╗
+       ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
+
+OS: <span class="key">OkakOS</span>
+Host: jettax@pixel
+Uptime: <span id="uptime">0s</span>
+Shell: fish
+Terminal: kitty
+CPU: Intel Core i3-10105F @ 3.70GHz
+GPU: NVIDIA GTX 950
+Memory: 16GB DDR4
+      </div>
+    </section>
+    <section class="win" tabindex="0" data-window="1">
+      <div class="term"><span class="prompt">~/about</span></div>
+      <div class="row"><span>name</span><span>Филипп / JettaX</span></div>
+      <div class="row"><span>city</span><span>Днепр, Украина</span></div>
+      <div class="row"><span>birthday</span><span>10 ноября</span></div>
+      <div class="row"><span>pets</span><span>Lukas, Umka, Vishnya, Jetta</span></div>
+    </section>
+    <section class="win" tabindex="0" data-window="2">
+      <div class="term"><span class="prompt">~/devices</span></div>
+      <div class="row"><span>Huawei INE-LX1</span><span>основной</span></div>
+      <div class="row"><span>Galaxy S20FE</span><span>сломан экран, хз что делать</span></div>
+      <div class="row"><span>Pixel 7a</span><span>дохлая батарея</span></div>
+      <div class="row"><span>Asus Vivobook S 15</span><span>ноутбук</span></div>
+      <div class="row"><span>Pixel Watch 1</span><span>часы</span></div>
+      <div class="row"><span>Pixel Buds A-series</span><span>наушники</span></div>
+    </section>
+    <section class="win" tabindex="0" data-window="3">
+      <div class="term"><span class="prompt">~/links</span> <span class="muted">стрелки выбирают, Enter открывает</span></div>
+      <div class="list" id="links">
+        <a class="item sel" href="https://t.me/jettaxp">Telegram</a>
+        <a class="item" href="https://github.com/jettaxp">GitHub</a>
+        <a class="item" href="/ai">jettax.xyz/ai</a>
+        <a class="item" href="/404">jettax.xyz/404</a>
+        <a class="item" href="/os">jettax.xyz/os</a>
+        <a class="item" href="/windows">jettax.xyz/windows</a>
+        <a class="item" href="/fluid">jettax.xyz/fluid</a>
+        <a class="item" href="/material">jettax.xyz/material</a>
+      </div>
+      <div class="small">Наведи мышкой на окно или переключайся стрелками.</div>
+    </section>
+  </main>
+  <script>
+    const started=Date.now(), wins=[...document.querySelectorAll('.win')], links=[...document.querySelectorAll('#links .item')];let wi=0,li=0;
+    setInterval(()=>{const s=Math.floor((Date.now()-started)/1000);const m=Math.floor(s/60);document.getElementById('uptime').textContent=m?`${m}m ${s%60}s`:`${s}s`;},500);
+    function focusWin(n){wi=(n+wins.length)%wins.length;wins.forEach((w,i)=>w.classList.toggle('active',i===wi));wins[wi].focus({preventScroll:true})}
+    function focusLink(n){li=(n+links.length)%links.length;links.forEach((a,i)=>a.classList.toggle('sel',i===li))}
+    wins.forEach((w,i)=>w.addEventListener('mouseenter',()=>focusWin(i)));
+    document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')focusWin(wi+1);else if(e.key==='ArrowLeft')focusWin(wi-1);else if(e.key==='ArrowDown'&&wi===3){e.preventDefault();focusLink(li+1)}else if(e.key==='ArrowUp'&&wi===3){e.preventDefault();focusLink(li-1)}else if(e.key==='Enter'&&wi===3){location.href=links[li].href}});
+  </script>
+</body>
+</html>
