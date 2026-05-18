@@ -62,10 +62,33 @@ async function runTTY(){
   }catch(e){ append('Последний трек: —\n'); }
   append('\nLinks:');
   links.forEach(l=>{ append('\n['+l.k+'] '+l.t+' — '+l.u); });
-  append('\n\nPress Enter to return to main...\n');
+  append('\n\nFull bio:\n');
+  append('Nicknames: jettax, jettaxp\n');
+  append('Location: Dnipro, Ukraine\n');
+  append('About: Developer, music lover, tinkerer.\n');
+  append('Devices: Pixel phone, Desktop PC, Virtual machines.\n');
+  append('Pets: (not listed)\n');
+  append('\nType H to open commands / help.\n');
+  append('\nPress Enter to return to main...\n');
   canReturn = true;
 }
 runTTY();
+// create help overlay
+const helpDiv = document.createElement('div');
+helpDiv.id='help-overlay';
+helpDiv.style.position='fixed';
+helpDiv.style.right='12px';
+helpDiv.style.top='12px';
+helpDiv.style.background='#071013';
+helpDiv.style.color='#cdd6f4';
+helpDiv.style.border='1px solid #223';
+helpDiv.style.padding='12px';
+helpDiv.style.zIndex=9999;
+helpDiv.style.fontFamily='JetBrains Mono,monospace';
+helpDiv.innerHTML='<b>Commands</b>\nH — toggle help\n1-8 — open links\nEnter — return to main\n';
+document.body.appendChild(helpDiv);
+helpDiv.style.display='none';
+window.addEventListener('keydown',(e)=>{ if(e.key==='H' || e.key==='h'){ helpDiv.style.display = helpDiv.style.display==='none' ? 'block' : 'none'; } });
 window.addEventListener('keydown', (e)=>{
   if(e.key === 'Enter'){ if(canReturn) location.href = '/'; return; }
   if(/[1-9]/.test(e.key)){ const found = links.find(x=>x.k === e.key); if(found) window.open(found.u, '_blank'); }

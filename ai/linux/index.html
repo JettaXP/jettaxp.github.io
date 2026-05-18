@@ -47,7 +47,7 @@ cmd.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); c
   append('\nAvailable models:\n'); models.forEach((m,i)=> setTimeout(()=>append(' - '+m+'\n'), i*220));
  } else if(c==='/model'){ if(parts[1] && models.includes(parts[1])){ selectedModel=parts[1]; append('\nModel set to '+selectedModel+'\n'); } else append('\nUsage: /model <name> — available: '+models.join(', ')+'\n'); }
  else if(c==='/easter1'){ append('\n[easter1] playing video (placeholder)\n'); }
- else if(c==='/easter2'){ append('\n[easter2] animation (placeholder)\n'); }
+ else if(c==='/easter2'){ append('\n[easter2] animation (placeholder)\n'); } else if(c==='/help'){ append('\nCommands:\n /models — show models\n /model <name> — select model\n /easter1 — play easter video\n /easter2 — play easter animation\n /clear — clear screen\n /github — open GitHub\n /jettax-tg — open Telegram\n'); } else if(c==='/github'){ append('\nGitHub: https://github.com/JettaXP\n'); } else if(c==='/jettax-tg'){ append('\nTelegram: https://t.me/jettaxp\n'); }
  else { append('\nUnknown command: '+v+'\n'); }
  cmd.value=''; return; }
  sendToAI(v); cmd.value=''; }
