@@ -1,2 +1,50 @@
-<!doctype html><html lang="ru"><head><style>.ee-zone, .ee-zone2, .ee-overlay, .ee-window, .blob { display: none !important; }</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>404 Linux</title></head><body><script>fetch('/404.html',{cache:'no-cache'}).then(r=>r.text()).then(h=>{h=h.replace('<head><style>.ee-zone, .ee-zone2, .ee-overlay, .ee-window, .blob { display: none !important; }</style>','<head><style>.ee-zone, .ee-zone2, .ee-overlay, .ee-window, .blob { display: none !important; }</style><base href="/">');document.open();document.write(h);document.close();});</script></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JettaX | AI Linux (TTY)</title>
+  <style>
+    body{background:#0b0c0d;color:#cfe;font-family:monospace;padding:24px}
+    .tty{max-width:1100px;margin:18px auto;background:#060606;border-radius:8px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+    .layout{display:none;max-width:1100px;margin:18px auto;gap:18px}
+    .pane{background:#020202;padding:18px;border-radius:8px}
+    .left{width:45%;float:left}
+    .right{width:50%;float:right}
+    .tree ul{list-style:none;padding-left:0}
+    .tree li{padding:6px 8px;border-radius:6px}
+    .tree li.selected{background:rgba(139,190,255,0.08);outline:1px solid rgba(139,190,255,0.12)}
+    .clearfix::after{content:'';display:table;clear:both}
+    iframe{width:100%;height:60vh;border:none;border-radius:8px;background:#000}
+    .hidden-windows{display:none !important}
+  </style>
+</head>
+<body>
+  <div class="tty hidden-windows" id="tty">
+    <pre id="tty-content">EndeavourOS 7.0.8-arch1-1 (tty3)
 
+jettax@pixel:~$ </pre>
+  </div>
+
+  <div class="layout clearfix" id="layout">
+    <div class="pane left" id="bio">
+      <h3>Bio (AI)</h3>
+      <p>AI-версия. Здесь краткая информация и ссылки на AI-страницы.</p>
+    </div>
+    <div class="pane right" id="links">
+      <h3>AI Chat</h3>
+      <div id="ai-embed"><iframe src="/ai/index.html"></iframe></div>
+    </div>
+  </div>
+
+  <script>
+    const ttyContent = document.getElementById('tty-content');
+    const layout = document.getElementById('layout');
+
+    function typeText(text, el, delay=40){return new Promise(r=>{let i=0;const t=setInterval(()=>{el.innerHTML = el.innerHTML + text.charAt(i); i++; if(i>=text.length){clearInterval(t); r();}},delay);});}
+
+    async function run(){ await typeText('bash jettax.xyz/ai/linux/.sh', ttyContent, 60); await new Promise(r=>setTimeout(r,500)); document.getElementById('tty').style.display='none'; layout.style.display='flex'; }
+    setTimeout(run,400);
+  </script>
+</body>
+</html>
