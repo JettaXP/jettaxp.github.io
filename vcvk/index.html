@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>вц дай денег</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+        }
+        
+        video {
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+    <video id="mainVideo" src="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/doc_2026-05-18_16-30-03.mp4" autoplay muted loop playsinline></video>
+
+    <script>
+        const video = document.getElementById('mainVideo');
+
+        window.addEventListener('click', function() {
+            video.muted = false;
+        });
+    </script>
+
+</body>
+</html>
