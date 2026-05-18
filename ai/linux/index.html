@@ -6,10 +6,10 @@
 <title>JettaX | AI Linux (TTY)</title>
 <style>
   body{background:#000;color:#cdd6f4;font-family: 'JetBrains Mono', monospace;margin:0;height:100vh;overflow:hidden}
-  .term{padding:10px;box-sizing:border-box;height:100%;width:100%;display:flex;flex-direction:column}
-  #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:15px;flex:1;overflow-y:auto;margin:0}
+  .term{padding:10px;box-sizing:border-box;height:100%;width:100%;display:flex;flex-direction:column;position:relative}
+  #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:15px;flex:1;overflow-y:auto;margin:0;padding-bottom:120px}
   .prompt{color:#89b4fa}
-  .tty-input{margin-top:8px;position:relative;max-width:980px}
+  .tty-input{position:absolute;bottom:10px;left:10px;right:10px;max-width:980px;background:#000;z-index:50}
   #cmd{width:100%;padding:10px;border-radius:6px;border:1px solid #222;background:#070707;color:#cdd6f4;font-family:inherit;box-sizing:border-box;outline:none}
   #cmd:focus{border-color:#89b4fa}
   .muted{color:#7c8598}
@@ -135,15 +135,15 @@ function triggerEaster(type) {
   if(type === 1) {
     easterTitle.style.display = 'block';
     easterTitle.textContent = "allah";
-    easterDesc.textContent = "⚙️ Воспроизведение видео";
-    easterVid.src = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
+    easterDesc.textContent = "⚙️ Воспроизведение видео 1";
+    easterVid.src = "https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/video_2026-05-09_21-46-41.mp4";
     easterVid.style.display = 'block';
     easterVid.play().catch(()=>{});
   } else if(type === 2) {
     easterTitle.style.display = 'block';
     easterTitle.textContent = "✨ ДИСКО ✨";
-    easterDesc.textContent = "🎉 Запуск частиц квантового спектра";
-    easterVid.src = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
+    easterDesc.textContent = "🎉 Воспроизведение видео 2";
+    easterVid.src = "https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/video_2026-05-09_21-55-16.mp4";
     easterVid.style.display = 'block';
     easterVid.play().catch(()=>{});
     createParticles();
@@ -213,14 +213,14 @@ cmd.addEventListener('keydown',(e)=>{
         if(parts[1] && models.includes(parts[1])){ selectedModel=parts[1]; append('\nModel set to '+selectedModel+'\n'); } 
         else append('\nUsage: /model <name> — available: '+models.join(', ')+'\n'); 
       }
-      else if(c==='/easter1'){ append('\n[easter1] Открытие видео плеера...\n'); triggerEaster(1); }
-      else if(c==='/easter2'){ append('\n[easter2] Открытие анимационного плеера...\n'); triggerEaster(2); } 
+      else if(c==='/easter1'){ append('\n[easter1] Запуск видео...\n'); triggerEaster(1); }
+      else if(c==='/easter2'){ append('\n[easter2] Запуск видео...\n'); triggerEaster(2); } 
       else if(c==='/support'){ append('\n[support] Открытие панели поддержки...\n'); triggerEaster('support'); }
       else if(c==='/help'){ 
         append('\nCommands:\n /models — show models\n /model <name> — select model\n /easter1 — play easter video 1\n /easter2 — play easter video 2\n /support — open support card\n /clear — clear screen\n /github — open GitHub\n /jettax-tg — open Telegram\n'); 
       } 
-      else if(c==='/github'){ append('\nGitHub: https://github.com/JettaXPn'); } 
-      else if(c==='/jettax-tg'){ append('\nTelegram: https://t.me/jettaxpn'); }
+      else if(c==='/github'){ window.open('https://github.com/JettaXP', '_blank'); append('\n[system] Открыт GitHub в новой вкладке\n'); } 
+      else if(c==='/jettax-tg'){ window.open('https://t.me/jettaxp', '_blank'); append('\n[system] Открыт Telegram в новой вкладке\n'); }
       else { append('\nUnknown command: '+v+'\n'); }
       cmd.value=''; return; 
     }
