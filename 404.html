@@ -101,6 +101,7 @@
         };
 
         const startRickroll = () => {
+            if (document.body.dataset.device === 'linux') return;
             if (player.firstChild) return;
             const iframe = document.createElement('iframe');
             iframe.src = 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&playsinline=1&rel=0';
@@ -111,7 +112,7 @@
 
         if (document.body.dataset.device === 'android') {
             document.addEventListener('click', (event) => {
-            if (document.body.dataset.device === 'linux') return;
+                if (document.body.dataset.device === 'linux') return;
                 if (!container.contains(event.target)) startRickroll();
             });
         } else {
@@ -340,4 +341,3 @@ Press Enter to return to main...</span>`;
     </script>
 </body>
 </html>
-
