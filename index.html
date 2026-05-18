@@ -752,29 +752,307 @@
             font-weight: 700;
         }
 
-        body[data-device="android"] .page-wrapper {
-            border-radius: 32px;
-            padding: 18px;
+        body[data-device="android"] {
+            background-color: #01007e;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.1) 2px, rgba(255,255,255,.1) 4px);
+            color: #000;
+            font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+            --bg-primary: #01007e;
+            --bg-secondary: #c0c0c0;
+            --bg-tertiary: #d4d4d4;
+            --text-primary: #000;
+            --text-secondary: #222;
+            --accent-primary: #000080;
+            --accent-secondary: #404040;
+            --border-color: #000;
+            --glass-bg: #c0c0c0;
+            --welcome-bg: #c0c0c0;
+            --surface-container: #c0c0c0;
+            --surface-variant: #d4d4d4;
+            --primary-container: #c0c0c0;
+            --on-primary-container: #000;
+            --on-primary: #fff;
         }
 
+        body[data-device="android"] .page-wrapper,
+        body[data-device="android"] .welcome-card,
         body[data-device="android"] .md3-surface,
         body[data-device="android"] .devices-card,
-        body[data-device="android"] .branches-card {
-            border-radius: 16px;
+        body[data-device="android"] .branches-card,
+        body[data-device="android"] .music-player,
+        body[data-device="android"] .link-item,
+        body[data-device="android"] .device-category,
+        body[data-device="android"] .device-item,
+        body[data-device="android"] .m3-bottom-nav,
+        body[data-device="android"] .m3-theme-corner,
+        body[data-device="android"] .glass-pill {
+            border-radius: 0;
+            background: #c0c0c0;
+            color: #000;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #000;
+            border-bottom: 2px solid #000;
+            box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+            backdrop-filter: none;
+        }
+
+        body[data-device="android"] .page-wrapper {
+            padding: 2px;
+            width: min(480px, calc(100vw - 20px));
+            max-width: calc(100vw - 20px);
+        }
+
+        body[data-device="android"] .page-wrapper::before {
+            content: "/home/jettax";
+            display: block;
+            width: 100%;
+            padding: 4px 6px;
+            color: #fff;
+            background: #000080;
+            font: 700 12px Tahoma, 'Microsoft Sans Serif', sans-serif;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        body[data-device="android"] .container {
+            padding: 18px 12px 12px;
+        }
+
+        body[data-device="android"] .avatar-wrapper {
+            width: 104px;
+            height: 104px;
+            mask: none;
+            -webkit-mask: none;
+            border-top: 3px solid #fff;
+            border-left: 3px solid #fff;
+            border-right: 3px solid #808080;
+            border-bottom: 3px solid #808080;
+            animation: none;
+        }
+
+        body[data-device="android"] .avatar-img {
+            width: 100%;
+            height: 100%;
+            animation: none;
+            image-rendering: auto;
+        }
+
+        body[data-device="android"] h1,
+        body[data-device="android"] .bio,
+        body[data-device="android"] .link-title,
+        body[data-device="android"] .link-subtitle,
+        body[data-device="android"] .device-name,
+        body[data-device="android"] .device-specs,
+        body[data-device="android"] .branches-card h2,
+        body[data-device="android"] .devices-card h2,
+        body[data-device="android"] .device-category h3 {
+            color: #000;
+            -webkit-text-fill-color: currentColor;
+            background: none;
+            font-family: Tahoma, 'Microsoft Sans Serif', sans-serif;
+        }
+
+        body[data-device="android"] h1 {
+            font-size: 1.7rem;
+            text-shadow: 1px 1px #fff;
+        }
+
+        body[data-device="android"] .play-action-btn,
+        body[data-device="android"] .copy-btn,
+        body[data-device="android"] .m3-nav-item,
+        body[data-device="android"] .palette-btn,
+        body[data-device="android"] .theme-option,
+        body[data-device="android"] .branch-symbol,
+        body[data-device="android"] .link-icon {
+            border-radius: 0;
+            background: #c0c0c0;
+            color: #000;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #000;
+            border-bottom: 2px solid #000;
             box-shadow: none;
         }
 
+        body[data-device="android"] .m3-nav-item.active,
+        body[data-device="android"] .theme-option.active,
+        body[data-device="android"] .play-action-btn:active,
+        body[data-device="android"] .copy-btn:active {
+            border-top-color: #000;
+            border-left-color: #000;
+            border-right-color: #fff;
+            border-bottom-color: #fff;
+            transform: none;
+        }
+
+        body[data-device="android"] .player-overlay {
+            background: rgba(0, 0, 0, .42);
+        }
+
+        body[data-device="android"] .time-widget-container {
+            position: static;
+            align-self: stretch;
+            width: min(480px, calc(100vw - 20px));
+            margin: 0 auto 10px;
+            align-items: stretch;
+        }
+
+        body[data-device="android"] .m3-theme-corner {
+            top: 8px;
+            left: 8px;
+            right: auto;
+            padding: 4px;
+        }
+
+        body[data-device="windows"] {
+            background:
+                radial-gradient(circle at 12% 8%, rgba(0, 120, 212, .34), transparent 32%),
+                radial-gradient(circle at 88% 12%, rgba(96, 205, 255, .2), transparent 28%),
+                linear-gradient(135deg, #101827, #1d2739 46%, #111827);
+            --accent-primary: #60cdff;
+            --accent-secondary: #7f7cff;
+            --surface-container: rgba(32, 40, 54, .72);
+            --surface-variant: rgba(46, 55, 72, .78);
+            --glass-bg: rgba(255, 255, 255, .1);
+            --border-color: rgba(255, 255, 255, .18);
+        }
+
+        body[data-device="windows"] .page-wrapper,
+        body[data-device="windows"] .md3-surface,
+        body[data-device="windows"] .devices-card,
+        body[data-device="windows"] .branches-card,
+        body[data-device="windows"] .m3-bottom-nav,
+        body[data-device="windows"] .m3-theme-corner,
+        body[data-device="windows"] .glass-pill {
+            background: rgba(32, 40, 54, .66);
+            border: 1px solid rgba(255,255,255,.18);
+            box-shadow: 0 24px 70px rgba(0,0,0,.32), inset 0 1px rgba(255,255,255,.12);
+            backdrop-filter: blur(28px) saturate(1.25);
+        }
+
         body[data-device="windows"] .page-wrapper {
-            box-shadow: 0 18px 0 rgba(0, 0, 0, .18);
+            border-radius: 30px;
         }
 
+        body[data-device="windows"] .link-item,
+        body[data-device="windows"] .device-item,
+        body[data-device="windows"] .branch-link {
+            background: rgba(255,255,255,.08);
+            border-color: rgba(255,255,255,.14);
+        }
+
+        body[data-device="linux"] {
+            background:
+                radial-gradient(circle at 15% 12%, rgba(255, 120, 0, .22), transparent 28%),
+                radial-gradient(circle at 88% 78%, rgba(38, 162, 105, .22), transparent 30%),
+                #1c1c1c;
+            --accent-primary: #ffb86c;
+            --accent-secondary: #57e389;
+            --surface-container: rgba(36, 36, 36, .84);
+            --surface-variant: rgba(48, 48, 48, .9);
+            --glass-bg: rgba(255,255,255,.08);
+            --border-color: rgba(255,255,255,.16);
+        }
+
+        body[data-device="linux"] .page-wrapper {
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,.14);
+            box-shadow: 0 20px 50px rgba(0,0,0,.36);
+        }
+
+        body[data-device="linux"] .md3-surface,
+        body[data-device="linux"] .devices-card,
+        body[data-device="linux"] .branches-card,
+        body[data-device="linux"] .m3-bottom-nav,
+        body[data-device="linux"] .m3-theme-corner,
+        body[data-device="linux"] .glass-pill {
+            border-radius: 14px;
+            background: rgba(45,45,45,.78);
+            border: 1px solid rgba(255,255,255,.14);
+            backdrop-filter: blur(18px);
+        }
+
+        body[data-device="linux"] .link-item,
+        body[data-device="linux"] .device-item,
+        body[data-device="linux"] .branch-link,
+        body[data-device="linux"] .branch-symbol,
+        body[data-device="linux"] .link-icon {
+            border-radius: 8px;
+        }
+
+        body[data-device="macos"],
+        body[data-device="ios"],
+        body[data-device="ipados"],
         body[data-device="apple"] {
-            --surface-container: #1f1d24;
-            --surface-variant: #302d36;
+            background:
+                radial-gradient(circle at 22% 10%, rgba(10, 132, 255, .28), transparent 30%),
+                radial-gradient(circle at 88% 20%, rgba(191, 90, 242, .24), transparent 28%),
+                radial-gradient(circle at 50% 90%, rgba(48, 209, 88, .18), transparent 30%),
+                linear-gradient(150deg, #080910, #15131f 54%, #090a10);
+            --accent-primary: #8ecbff;
+            --accent-secondary: #f3a6ff;
+            --surface-container: rgba(28, 28, 32, .58);
+            --surface-variant: rgba(44, 44, 50, .62);
+            --glass-bg: rgba(255,255,255,.1);
+            --border-color: rgba(255,255,255,.18);
         }
 
-        body[data-device="linux"] .branch-symbol {
-            border-radius: 6px;
+        body[data-device="macos"] .page-wrapper,
+        body[data-device="ios"] .page-wrapper,
+        body[data-device="ipados"] .page-wrapper,
+        body[data-device="apple"] .page-wrapper,
+        body[data-device="macos"] .md3-surface,
+        body[data-device="ios"] .md3-surface,
+        body[data-device="ipados"] .md3-surface,
+        body[data-device="apple"] .md3-surface,
+        body[data-device="macos"] .devices-card,
+        body[data-device="ios"] .devices-card,
+        body[data-device="ipados"] .devices-card,
+        body[data-device="apple"] .devices-card,
+        body[data-device="macos"] .branches-card,
+        body[data-device="ios"] .branches-card,
+        body[data-device="ipados"] .branches-card,
+        body[data-device="apple"] .branches-card,
+        body[data-device="macos"] .m3-bottom-nav,
+        body[data-device="ios"] .m3-bottom-nav,
+        body[data-device="ipados"] .m3-bottom-nav,
+        body[data-device="apple"] .m3-bottom-nav,
+        body[data-device="macos"] .m3-theme-corner,
+        body[data-device="ios"] .m3-theme-corner,
+        body[data-device="ipados"] .m3-theme-corner,
+        body[data-device="apple"] .m3-theme-corner,
+        body[data-device="macos"] .glass-pill,
+        body[data-device="ios"] .glass-pill,
+        body[data-device="ipados"] .glass-pill,
+        body[data-device="apple"] .glass-pill {
+            background: rgba(255,255,255,.11);
+            border: 1px solid rgba(255,255,255,.2);
+            box-shadow: 0 24px 70px rgba(0,0,0,.34), inset 0 1px rgba(255,255,255,.18);
+            backdrop-filter: blur(34px) saturate(1.55);
+        }
+
+        body[data-device="macos"] .page-wrapper,
+        body[data-device="apple"] .page-wrapper {
+            border-radius: 34px;
+        }
+
+        body[data-device="ios"] .page-wrapper,
+        body[data-device="ipados"] .page-wrapper {
+            width: min(520px, calc(100vw - 20px));
+            max-width: calc(100vw - 20px);
+            border-radius: 38px;
+            padding: 18px;
+        }
+
+        body[data-device="ios"] .link-item,
+        body[data-device="ipados"] .link-item,
+        body[data-device="ios"] .device-item,
+        body[data-device="ipados"] .device-item,
+        body[data-device="ios"] .branch-link,
+        body[data-device="ipados"] .branch-link {
+            background: rgba(255,255,255,.12);
+            border-color: rgba(255,255,255,.16);
         }
 
 
@@ -1572,6 +1850,12 @@
         }
 
         function updateThemeColors(hue) {
+            const device = document.body.dataset.device;
+            const fixedDeviceTheme = ['android', 'windows', 'linux', 'macos', 'ios', 'ipados', 'apple'].includes(device);
+            if (fixedDeviceTheme) {
+                ['--accent-primary', '--accent-secondary', '--primary-container', '--on-primary-container', '--bg-tertiary', '--welcome-bg'].forEach(name => document.body.style.removeProperty(name));
+                return;
+            }
             const isLight = document.body.getAttribute('data-theme') === 'light';
             const sat = isLight ? 60 : 85;
             const lit = isLight ? 45 : 75;
@@ -1810,9 +2094,11 @@
             function detectOS() {
                 const ua = navigator.userAgent;
                 const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+                const touchMac = /mac/i.test(platform) && navigator.maxTouchPoints > 1;
                 if (/android/i.test(ua)) return 'android';
-                if (/iphone|ipad|ipod/i.test(ua)) return 'ios';
-                if (/macintosh|mac os x/i.test(ua)) return 'apple';
+                if (/ipad/i.test(ua) || touchMac) return 'ipados';
+                if (/iphone|ipod/i.test(ua)) return 'ios';
+                if (/macintosh|mac os x/i.test(ua)) return 'macos';
                 if (/win/i.test(platform) || /windows/i.test(ua)) return 'windows';
                 if (/linux/i.test(platform) || /linux/i.test(ua)) return 'linux';
                 return 'unknown';
@@ -1836,6 +2122,7 @@
 
             function initDeviceAdditions() {
                 document.body.dataset.device = detectOS();
+                updateThemeColors(currentHue);
                 addBranches();
                 let tries = 0;
                 const timer = setInterval(() => {

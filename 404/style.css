@@ -461,6 +461,7 @@ body[data-device="android"] .digit {
 
 body[data-device="android"] .zero-container {
     background: #c0c0c0;
+    border-radius: 50%;
     border-top: 2px solid #fff;
     border-left: 2px solid #fff;
     border-right: 2px solid #808080;
@@ -469,7 +470,7 @@ body[data-device="android"] .zero-container {
 }
 
 body[data-device="android"] .avatar-mask {
-    border-radius: 18px;
+    border-radius: 50%;
 }
 
 body[data-device="android"] h1 {
