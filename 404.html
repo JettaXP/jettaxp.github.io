@@ -17,10 +17,12 @@
         (function () {
             const ua = navigator.userAgent;
             const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+            const touchMac = /mac/i.test(platform) && navigator.maxTouchPoints > 1;
             let device = 'linux';
             if (/android/i.test(ua)) device = 'android';
-            else if (/iphone|ipad|ipod/i.test(ua)) device = 'ios';
-            else if (/macintosh|mac os x/i.test(ua)) device = 'apple';
+            else if (/ipad/i.test(ua) || touchMac) device = 'ipados';
+            else if (/iphone|ipod/i.test(ua)) device = 'ios';
+            else if (/macintosh|mac os x/i.test(ua)) device = 'macos';
             else if (/win/i.test(platform) || /windows/i.test(ua)) device = 'windows';
             document.body.dataset.device = device;
         })();

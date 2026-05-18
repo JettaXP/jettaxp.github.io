@@ -27,6 +27,9 @@
       --on-primary-container: #eaddff;
       --on-primary: #381e72;
       --primary: #cfbcff;
+      --fluid-a: rgba(10, 132, 255, .28);
+      --fluid-b: rgba(191, 90, 242, .24);
+      --fluid-c: rgba(48, 209, 88, .18);
       --r-card: 30px;
       --r-bubble: 22px;
       --r-panel: 24px;
@@ -50,6 +53,78 @@
       color: var(--text-primary);
       font-family: 'Comfortaa', cursive;
       overflow-x: hidden;
+    }
+
+    body[data-device="macos"],
+    body[data-device="ios"],
+    body[data-device="ipados"],
+    body[data-device="linux"] {
+      background:
+        radial-gradient(circle at 18% 8%, var(--fluid-a), transparent 30rem),
+        radial-gradient(circle at 88% 18%, var(--fluid-b), transparent 28rem),
+        radial-gradient(circle at 52% 92%, var(--fluid-c), transparent 32rem),
+        linear-gradient(145deg, #080910, #15131f 56%, #090a10);
+    }
+
+    body[data-device="macos"],
+    body[data-device="ios"],
+    body[data-device="ipados"] {
+      --accent-primary: #8ecbff;
+      --accent-secondary: #f3a6ff;
+      --surface-container: rgba(28, 28, 32, .58);
+      --surface-container-high: rgba(255,255,255,.11);
+      --surface-container-highest: rgba(255,255,255,.14);
+      --primary-container: rgba(142, 203, 255, .22);
+      --on-primary-container: #eaf6ff;
+      --fluid-a: rgba(10, 132, 255, .3);
+      --fluid-b: rgba(191, 90, 242, .25);
+      --fluid-c: rgba(48, 209, 88, .18);
+    }
+
+    body[data-device="linux"] {
+      --accent-primary: #ffb86c;
+      --accent-secondary: #57e389;
+      --surface-container: rgba(36, 36, 36, .72);
+      --surface-container-high: rgba(255,255,255,.1);
+      --surface-container-highest: rgba(255,255,255,.13);
+      --primary-container: rgba(255, 184, 108, .22);
+      --on-primary-container: #fff2df;
+      --fluid-a: rgba(255, 120, 0, .24);
+      --fluid-b: rgba(38, 162, 105, .22);
+      --fluid-c: rgba(138, 180, 248, .14);
+    }
+
+    body[data-device="macos"] .card,
+    body[data-device="ios"] .card,
+    body[data-device="ipados"] .card,
+    body[data-device="linux"] .card,
+    body[data-device="macos"] .chat,
+    body[data-device="ios"] .chat,
+    body[data-device="ipados"] .chat,
+    body[data-device="linux"] .chat,
+    body[data-device="macos"] .composer,
+    body[data-device="ios"] .composer,
+    body[data-device="ipados"] .composer,
+    body[data-device="linux"] .composer,
+    body[data-device="macos"] .android-toast,
+    body[data-device="ios"] .android-toast,
+    body[data-device="ipados"] .android-toast,
+    body[data-device="linux"] .android-toast,
+    body[data-device="macos"] .ee-window,
+    body[data-device="ios"] .ee-window,
+    body[data-device="ipados"] .ee-window,
+    body[data-device="linux"] .ee-window {
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.1);
+      box-shadow: 0 24px 70px rgba(0,0,0,.34), inset 0 1px rgba(255,255,255,.16);
+      backdrop-filter: blur(30px) saturate(1.45);
+    }
+
+    body[data-device="linux"] .card,
+    body[data-device="linux"] .chat,
+    body[data-device="linux"] .composer,
+    body[data-device="linux"] .ee-window {
+      border-radius: 18px;
     }
 
 
@@ -1007,10 +1082,12 @@
   (function () {
     const ua = navigator.userAgent;
     const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+    const touchMac = /mac/i.test(platform) && navigator.maxTouchPoints > 1;
     let device = 'linux';
     if (/android/i.test(ua)) device = 'android';
-    else if (/iphone|ipad|ipod/i.test(ua)) device = 'ios';
-    else if (/macintosh|mac os x/i.test(ua)) device = 'apple';
+    else if (/ipad/i.test(ua) || touchMac) device = 'ipados';
+    else if (/iphone|ipod/i.test(ua)) device = 'ios';
+    else if (/macintosh|mac os x/i.test(ua)) device = 'macos';
     else if (/win/i.test(platform) || /windows/i.test(ua)) device = 'windows';
     document.body.dataset.device = device;
   })();

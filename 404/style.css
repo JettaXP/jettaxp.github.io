@@ -7,11 +7,69 @@
     --text-secondary: rgba(226, 227, 221, 0.68);
     --accent-primary: #bb86fc;
     --accent-secondary: #ffb4a2;
+    --fluid-a: rgba(10, 132, 255, .28);
+    --fluid-b: rgba(191, 90, 242, .24);
+    --fluid-c: rgba(48, 209, 88, .18);
     --primary-container: #3b2d5e;
     --on-primary-container: #e8def8;
     --border-color: rgba(255, 255, 255, 0.1);
     --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
     --easing: cubic-bezier(0.2, 0, 0, 1);
+}
+
+body[data-device="macos"],
+body[data-device="ios"],
+body[data-device="ipados"],
+body[data-device="linux"] {
+    background:
+        radial-gradient(circle at 18% 8%, var(--fluid-a), transparent 34rem),
+        radial-gradient(circle at 88% 18%, var(--fluid-b), transparent 32rem),
+        radial-gradient(circle at 52% 92%, var(--fluid-c), transparent 34rem),
+        linear-gradient(145deg, #080910, #15131f 56%, #090a10);
+}
+
+body[data-device="macos"],
+body[data-device="ios"],
+body[data-device="ipados"] {
+    --surface: rgba(255, 255, 255, .1);
+    --surface-strong: rgba(255, 255, 255, .13);
+    --surface-variant: rgba(255, 255, 255, .16);
+    --accent-primary: #8ecbff;
+    --accent-secondary: #f3a6ff;
+    --text-primary: #f4f7ff;
+    --text-secondary: rgba(244, 247, 255, .72);
+    --fluid-a: rgba(10, 132, 255, .3);
+    --fluid-b: rgba(191, 90, 242, .25);
+    --fluid-c: rgba(48, 209, 88, .18);
+    --border-color: rgba(255,255,255,.2);
+}
+
+body[data-device="linux"] {
+    --surface: rgba(36, 36, 36, .72);
+    --surface-strong: rgba(255, 255, 255, .1);
+    --surface-variant: rgba(255, 255, 255, .13);
+    --accent-primary: #ffb86c;
+    --accent-secondary: #57e389;
+    --text-primary: #fff7ef;
+    --text-secondary: rgba(255, 247, 239, .72);
+    --fluid-a: rgba(255, 120, 0, .24);
+    --fluid-b: rgba(38, 162, 105, .22);
+    --fluid-c: rgba(138, 180, 248, .14);
+    --border-color: rgba(255,255,255,.16);
+}
+
+body[data-device="macos"] .container,
+body[data-device="ios"] .container,
+body[data-device="ipados"] .container,
+body[data-device="linux"] .container {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow: 0 24px 70px rgba(0,0,0,.34), inset 0 1px rgba(255,255,255,.16);
+    backdrop-filter: blur(32px) saturate(1.48);
+}
+
+body[data-device="linux"] .container {
+    border-radius: 18px;
 }
 
 * {
@@ -32,6 +90,17 @@ body {
         radial-gradient(circle at 92% 100%, rgba(187, 134, 252, 0.26), transparent 36rem),
         linear-gradient(135deg, #111318 0%, var(--bg-primary) 48%, #211c2d 100%);
     overflow-x: hidden;
+}
+
+body[data-device="macos"],
+body[data-device="ios"],
+body[data-device="ipados"],
+body[data-device="linux"] {
+    background:
+        radial-gradient(circle at 18% 8%, var(--fluid-a), transparent 34rem),
+        radial-gradient(circle at 88% 18%, var(--fluid-b), transparent 32rem),
+        radial-gradient(circle at 52% 92%, var(--fluid-c), transparent 34rem),
+        linear-gradient(145deg, #080910, #15131f 56%, #090a10);
 }
 
 body::before {
@@ -222,6 +291,20 @@ body::before {
 
 .container:hover {
     border-color: rgba(187, 134, 252, 0.32);
+}
+
+body[data-device="macos"] .container,
+body[data-device="ios"] .container,
+body[data-device="ipados"] .container,
+body[data-device="linux"] .container {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow: 0 24px 70px rgba(0,0,0,.34), inset 0 1px rgba(255,255,255,.16);
+    backdrop-filter: blur(32px) saturate(1.48);
+}
+
+body[data-device="linux"] .container {
+    border-radius: 18px;
 }
 
 .error-code {
