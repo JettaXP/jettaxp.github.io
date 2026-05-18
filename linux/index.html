@@ -5,101 +5,152 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>JettaX | Linux (TTY)</title>
   <style>
-    body{background:#0b0c0d;color:#cfe;font-family:monospace;padding:24px}
-    .tty{max-width:1100px;margin:18px auto;background:#060606;border-radius:8px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.6)}
-    .layout{display:none;max-width:1100px;margin:18px auto;gap:18px}
-    .pane{background:#020202;padding:18px;border-radius:8px}
-    .left{width:45%;float:left}
-    .right{width:50%;float:right}
-    .tree ul{list-style:none;padding-left:0}
-    .tree li{padding:6px 8px;border-radius:6px}
-    .tree li.selected{background:rgba(139,190,255,0.08);outline:1px solid rgba(139,190,255,0.12)}
-    .clearfix::after{content:'';display:table;clear:both}
-    .hidden-windows{display:none !important}
+    :root{--bg:#000;--fg:#cdd6f4;--muted:#7c8598;--accent:#89b4fa}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family: 'JetBrains Mono', monospace, monospace}
+    .container{max-width:1100px;margin:18px auto;padding:12px}
+    .top-links{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+    .top-links a{color:var(--fg);text-decoration:none;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:14px}
+
+    .tty{background:#060606;border-radius:8px;padding:16px;box-shadow:0 12px 40px rgba(0,0,0,.6);min-height:300px;overflow:auto}
+    #tty-output{white-space:pre-wrap;font-family:inherit;line-height:1.4}
+    .prompt{color:var(--accent)}
+    .input-line{display:flex;gap:8px;align-items:center;margin-top:8px}
+    #cmd{flex:1;padding:8px;border-radius:6px;border:1px solid #222;background:#070707;color:var(--fg);font-family:inherit}
+    .cursor{display:inline-block;width:8px;height:1em;background:var(--fg);vertical-align:bottom;animation:blink 1s steps(2,end) infinite}
+    @keyframes blink{50%{opacity:0}}
+
+    .panes{display:flex;gap:18px;margin-top:18px}
+    .left-pane{width:48%;background:#070707;padding:12px;border-radius:8px}
+    .right-pane{width:52%;background:#070707;padding:12px;border-radius:8px}
+    .links-list a{display:block;color:var(--fg);text-decoration:none;padding:6px;border-radius:6px}
+    .site-tree{margin-top:12px;background:#050505;padding:10px;border-radius:6px;color:var(--muted);font-size:13px;max-height:320px;overflow:auto}
+
+    /* hide floating windows only on linux pages */
+    .ee-zone, .ee-zone2, .ee-overlay, .ee-window, .blob { display: none !important; }
+
+    .ascii{color:#cba6f7}
   </style>
 </head>
 <body>
-  <div class="tty hidden-windows" id="tty">
-    <pre id="tty-content">EndeavourOS 7.0.8-arch1-1 (tty3)
-
-jettax@pixel:~$ </pre>
-  </div>
-
-  <div class="layout clearfix" id="layout">
-    <div class="pane left" id="bio">
-      <h3>Bio</h3>
-      <pre style="white-space: pre-wrap; font-family: monospace; color: #cdd6f4">Welcome to my bio!
-
-Последний трек - Данятак себе чел — Увидимся на небе
-Сейчас играет: использование API ключа для скробблинга
-
-Это моё био. Тут есть мои линки и другая инфа.
-
-
-Информация:
-Я — Philipp, живу в Днепре, Украина.
-
-Мои питомцы:
-Lukas — шпиц
-Umka — шпиц
-Vishnya — шпиц
-Jetta — помчи
-
-Мой день рождения: 10 ноября
-
-Мои устройства:
-Телефоны: Huawei INE-LX1 (основной), Samsung Galaxy S20FE (сломан), Pixel 7a (проблемы с батареей), Redmi 8 (working)
-ПК: Windows 11, Intel Core i3-10105F, NVIDIA GTX 950, 16GB RAM
-Ноутбук: Asus Vivobook S 15
-Часы: Pixel Watch 1
-Наушники: Pixel Buds A-series
-
-Проекты и контакты:
-GitHub: https://github.com/JettaXP
-Telegram: https://t.me/jettaxp
-</pre>
+  <div class="container">
+    <div class="top-links" id="top-links">
+      <!-- short links: nick + URL -->
+      <a href="https://t.me/jettaxp" target="_blank">Telegram — @jettaxp</a>
+      <a href="https://github.com/JettaXP" target="_blank">GitHub — jettaxp</a>
+      <a href="https://www.last.fm/user/JettaXP" target="_blank">Last.fm — @JettaXP</a>
+      <a href="https://steamcommunity.com/id/jettaxp" target="_blank">Steam — jettaxp</a>
+      <a href="https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android" target="_blank">Clash Royale — JettaXGG</a>
+      <span style="color:var(--muted)">Discord — jettax03 (nick)</span>
     </div>
-    <div class="pane right" id="links">
-      <h3>Дерево ссылок</h3>
-      <div class="tree" tabindex="0">
-        <ul id="link-list">
-          <li data-href="/">home</li>
-          <li data-href="/ai">AI main</li>
-          <li data-href="https://t.me/jettaxp">Telegram — @jettaxp</li>
-          <li data-href="https://www.tiktok.com/@jettax03">TikTok — @jettax03</li>
-          <li data-href="https://steamcommunity.com/id/jettaxp">Steam — jettaxp</li>
-          <li data-href="#">Discord — jettax03 (nick)</li>
-          <li data-href="https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android">Clash Royale — JettaXGG</li>
-          <li data-href="#">Brawl Stars — JettaXGG (nick)</li>
-          <li data-href="https://www.epicgames.com/">Epic Games — JettaXP (profile)</li>
-          <li data-href="https://github.com/JettaXP">GitHub — jettaxp</li>
-          <li data-href="/404/404">404 Linux</li>
-          <li data-href="/ai/fluid">AI / Fluid</li>
-          <li data-href="/ai/material">AI / Material</li>
-          <li data-href="/ai/os">AI / OS</li>
-          <li data-href="/os/os">OS index</li>
-          <li data-href="/linux">Linux</li>
-          <li data-href="/macos">macOS</li>
-          <li data-href="/windows">Windows</li>
-        </ul>
+
+    <div class="tty" id="tty">
+      <div id="tty-output">EndeavourOS 7.0.8-arch1-1 (tty3)
+
+<span class="prompt">jettax@pixel:~$</span> bash jettax.xyz/linux/.sh<span class="cursor"></span></div>
+
+      <div class="input-line" id="input-line" style="display:none">
+        <span class="prompt">jettax@pixel:~$</span>
+        <input id="cmd" placeholder="Напиши сообщение (Enter — отправить). '/' — команды (/model, /models, /easter1, /easter2)" />
+      </div>
+    </div>
+
+    <div class="panes">
+      <div class="left-pane" id="bio-pane">
+        <h3>Обо мне</h3>
+        <div id="now-playing">Последний трек: <span id="track-name">—</span> — <span id="track-artist">—</span></div>
+        <div style="margin-top:12px;font-size:13px;color:var(--muted)">
+          Welcome to my bio!
+          <p>Я — Philipp, живу в Днепре, Украина.</p>
+        </div>
+      </div>
+      <div class="right-pane">
+        <h3>Короткие ссылки</h3>
+        <div class="links-list" id="links-list">
+          <!-- populated by script -->
+        </div>
+        <div class="site-tree" id="site-tree">
+          <!-- long tree with full URLs -->
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const ttyContent = document.getElementById('tty-content');
-    const layout = document.getElementById('layout');
-    const linkList = document.getElementById('link-list');
-    const items = Array.from(linkList.querySelectorAll('li'));
-    let sel = 0;
+    // Last.fm config (copied from main site)
+    const LASTFM_API = 'https://ws.audioscrobbler.com/2.0/';
+    const LASTFM_KEY = '9456ce29b8b500ab019e56d2b1ccab1f';
+    const LASTFM_USER = 'JettaXP';
 
-    function typeText(text, el, delay=40){return new Promise(r=>{let i=0;const t=setInterval(()=>{el.innerHTML = el.innerHTML + text.charAt(i); i++; if(i>=text.length){clearInterval(t); r();}},delay);});}
+    async function updateNowPlaying(){ try{
+      const res = await fetch(`${LASTFM_API}?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`);
+      const d = await res.json();
+      const track = d?.recenttracks?.track?.[0];
+      if(track){ document.getElementById('track-name').textContent = track.name || '—'; document.getElementById('track-artist').textContent = track.artist['#text'] || '—'; }
+    }catch(e){console.warn('lastfm',e);} }
+    updateNowPlaying(); setInterval(updateNowPlaying, 90_000);
 
-    async function run(){ await typeText('bash jettax.xyz/linux/.sh', ttyContent, 60); await new Promise(r=>setTimeout(r,500)); document.getElementById('tty').style.display='none'; layout.style.display='flex'; updateSelection(); document.querySelector('.tree').focus(); }
+    // populate short links and full site tree
+    const shortLinks = [
+      {t:'Telegram',u:'https://t.me/jettaxp',s:'@jettaxp'},
+      {t:'GitHub',u:'https://github.com/JettaXP',s:'jettaxp'},
+      {t:'Last.fm',u:'https://www.last.fm/user/JettaXP',s:'@JettaXP'},
+      {t:'Steam',u:'https://steamcommunity.com/id/jettaxp',s:'jettaxp'},
+      {t:'Clash Royale',u:'https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android',s:'JettaXGG'}
+    ];
+    const linksList = document.getElementById('links-list'); shortLinks.forEach(l=>{ const a=document.createElement('a'); a.href=l.u; a.target='_blank'; a.textContent = `${l.t} — ${l.s}`; linksList.appendChild(a); });
 
-    function updateSelection(){ items.forEach((it,idx)=>it.classList.toggle('selected', idx===sel)); }
-    document.addEventListener('keydown',(e)=>{ if(layout.style.display!=='flex') return; if(e.key==='ArrowDown'){ sel=Math.min(items.length-1, sel+1); updateSelection(); e.preventDefault(); } if(e.key==='ArrowUp'){ sel=Math.max(0, sel-1); updateSelection(); e.preventDefault(); } if(e.key==='Enter'){ const href = items[sel].dataset.href; if(href) location.href = href; } });
-    setTimeout(run,400);
+    const tree = [`https://jettax.xyz/404/404`, `https://jettax.xyz/ai/ai`, `https://jettax.xyz/os/os`, `https://jettax.xyz/ai/os/ai/os`, `https://jettax.xyz/404/os/404/os`, `https://jettax.xyz/windows/windows`, `https://jettax.xyz/fluid/fluid`, `https://jettax.xyz/material/material`, `https://jettax.xyz/linux/linux`, `https://jettax.xyz/macos/macos`, `https://jettax.xyz/ios/ios`, `https://jettax.xyz/ipados/ipados`, `https://jettax.xyz/ai/windows/ai/windows`, `https://jettax.xyz/ai/fluid/ai/fluid`, `https://jettax.xyz/ai/material/ai/material`];
+    document.getElementById('site-tree').textContent = tree.join('\n');
+
+    // AI endpoint config (obfuscated key copied from ai/index.html)
+    const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
+    function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
+    const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
+
+    const models = ['pplx-gpt-5.1','gpt-5-mini','sonar-pro','sonar-deep-research'];
+    let selectedModel = models[0];
+
+    const ttyOutput = document.getElementById('tty-output');
+    const inputLine = document.getElementById('input-line');
+    const cmd = document.getElementById('cmd');
+
+    function append(line, cls){ const d=document.createElement('div'); if(cls) d.className=cls; d.textContent = line; ttyOutput.appendChild(d); ttyOutput.scrollTop = ttyOutput.scrollHeight; }
+
+    function typeAnimation(lines, cb){ let i=0; function next(){ if(i>=lines.length){ cb&&cb(); return;} const line = lines[i++]; let j=0; const el=document.createElement('div'); ttyOutput.appendChild(el); ttyOutput.scrollTop = ttyOutput.scrollHeight; const t=setInterval(()=>{ el.textContent += line.charAt(j++); ttyOutput.scrollTop = ttyOutput.scrollHeight; if(j>line.length){ clearInterval(t); next(); } }, 35); }
+      next(); }
+
+    // run initial tty script then show shell
+    setTimeout(()=>{
+      typeAnimation(['bash jettax.xyz/linux/.sh',''], ()=>{ document.querySelector('.cursor').style.display='none'; inputLine.style.display='flex'; cmd.focus(); append('\n[TTY] Bash script started. Type your message to send to AI. Use /models, /model <name>, /easter1, /easter2, /clear'); });
+    }, 400);
+
+    async function ask(q){ if(!q) return; append('> '+q); // keep history
+      // add to chat history minimal
+      const chatHistory = [{role:'user',content:q}];
+      const typ = append('... thinking');
+      try{
+        const r = await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:selectedModel,messages:chatHistory})});
+        const data = await r.json().catch(()=>({}));
+        let text = data.choices && data.choices.length ? (data.choices[0].message?.content || data.choices[0].text) : data.error?.message || ('http '+r.status);
+        // replace typing indicator
+        ttyOutput.removeChild(ttyOutput.lastChild); append('AI: ' + text);
+      }catch(e){ ttyOutput.removeChild(ttyOutput.lastChild); append('ошибка: '+(e?.message||e)); }
+    }
+
+    cmd.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter'){ e.preventDefault(); const v=cmd.value.trim(); if(!v) return; if(v.startsWith('/')){ // commands
+          const parts = v.split(/\s+/); const c = parts[0]; if(c === '/clear'){ ttyOutput.innerHTML=''; append('EndeavourOS 7.0.8-arch1-1 (tty3)'); }
+          else if(c === '/models'){ // animated list
+            typeAnimation(['Available models:']); models.forEach(m=>{ setTimeout(()=>append(' - '+m), 400*models.indexOf(m)); });
+          } else if(c === '/model'){ if(parts[1] && models.includes(parts[1])){ selectedModel = parts[1]; append('Model set to '+selectedModel); } else append('Usage: /model <name> — available: '+models.join(', ')); }
+          else if(c === '/easter1'){ append('\n\n' + '（пасхалка 1）' + '\n'); }
+          else if(c === '/easter2'){ append('\n\n' + '（пасхалка 2）' + '\n'); }
+          else { append('Unknown command: '+v); }
+          cmd.value=''; return; }
+        // normal message -> send to AI
+        ask(v); cmd.value=''; }
+    });
+
   </script>
 </body>
 </html>
