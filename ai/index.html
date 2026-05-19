@@ -1388,14 +1388,10 @@ if (location.pathname === '/ai' || location.pathname === '/ai/') { location.repl
     if (path.endsWith('/windows')) device = 'android';
     else if (path.endsWith('/fluid')) device = 'fluid';
     else if (path.endsWith('/macos')) device = 'macos';
-    else if (path.endsWith('/ios')) device = 'ios';
-    else if (path.endsWith('/ipados')) device = 'ipados';
     else if (path.endsWith('/linux')) device = 'linux';
     else if (path.endsWith('/material')) device = 'windows';
     else if (/android/i.test(ua)) device = 'android';
-    else if (/ipad/i.test(ua) || touchMac) device = 'ipados';
-    else if (/iphone|ipod/i.test(ua)) device = 'ios';
-    else if (/macintosh|mac os x/i.test(ua)) device = 'macos';
+    else if (/ipad/i.test(ua) || touchMac || /iphone|ipod/i.test(ua) || /macintosh|mac os x/i.test(ua)) device = 'macos';
     else if (/win/i.test(platform) || /windows/i.test(ua)) device = 'windows';
     document.body.dataset.device = device;
   })();

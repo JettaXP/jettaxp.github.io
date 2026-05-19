@@ -2559,13 +2559,9 @@ if (location.pathname === '/' || location.pathname === '') { location.replace('/
                 if (variant === '/fluid') return 'fluid';
                 if (variant === '/material') return 'windows';
                 if (variant === '/macos') return 'macos';
-                if (variant === '/ios') return 'ios';
-                if (variant === '/ipados') return 'ipados';
                 if (variant === '/linux') return 'linux';
                 if (/android/i.test(ua)) return 'android';
-                if (/ipad/i.test(ua) || touchMac) return 'ipados';
-                if (/iphone|ipod/i.test(ua)) return 'ios';
-                if (/macintosh|mac os x/i.test(ua)) return 'macos';
+                if (/ipad/i.test(ua) || touchMac || /iphone|ipod/i.test(ua) || /macintosh|mac os x/i.test(ua)) return 'macos';
                 if (/win/i.test(platform) || /windows/i.test(ua)) return 'windows';
                 if (/linux/i.test(platform) || /linux/i.test(ua)) return 'linux';
                 return 'unknown';
@@ -2587,7 +2583,7 @@ if (location.pathname === '/' || location.pathname === '') { location.replace('/
                 divider.style.cursor = 'default';
                 divider.innerHTML = '<span class="material-symbols-outlined link-icon">account_tree</span><div class="link-content"><span class="link-title">Ветки сайта</span><span class="link-subtitle">версии страниц</span></div>';
                 list.appendChild(divider);
-                [['/404','jettax.xyz/404'],['/ai','jettax.xyz/ai'],['/os','jettax.xyz/os'],['/ai/os','jettax.xyz/ai/os'],['/404/os','jettax.xyz/404/os'],['/windows','jettax.xyz/windows'],['/fluid','jettax.xyz/fluid'],['/material','jettax.xyz/material'],['/linux','jettax.xyz/linux'],['/macos','jettax.xyz/macos'],['/ios','jettax.xyz/ios'],['/ipados','jettax.xyz/ipados'],['/ai/windows','jettax.xyz/ai/windows'],['/ai/fluid','jettax.xyz/ai/fluid'],['/ai/material','jettax.xyz/ai/material'],['/404/windows','jettax.xyz/404/windows'],['/404/fluid','jettax.xyz/404/fluid'],['/404/material','jettax.xyz/404/material']].forEach(([href, label]) => {
+                [['/404','jettax.xyz/404'],['/ai','jettax.xyz/ai'],['/os','jettax.xyz/os'],['/ai/os','jettax.xyz/ai/os'],['/404/os','jettax.xyz/404/os'],['/windows','jettax.xyz/windows'],['/fluid','jettax.xyz/fluid'],['/material','jettax.xyz/material'],['/linux','jettax.xyz/linux'],['/macos','jettax.xyz/macos'],['/ai/windows','jettax.xyz/ai/windows'],['/ai/fluid','jettax.xyz/ai/fluid'],['/ai/material','jettax.xyz/ai/material'],['/404/windows','jettax.xyz/404/windows'],['/404/fluid','jettax.xyz/404/fluid'],['/404/material','jettax.xyz/404/material']].forEach(([href, label]) => {
                     const a = document.createElement('a');
                     a.className = 'link-item';
                     a.href = href;

@@ -27,9 +27,7 @@
 
   let to = '/ai/material', name = 'Material';
   if (/android/i.test(ua)) { to = '/ai/material'; name = 'Material'; }
-  else if (/ipad/i.test(ua) || touchMac) { to = '/ai/ipados'; name = 'iPadOS'; }
-  else if (/iphone|ipod/i.test(ua)) { to = '/ai/ios'; name = 'iOS'; }
-  else if (/macintosh|mac os x/i.test(ua)) { to = '/ai/macos'; name = 'macOS'; }
+  else if (/ipad/i.test(ua) || touchMac || /iphone|ipod/i.test(ua) || /macintosh|mac os x/i.test(ua)) { to = '/ai/macos'; name = 'macOS'; }
   else if (/linux/i.test(p) || /linux/i.test(ua)) { to = '/ai/linux'; name = 'Linux'; }
   else if (/win/i.test(p) || /windows/i.test(ua)) {
     if (Math.random() < .5) { to = '/ai/windows'; name = 'Windows'; }
