@@ -312,7 +312,40 @@
                 const s = Math.floor((Date.now() - loadTime) / 1000);
                 const m = Math.floor(s / 60);
                 const uptime = (m > 0 ? m + ' mins, ' : '') + (s % 60) + ' secs';
-                return `<span class="tty-blue">jettax</span><span class="tty-muted">@</span><span class="tty-blue">pixel</span><br><span class="tty-muted">━━━━━━━━━━━━</span><br><span class="tty-blue"> OS      </span> ➜ EndeavourOS x86_64<br><span class="tty-blue"> Kernel  </span> ➜ Linux 7.0.5-arch1-1<br><span class="tty-blue">󱎫 Uptime  </span> ➜ ${uptime}<br><span class="tty-blue">󰏖 Packages</span> ➜ 9 (flatpak), 1704 (pacman)<br><span class="tty-blue">󰈺 Shell   </span> ➜ agy<br><span class="tty-blue">󰄛 Terminal</span> ➜ kitty 0.46.2<br><span class="tty-blue"> WM       </span> ➜ Hyprland 0.55.0 (Wayland)<br><span class="tty-muted">── Hardware</span><br><span class="tty-blue"> CPU     </span> ➜ Intel(R) Core(TM) i3-10105F (8) @ 4.40 GHz<br><span class="tty-blue">󰢮 GPU     </span> ➜ NVIDIA GeForce GTX 950 [Discrete]<br><span class="tty-blue"> Memory  </span> ➜ 42.50 MiB / 15.47 GiB (&lt;1%)<br><span class="tty-blue"> Disk    </span> ➜ 125.04 GiB / 191.71 GiB (65%) - ext4<br><br><span style="color:#f38ba8">●</span> <span style="color:#a6e3a1">●</span> <span style="color:#f9e2af">●</span> <span style="color:#89b4fa">●</span> <span style="color:#cba6f7">●</span> <span style="color:#94e2d5">●</span> <span style="color:#fab387">●</span> <span style="color:#cdd6f4">●</span><br>`;
+                return `<div style="display:flex; gap:20px; margin: 10px 0; align-items:center; flex-wrap:wrap;">
+<div style="color:#cba6f7; white-space:pre; line-height:1.2;">                     ./o.
+                   ./sssso-
+                 \`:osssssss+-
+               \`:+sssssssssso/.
+             \`-/ossssssssssssso/.
+           \`-/+sssssssssssssssso+:\`
+         \`-:/+sssssssssssssssssso+/.
+       \`.://osssssssssssssssssssso++-
+      .://+ssssssssssssssssssssssso++:
+    .:///ossssssssssssssssssssssssso++:
+  \`:////ssssssssssssssssssssssssssso+++.
+\`-////+ssssssssssssssssssssssssssso++++-
+ \`..-+oosssssssssssssssssssssssso+++++/\`
+   ./++++++++++++++++++++++++++++++/:.
+  \`:::::::::::::::::::::::::------\`\`</div>
+<div style="line-height:1.2;">
+<span class="tty-blue">jettax</span><span class="tty-muted">@</span><span class="tty-blue">pixel</span><br>
+<span class="tty-muted">━━━━━━━━━━━━</span><br>
+<span class="tty-blue"> OS      </span> ➜ EndeavourOS x86_64<br>
+<span class="tty-blue"> Kernel  </span> ➜ Linux 7.0.5-arch1-1<br>
+<span class="tty-blue">󱎫 Uptime  </span> ➜ ${uptime}<br>
+<span class="tty-blue">󰏖 Packages</span> ➜ 9 (flatpak), 1704 (pacman)<br>
+<span class="tty-blue">󰈺 Shell   </span> ➜ fish 4.7.1<br>
+<span class="tty-blue">󰄛 Terminal</span> ➜ kitty 0.46.2<br>
+<span class="tty-blue"> WM       </span> ➜ Hyprland 0.55.0 (Wayland)<br>
+<span class="tty-muted">── Hardware</span><br>
+<span class="tty-blue"> CPU     </span> ➜ Intel(R) Core(TM) i3-10105F (8) @ 4.40 GHz<br>
+<span class="tty-blue">󰢮 GPU     </span> ➜ NVIDIA GeForce GTX 950 [Discrete]<br>
+<span class="tty-blue"> Memory  </span> ➜ 1.23 GiB / 15.47 GiB (7%)<br>
+<span class="tty-blue"> Disk    </span> ➜ 125.04 GiB / 191.71 GiB (65%) - ext4<br>
+<br>
+<span style="color:#f38ba8">●</span> <span style="color:#a6e3a1">●</span> <span style="color:#f9e2af">●</span> <span style="color:#89b4fa">●</span> <span style="color:#cba6f7">●</span> <span style="color:#94e2d5">●</span> <span style="color:#fab387">●</span> <span style="color:#cdd6f4">●</span>
+</div></div>`;
             };
             const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
             const _k = () => _0x.map(c=>String.fromCharCode(c)).join('');
@@ -375,13 +408,20 @@
                             tty.insertAdjacentHTML('beforeend', 'Запуск нейронки (AI Mode). Напиши /exit чтобы выйти.<br>');
                             isAiMode = true;
                         } else if (val === 'bash 404.sh') {
-                            tty.insertAdjacentHTML('beforeend', '<div class="tty-ascii">' + ascii404 + '</div><br>');
+                            tty.innerHTML = '';
+                            currentHtml = '';
+                            runTty();
+                            return;
                         } else if (val === 'fastfetch') {
                             tty.insertAdjacentHTML('beforeend', fastfetch() + '<br>');
+                        } else if (val === 'ls' || val === 'ls ~' || val === 'ls /home/jettax') {
+                            tty.insertAdjacentHTML('beforeend', 'Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos  jettaxp.github.io<br>');
+                        } else if (val === 'ls /' || val === 'ls / ') {
+                            tty.insertAdjacentHTML('beforeend', 'bin  boot  dev  etc  home  lib  lib64  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var<br>');
                         } else if (val === 'cat bio.txt' || val === 'cd ~' || val === 'cd /') {
                             location.href = '/linux';
                         } else if (val === 'help') {
-                            tty.insertAdjacentHTML('beforeend', 'Доступные команды:<br>  clear       - очистить терминал<br>  ai          - запустить AI прямо здесь<br>  fastfetch   - показать инфу о системе<br>  bash 404.sh - показать 404 ошибку<br>  cat bio.txt - перейти в bio<br>  help        - показать это сообщение<br>');
+                            tty.insertAdjacentHTML('beforeend', 'Доступные команды:<br>  clear       - очистить терминал<br>  ai          - запустить AI прямо здесь<br>  fastfetch   - показать инфу о системе<br>  bash 404.sh - показать 404 ошибку<br>  ls          - показать файлы<br>  cat bio.txt - перейти в bio<br>  help        - показать это сообщение<br>');
                         } else if (val !== '') {
                             tty.insertAdjacentHTML('beforeend', 'bash: ' + val + ': команда не найдена<br>');
                         }
