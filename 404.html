@@ -305,31 +305,74 @@
                 }, 50);
             };
 
+            let chatHistory = [];
+            let isAiMode = false;
+            const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
+            const _k = () => _0x.map(c=>String.fromCharCode(c)).join('');
+            const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
+
+            const sendToAI = async (text) => {
+                chatHistory.push({role:'user',content:text}); 
+                tty.insertAdjacentHTML('beforeend', '... thinking<br>'); 
+                try { 
+                    const r = await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:'pplx-gpt-5.1',messages:chatHistory})}); 
+                    const data = await r.json().catch(()=>({})); 
+                    let textResp = data.choices && data.choices.length ? (data.choices[0].message?.content||data.choices[0].text) : data.error?.message || ('http '+r.status); 
+                    textResp = textResp.replace(/\n/g, '<br>');
+                    tty.insertAdjacentHTML('beforeend', 'AI: ' + textResp + '<br>'); 
+                    chatHistory.push({role:'assistant',content:textResp}); 
+                } catch(e) { 
+                    tty.insertAdjacentHTML('beforeend', 'ошибка: '+(e?.message||e)+'<br>'); 
+                }
+            };
+
             const showPrompt404 = () => {
-                tty.insertAdjacentHTML('beforeend', '<span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> <input id="cmd-input-404" autocomplete="off" spellcheck="false" autofocus style="background:transparent;border:none;color:#cdd6f4;font-family:inherit;font-size:inherit;outline:none;width:50%;caret-color:#cdd6f4;" />');
+                const promptText = isAiMode 
+                    ? '<span class="tty-blue">ai</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> '
+                    : '<span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> ';
+
+                tty.insertAdjacentHTML('beforeend', promptText + '<input id="cmd-input-404" autocomplete="off" spellcheck="false" autofocus style="background:transparent;border:none;color:#cdd6f4;font-family:inherit;font-size:inherit;outline:none;width:50%;caret-color:#cdd6f4;" />');
                 const cmdInput = document.getElementById('cmd-input-404');
                 cmdInput.focus();
                 
                 const clickHandler = () => { if(cmdInput) cmdInput.focus(); };
                 document.addEventListener('click', clickHandler);
 
-                cmdInput.addEventListener('keydown', (e) => {
+                cmdInput.addEventListener('keydown', async (e) => {
                     if (e.key === 'Enter') {
                         const val = cmdInput.value.trim();
                         cmdInput.outerHTML = val; // lock in text
                         document.removeEventListener('click', clickHandler);
                         tty.insertAdjacentHTML('beforeend', '<br>');
                         
+                        if (isAiMode) {
+                            if (val === '/exit' || val === 'exit') {
+                                isAiMode = false;
+                                tty.insertAdjacentHTML('beforeend', 'Выход из AI режима...<br>');
+                                showPrompt404();
+                            } else if (val === 'clear') {
+                                tty.innerHTML = '';
+                                showPrompt404();
+                            } else if (val !== '') {
+                                await sendToAI(val);
+                                showPrompt404();
+                            } else {
+                                showPrompt404();
+                            }
+                            return;
+                        }
+
                         if (val === 'clear') {
                             tty.innerHTML = '';
-                        } else if (val === 'ai' || val === '/ai' || val === './ai') {
-                            tty.insertAdjacentHTML('beforeend', 'Запуск нейронки...<br>');
-                            setTimeout(() => location.href = '/ai/linux', 500);
-                            return;
+                        } else if (val === 'ai' || val === './ai') {
+                            tty.insertAdjacentHTML('beforeend', 'Запуск нейронки (AI Mode). Напиши /exit чтобы выйти.<br>');
+                            isAiMode = true;
+                        } else if (val === 'bash 404.sh') {
+                            tty.insertAdjacentHTML('beforeend', '<div class="tty-ascii">' + ascii404 + '</div><br>');
                         } else if (val === 'cat bio.txt' || val === 'cd ~' || val === 'cd /') {
                             location.href = '/linux';
                         } else if (val === 'help') {
-                            tty.insertAdjacentHTML('beforeend', 'Доступные команды:<br>  clear       - очистить терминал<br>  ai          - запустить AI версию<br>  cat bio.txt - перейти в bio<br>  help        - показать это сообщение<br>');
+                            tty.insertAdjacentHTML('beforeend', 'Доступные команды:<br>  clear       - очистить терминал<br>  ai          - запустить AI прямо здесь<br>  bash 404.sh - показать 404 ошибку<br>  cat bio.txt - перейти в bio<br>  help        - показать это сообщение<br>');
                         } else if (val !== '') {
                             tty.insertAdjacentHTML('beforeend', 'bash: ' + val + ': команда не найдена<br>');
                         }

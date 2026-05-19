@@ -45,6 +45,26 @@ const links = [
 function append(text){ screen.insertAdjacentHTML('beforeend', text); window.scrollTo(0,document.body.scrollHeight); }
 function typeText(text, speed=45){ return new Promise(res=>{ let i=0; const t=setInterval(()=>{ append(text.charAt(i++)); if(i>text.length-1){ clearInterval(t); res(); } }, speed); }); }
 
+let chatHistory = [];
+let isAiMode = false;
+const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
+function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
+const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
+
+async function sendToAI(text){
+  chatHistory.push({role:'user',content:text}); 
+  append('... thinking\n'); 
+  try{ 
+    const r=await fetch(_baseUrl + '/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_k()},body:JSON.stringify({model:'pplx-gpt-5.1',messages:chatHistory})}); 
+    const data=await r.json().catch(()=>({})); 
+    let textResp = data.choices && data.choices.length ? (data.choices[0].message?.content||data.choices[0].text) : data.error?.message || ('http '+r.status); 
+    append('AI: '+textResp+'\n'); 
+    chatHistory.push({role:'assistant',content:textResp}); 
+  }catch(e){ 
+    append('ошибка: '+(e?.message||e)+'\n'); 
+  } 
+}
+
 async function printBio(){
   // === About ===
   append('\n<span class="accent">═══ About ═══</span>\n');
@@ -105,7 +125,11 @@ async function printBio(){
 }
 
 function showPrompt() {
-  append('\n<span class="blue">jettax</span><span class="accent">@pixel</span> <span class="green">~$</span> <input id="cmd-input" autocomplete="off" spellcheck="false" autofocus style="background:transparent;border:none;color:#cdd6f4;font-family:inherit;font-size:inherit;outline:none;width:60%;caret-color:#cdd6f4;" />');
+  const promptText = isAiMode 
+    ? '<span class="blue">ai</span><span class="accent">@pixel</span> <span class="green">~$</span> '
+    : '<span class="blue">jettax</span><span class="accent">@pixel</span> <span class="green">~$</span> ';
+    
+  append('\n' + promptText + '<input id="cmd-input" autocomplete="off" spellcheck="false" autofocus style="background:transparent;border:none;color:#cdd6f4;font-family:inherit;font-size:inherit;outline:none;width:60%;caret-color:#cdd6f4;" />');
   const cmdInput = document.getElementById('cmd-input');
   cmdInput.focus();
   
@@ -119,16 +143,32 @@ function showPrompt() {
       document.removeEventListener('click', clickHandler);
       append('\n');
       
+      if (isAiMode) {
+         if (val === '/exit' || val === 'exit') {
+            isAiMode = false;
+            append('Выход из AI режима...\n');
+            showPrompt();
+         } else if (val === 'clear') {
+            screen.innerHTML = '';
+            showPrompt();
+         } else if (val !== '') {
+            await sendToAI(val);
+            showPrompt();
+         } else {
+            showPrompt();
+         }
+         return;
+      }
+
       if (val === 'clear') {
         screen.innerHTML = '';
-      } else if (val === 'ai' || val === '/ai' || val === './ai') {
-        append('Запуск нейронки...\n');
-        setTimeout(() => location.href = '/ai/linux', 500);
-        return;
+      } else if (val === 'ai' || val === './ai') {
+        append('Запуск нейронки (AI Mode). Напиши /exit чтобы выйти.\n');
+        isAiMode = true;
       } else if (val === 'cat bio.txt') {
         await printBio();
       } else if (val === 'help') {
-        append('Доступные команды:\n  clear       - очистить терминал\n  ai          - запустить AI версию\n  cat bio.txt - показать информацию\n  help        - показать это сообщение\n');
+        append('Доступные команды:\n  clear       - очистить терминал\n  ai          - запустить AI прямо здесь\n  cat bio.txt - показать информацию\n  help        - показать это сообщение\n');
       } else if (val !== '') {
         append('bash: ' + val + ': команда не найдена\n');
       }
