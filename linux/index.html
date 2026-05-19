@@ -10,8 +10,17 @@
   #screen{max-width:980px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-size:16px}
   .prompt{color:#89b4fa}
   .muted{color:#7c8598}
+  .accent{color:#cba6f7}
+  .green{color:#a6e3a1}
+  .peach{color:#fab387}
+  .red{color:#f38ba8}
+  .yellow{color:#f9e2af}
+  .blue{color:#89b4fa}
+  .teal{color:#94e2d5}
   .tty-cursor{display:inline-block;width:8px;height:1em;background:#cdd6f4;vertical-align:bottom;animation:blink 1s steps(2,end) infinite}
   @keyframes blink{50%{opacity:0}}
+  a{color:#89b4fa;text-decoration:none}
+  a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -22,30 +31,41 @@ pixel login: </pre>
   </div>
 <script>
 const screen = document.getElementById('screen');
-let canReturn = false;
+
 const links = [
-  {k:'1',t:'Telegram',u:'https://t.me/jettaxp'},
-  {k:'2',t:'TikTok',u:'https://www.tiktok.com/@jettax03'},
-  {k:'3',t:'Steam',u:'https://steamcommunity.com/id/jettax'},
-  {k:'4',t:'Epic Games',u:'https://www.epicgames.com/'},
-  {k:'5',t:'GitHub',u:'https://github.com/JettaXP'},
-  {k:'6',t:'Clash Royale',u:'https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android'},
-  {k:'7',t:'Brawl Stars',u:'https://link.brawlstars.com/invite/friend/ru?tag=PQPCUPRQP&token=8dphjwnw'},
-  {k:'8',t:'Last.fm',u:'https://www.last.fm/user/JettaXP'}
+  {k:'1',t:'Telegram',u:'https://t.me/jettaxp',s:'@jettaxp'},
+  {k:'2',t:'TikTok',u:'https://www.tiktok.com/@jettax03',s:'@jettax03'},
+  {k:'3',t:'Steam',u:'https://steamcommunity.com/id/jettax',s:'jettaxp'},
+  {k:'4',t:'GitHub',u:'https://github.com/JettaXP',s:'jettaxp'},
+  {k:'5',t:'Clash Royale',u:'https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android',s:'JettaXGG'},
+  {k:'6',t:'Brawl Stars',u:'https://link.brawlstars.com/invite/friend/ru?tag=PQPCUPRQP&token=8dphjwnw',s:'JettaXGG'},
+  {k:'7',t:'Last.fm',u:'https://www.last.fm/user/JettaXP',s:'JettaXP'}
 ];
+
 function append(text){ screen.innerHTML += text; window.scrollTo(0,document.body.scrollHeight); }
 function typeText(text, speed=45){ return new Promise(res=>{ let i=0; const t=setInterval(()=>{ append(text.charAt(i++)); if(i>text.length-1){ clearInterval(t); res(); } }, speed); }); }
+
 async function runTTY(){
   await typeText('jettax');
   await new Promise(r=>setTimeout(r,400));
   append('\nPassword: ');
   await new Promise(r=>setTimeout(r,2500));
   append('\n\n');
-  append('<span class="tty-blue">jettax<\/span><span class="tty-mauve">@pixel<\/span> <span class="tty-green">~$<\/span> bash jettax.xyz/linux/.sh\n');
-  await new Promise(r=>setTimeout(r,600));
-  append('\n');
-  append('Welcome to my bio!\n');
-  append('Я — Philipp, живу в Днепре, Украина.\n');
+
+  // prompt
+  append('<span class="blue">jettax</span><span class="accent">@pixel</span> <span class="green">~$</span> cat bio.txt\n');
+  await new Promise(r=>setTimeout(r,400));
+
+  // === About ===
+  append('\n<span class="accent">═══ About ═══</span>\n');
+  append('Name:      <span class="green">Филипп (Philipp)</span>\n');
+  append('Nicknames: <span class="green">jettax, jettaxp</span>\n');
+  append('Location:  <span class="green">Днепр, Украина</span>\n');
+  append('Birthday:  <span class="green">10 ноября</span>\n');
+  append('About:     <span class="green">Делаю всякую дичь в фигме</span>\n');
+
+  // === Now Playing ===
+  append('\n<span class="accent">═══ Now Playing ═══</span>\n');
   try{
     const LASTFM_API = 'https://ws.audioscrobbler.com/2.0/';
     const LASTFM_KEY = '9456ce29b8b500ab019e56d2b1ccab1f';
@@ -57,44 +77,50 @@ async function runTTY(){
       const now = track['@attr'] && track['@attr'].nowplaying ? 'Сейчас играет' : 'Последний трек';
       const name = track.name || '—';
       const artist = track.artist?.['#text'] || '—';
-      append(`${now}: ${name} — ${artist}\n`);
-    } else append('Последний трек: —\n');
-  }catch(e){ append('Последний трек: —\n'); }
-  append('\nLinks:');
-  links.forEach(l=>{ append('\n['+l.k+'] '+l.t+' — '+l.u); });
-  append('\n\nFull bio:\n');
-  append('Nicknames: jettax, jettaxp\n');
-  append('Location: Dnipro, Ukraine\n');
-  append('About: Developer, music lover, tinkerer.\n');
-  append('Devices: Pixel phone, Desktop PC, Virtual machines.\n');
-  append('Pets: (not listed)\n');
-  append('\nType H to open commands / help.\n');
-  append('\nPress Enter to return to main...\n');
-  canReturn = true;
+      append(`<span class="peach">${now}:</span> ${name} — ${artist}\n`);
+    } else append('<span class="muted">Последний трек: —</span>\n');
+  }catch(e){ append('<span class="muted">Последний трек: —</span>\n'); }
+
+  // === Links ===
+  append('\n<span class="accent">═══ Links ═══</span>\n');
+  links.forEach(l=>{
+    append(`[<span class="yellow">${l.k}</span>] <a href="${l.u}" target="_blank">${l.t}</a> — ${l.s}\n`);
+  });
+  append('    <span class="muted">Discord — jettax03</span>\n');
+  append('    <span class="muted">Epic Games — JettaXP</span>\n');
+
+  // === Devices ===
+  append('\n<span class="accent">═══ Devices ═══</span>\n');
+  append('<span class="yellow">Телефоны:</span>\n');
+  append('  Huawei INE-LX1       <span class="green">[основной]</span>\n');
+  append('  Samsung Galaxy S20FE  <span class="red">[сломан экран]</span>\n');
+  append('  Pixel 7a              <span class="red">[rip battery]</span>\n');
+  append('  Redmi 8               <span class="green">[working]</span>\n');
+  append('<span class="yellow">ПК:</span>\n');
+  append('  Intel Core i3-10105F @ 3.70GHz\n');
+  append('  NVIDIA GTX 950\n');
+  append('  16GB DDR4\n');
+  append('<span class="yellow">Ноутбук:</span>\n');
+  append('  Asus Vivobook S 15\n');
+  append('<span class="yellow">Дополнительно:</span>\n');
+  append('  Pixel Watch 1\n');
+  append('  Pixel Buds A-series\n');
+
+  // === Pets ===
+  append('\n<span class="accent">═══ Мои питомцы ═══</span>\n');
+  append('  Lukas   — шпиц  · 1 год  · 31 июля\n');
+  append('  Umka    — шпиц  · 1 год  · 31 июля\n');
+  append('  Vishnya — шпиц  · 1 год  · 31 июля\n');
+  append('  Jetta   — помчи · 5 лет  · 8 февраля\n');
+
+  append('\n<span class="blue">jettax</span><span class="accent">@pixel</span> <span class="green">~$</span> <span class="tty-cursor"></span>\n');
 }
+
 runTTY();
-// create help overlay
-const helpDiv = document.createElement('div');
-helpDiv.id='help-overlay';
-helpDiv.style.position='fixed';
-helpDiv.style.right='12px';
-helpDiv.style.top='12px';
-helpDiv.style.background='#071013';
-helpDiv.style.color='#cdd6f4';
-helpDiv.style.border='1px solid #223';
-helpDiv.style.padding='12px';
-helpDiv.style.zIndex=9999;
-helpDiv.style.fontFamily='JetBrains Mono,monospace';
-helpDiv.innerHTML='<b>Commands</b>\nH — toggle help\n1-8 — open links\nEnter — return to main\n';
-document.body.appendChild(helpDiv);
-helpDiv.style.display='none';
-window.addEventListener('keydown',(e)=>{ if(e.key==='H' || e.key==='h'){ helpDiv.style.display = helpDiv.style.display==='none' ? 'block' : 'none'; } });
+
 window.addEventListener('keydown', (e)=>{
-  if(e.key === 'Enter'){ if(canReturn) location.href = '/'; return; }
-  if(/[1-9]/.test(e.key)){ const found = links.find(x=>x.k === e.key); if(found) window.open(found.u, '_blank'); }
+  if(/[1-7]/.test(e.key)){ const found = links.find(x=>x.k === e.key); if(found) window.open(found.u, '_blank'); }
 });
 </script>
 </body>
 </html>
-
-
