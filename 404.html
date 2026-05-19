@@ -366,6 +366,69 @@
                 }
             };
 
+            const printBio404 = async () => {
+                tty.insertAdjacentHTML('beforeend', '<br><span style="color:#f38ba8">═══ About ═══</span><br>');
+                tty.insertAdjacentHTML('beforeend', 'Name:      <span class="tty-green">Филипп (Philipp)</span><br>');
+                tty.insertAdjacentHTML('beforeend', 'Nicknames: <span class="tty-green">jettax, jettaxp</span><br>');
+                tty.insertAdjacentHTML('beforeend', 'Location:  <span class="tty-green">Днепр, Украина</span><br>');
+                tty.insertAdjacentHTML('beforeend', 'Birthday:  <span class="tty-green">10 ноября</span><br>');
+                tty.insertAdjacentHTML('beforeend', 'About:     <span class="tty-green">Делаю всякую дичь в фигме</span><br>');
+
+                tty.insertAdjacentHTML('beforeend', '<br><span style="color:#f38ba8">═══ Now Playing ═══</span><br>');
+                try{
+                    const LASTFM_API = 'https://ws.audioscrobbler.com/2.0/';
+                    const LASTFM_KEY = '9456ce29b8b500ab019e56d2b1ccab1f';
+                    const LASTFM_USER = 'JettaXP';
+                    const res = await fetch(`${LASTFM_API}?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`);
+                    const d = await res.json();
+                    const track = d?.recenttracks?.track?.[0];
+                    if(track){
+                    const now = track['@attr'] && track['@attr'].nowplaying ? 'Сейчас играет' : 'Последний трек';
+                    const name = track.name || '—';
+                    const artist = track.artist?.['#text'] || '—';
+                    tty.insertAdjacentHTML('beforeend', `<span style="color:#fab387">${now}:</span> ${name} — ${artist}<br>`);
+                    } else tty.insertAdjacentHTML('beforeend', '<span class="tty-muted">Последний трек: —</span><br>');
+                }catch(e){ tty.insertAdjacentHTML('beforeend', '<span class="tty-muted">Последний трек: —</span><br>'); }
+
+                tty.insertAdjacentHTML('beforeend', '<br><span style="color:#f38ba8">═══ Links ═══</span><br>');
+                const links = [
+                    {k:'1',t:'Telegram',u:'https://t.me/jettaxp',s:'@jettaxp'},
+                    {k:'2',t:'TikTok',u:'https://www.tiktok.com/@jettax03',s:'@jettax03'},
+                    {k:'3',t:'Steam',u:'https://steamcommunity.com/id/jettax',s:'jettaxp'},
+                    {k:'4',t:'GitHub',u:'https://github.com/JettaXP',s:'jettaxp'},
+                    {k:'5',t:'Clash Royale',u:'https://link.clashroyale.com/invite/friend/ru/?tag=QCVVRCQ99&token=4a37sybn&platform=android',s:'JettaXGG'},
+                    {k:'6',t:'Brawl Stars',u:'https://link.brawlstars.com/invite/friend/ru?tag=PQPCUPRQP&token=8dphjwnw',s:'JettaXGG'},
+                    {k:'7',t:'Last.fm',u:'https://www.last.fm/user/JettaXP',s:'JettaXP'}
+                ];
+                links.forEach(l=>{
+                    tty.insertAdjacentHTML('beforeend', `[<span style="color:#f9e2af">${l.k}</span>] <a href="${l.u}" target="_blank">${l.t}</a> — ${l.s}<br>`);
+                });
+                tty.insertAdjacentHTML('beforeend', '    <span class="tty-muted">Discord — jettax03</span><br>');
+                tty.insertAdjacentHTML('beforeend', '    <span class="tty-muted">Epic Games — JettaXP</span><br>');
+
+                tty.insertAdjacentHTML('beforeend', '<br><span style="color:#f38ba8">═══ Devices ═══</span><br>');
+                tty.insertAdjacentHTML('beforeend', '<span style="color:#f9e2af">Телефоны:</span><br>');
+                tty.insertAdjacentHTML('beforeend', '  Huawei INE-LX1       <span class="tty-green">[основной]</span><br>');
+                tty.insertAdjacentHTML('beforeend', '  Samsung Galaxy S20FE  <span style="color:#f38ba8">[сломан экран]</span><br>');
+                tty.insertAdjacentHTML('beforeend', '  Pixel 7a              <span style="color:#f38ba8">[rip battery]</span><br>');
+                tty.insertAdjacentHTML('beforeend', '  Redmi 8               <span class="tty-green">[working]</span><br>');
+                tty.insertAdjacentHTML('beforeend', '<span style="color:#f9e2af">ПК:</span><br>');
+                tty.insertAdjacentHTML('beforeend', '  Intel Core i3-10105F @ 3.70GHz<br>');
+                tty.insertAdjacentHTML('beforeend', '  NVIDIA GTX 950<br>');
+                tty.insertAdjacentHTML('beforeend', '  16GB DDR4<br>');
+                tty.insertAdjacentHTML('beforeend', '<span style="color:#f9e2af">Ноутбук:</span><br>');
+                tty.insertAdjacentHTML('beforeend', '  Asus Vivobook S 15<br>');
+                tty.insertAdjacentHTML('beforeend', '<span style="color:#f9e2af">Дополнительно:</span><br>');
+                tty.insertAdjacentHTML('beforeend', '  Pixel Watch 1<br>');
+                tty.insertAdjacentHTML('beforeend', '  Pixel Buds A-series<br>');
+
+                tty.insertAdjacentHTML('beforeend', '<br><span style="color:#f38ba8">═══ Мои питомцы ═══</span><br>');
+                tty.insertAdjacentHTML('beforeend', '  Lukas   — шпиц  · 1 год  · 31 июля<br>');
+                tty.insertAdjacentHTML('beforeend', '  Umka    — шпиц  · 1 год  · 31 июля<br>');
+                tty.insertAdjacentHTML('beforeend', '  Vishnya — шпиц  · 1 год  · 31 июля<br>');
+                tty.insertAdjacentHTML('beforeend', '  Jetta   — помчи · 5 лет  · 8 февраля<br><br>');
+            };
+
             const showPrompt404 = () => {
                 const promptText = isAiMode 
                     ? '<span class="tty-blue">ai</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> '
@@ -408,17 +471,16 @@
                             tty.insertAdjacentHTML('beforeend', 'Запуск нейронки (AI Mode). Напиши /exit чтобы выйти.<br>');
                             isAiMode = true;
                         } else if (val === 'bash 404.sh') {
-                            tty.innerHTML = '';
-                            currentHtml = '';
-                            runTty();
-                            return;
+                            tty.innerHTML = '<div class="tty-ascii">' + ascii404 + '</div><br>';
                         } else if (val === 'fastfetch') {
                             tty.insertAdjacentHTML('beforeend', fastfetch() + '<br>');
                         } else if (val === 'ls' || val === 'ls ~' || val === 'ls /home/jettax') {
                             tty.insertAdjacentHTML('beforeend', '404.sh  ai  bio.txt  Desktop  Documents  Downloads  jettaxp.github.io  Music  Pictures  Public  Templates  Videos<br>');
                         } else if (val === 'ls /' || val === 'ls / ') {
                             tty.insertAdjacentHTML('beforeend', 'bin  boot  dev  etc  home  lib  lib64  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var<br>');
-                        } else if (val === 'cat bio.txt' || val === 'cd ~' || val === 'cd /') {
+                        } else if (val === 'cat bio.txt') {
+                            await printBio404();
+                        } else if (val === 'cd ~' || val === 'cd /') {
                             location.href = '/linux';
                         } else if (val === 'help') {
                             tty.insertAdjacentHTML('beforeend', 'Доступные команды:<br>  clear       - очистить терминал<br>  ai          - запустить AI прямо здесь<br>  fastfetch   - показать инфу о системе<br>  bash 404.sh - показать 404 ошибку<br>  ls          - показать файлы<br>  cat bio.txt - перейти в bio<br>  help        - показать это сообщение<br>');
