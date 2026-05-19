@@ -355,20 +355,35 @@
 <div class="credit" id="credit">TOLY SUMMER — За горами за лесами</div>
 
 <!-- YouTube Player (hidden) -->
-<div id="player" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0"></div>
+<div id="player-wrap" style="position:fixed;bottom:-300px;left:-300px;width:200px;height:200px;overflow:hidden;pointer-events:none"><div id="player"></div></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
   var player;
   var isPlaying = false;
+  var videoIds = ['_m3NdPaE-0k','k_O0a2s1k4Q','F_f28g2eS_Y','8bIv1R6F4tc'];
+  var currentIdx = 0;
 
   function onYouTubeIframeAPIReady() {
+    loadPlayer(videoIds[currentIdx]);
+  }
+
+  function loadPlayer(vid) {
     player = new YT.Player('player', {
-      height: '1',
-      width: '1',
-      videoId: 'F_f28g2eS_Y',
-      playerVars: { autoplay: 0, controls: 0 },
-      events: { 'onReady': function() {} }
+      height: '200',
+      width: '200',
+      videoId: vid,
+      playerVars: { autoplay: 0, controls: 0, origin: location.origin },
+      events: {
+        'onReady': function() {},
+        'onError': function() {
+          currentIdx++;
+          if (currentIdx < videoIds.length) {
+            document.getElementById('player-wrap').innerHTML = '<div id="player"></div>';
+            loadPlayer(videoIds[currentIdx]);
+          }
+        }
+      }
     });
   }
 
