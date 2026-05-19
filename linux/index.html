@@ -50,6 +50,37 @@ let isAiMode = false;
 const _0x = [115,113,45,57,117,86,100,89,108,80,86,69,82,80,54,71,51,88,51,49,87,116,108,100,54,72,88,118,121,110,102,68,76,65,85];
 function _k(){return _0x.map(c=>String.fromCharCode(c)).join('');}
 const _baseUrl = atob('aHR0cHM6Ly9hcGkub25seXNxLnJ1L2FpL29wZW5haQ==');
+const loadTime = Date.now();
+
+const ascii404 = `  _  _    ___   _  _  
+ | || |  / _ \\ | || | 
+ | || |_| | | || || |_ 
+ |__   _| |_| ||__   _|
+    |_|  \\___/    |_|  
+
+<span class="muted">Такой страницы нет. Зато есть повод вернуться на главную и сделать вид, что этого перехода не было.</span>`;
+
+const fastfetch = () => {
+    const s = Math.floor((Date.now() - loadTime) / 1000);
+    const m = Math.floor(s / 60);
+    const uptime = (m > 0 ? m + ' mins, ' : '') + (s % 60) + ' secs';
+    return `<span class="blue">jettax</span><span class="muted">@</span><span class="blue">pixel</span>
+<span class="muted">━━━━━━━━━━━━</span>
+<span class="blue"> OS      </span> ➜ EndeavourOS x86_64
+<span class="blue"> Kernel  </span> ➜ Linux 7.0.5-arch1-1
+<span class="blue">󱎫 Uptime  </span> ➜ ${uptime}
+<span class="blue">󰏖 Packages</span> ➜ 9 (flatpak), 1704 (pacman)
+<span class="blue">󰈺 Shell   </span> ➜ agy
+<span class="blue">󰄛 Terminal</span> ➜ kitty 0.46.2
+<span class="blue"> WM       </span> ➜ Hyprland 0.55.0 (Wayland)
+<span class="muted">── Hardware</span>
+<span class="blue"> CPU     </span> ➜ Intel(R) Core(TM) i3-10105F (8) @ 4.40 GHz
+<span class="blue">󰢮 GPU     </span> ➜ NVIDIA GeForce GTX 950 [Discrete]
+<span class="blue"> Memory  </span> ➜ 42.50 MiB / 15.47 GiB (&lt;1%)
+<span class="blue"> Disk    </span> ➜ 125.04 GiB / 191.71 GiB (65%) - ext4
+
+<span class="red">●</span> <span class="green">●</span> <span class="yellow">●</span> <span class="blue">●</span> <span class="accent">●</span> <span class="teal">●</span> <span class="peach">●</span> <span style="color:#cdd6f4">●</span>\n`;
+};
 
 async function sendToAI(text){
   chatHistory.push({role:'user',content:text}); 
@@ -167,8 +198,12 @@ function showPrompt() {
         isAiMode = true;
       } else if (val === 'cat bio.txt') {
         await printBio();
+      } else if (val === 'bash 404.sh') {
+        append(ascii404 + '\n');
+      } else if (val === 'fastfetch') {
+        append(fastfetch() + '\n');
       } else if (val === 'help') {
-        append('Доступные команды:\n  clear       - очистить терминал\n  ai          - запустить AI прямо здесь\n  cat bio.txt - показать информацию\n  help        - показать это сообщение\n');
+        append('Доступные команды:\n  clear       - очистить терминал\n  ai          - запустить AI прямо здесь\n  cat bio.txt - показать информацию\n  fastfetch   - показать инфу о системе\n  bash 404.sh - показать 404 ошибку\n  help        - показать это сообщение\n');
       } else if (val !== '') {
         append('bash: ' + val + ': команда не найдена\n');
       }
