@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🕺 Party 🕺</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a0033;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Arial Black', sans-serif;
+  }
+  #bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    transition: opacity 1s;
+  }
+  #bg.active {
+    animation: rainbowBg 3s linear infinite;
+  }
+  @keyframes rainbowBg {
+    0% { background: linear-gradient(45deg, #ff0055, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff); }
+    16% { background: linear-gradient(105deg, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff, #ff0055); }
+    33% { background: linear-gradient(165deg, #ffff00, #00ff88, #0088ff, #8800ff, #ff0055, #ff8800); }
+    50% { background: linear-gradient(225deg, #00ff88, #0088ff, #8800ff, #ff0055, #ff8800, #ffff00); }
+    66% { background: linear-gradient(285deg, #0088ff, #8800ff, #ff0055, #ff8800, #ffff00, #00ff88); }
+    83% { background: linear-gradient(345deg, #8800ff, #ff0055, #ff8800, #ffff00, #00ff88, #0088ff); }
+    100% { background: linear-gradient(405deg, #ff0055, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff); }
+  }
+  #prompt {
+    font-size: clamp(28px, 6vw, 72px);
+    color: #fff;
+    z-index: 10;
+    text-align: center;
+    text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff, 0 0 80px #ff00ff;
+    animation: neonPulse 2s ease-in-out infinite alternate;
+    padding: 20px;
+  }
+  #subtext {
+    font-size: clamp(14px, 2.5vw, 24px);
+    color: #ff88ff;
+    z-index: 10;
+    margin-top: 10px;
+    animation: neonPulse 1.5s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes neonPulse {
+    0% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; transform: scale(1); }
+    100% { text-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff, 0 0 100px #ff00ff; transform: scale(1.05); }
+  }
+  /* Disco ball */
+  #discoBall {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: clamp(120px, 25vw, 250px);
+    height: clamp(120px, 25vw, 250px);
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%,
+      #fff 0%, #ddd 10%, #aaa 30%, #888 50%, #666 70%, #444 100%
+    );
+    z-index: 8;
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    box-shadow: 0 0 60px rgba(255,255,255,0.5);
+  }
+  #discoBall.show {
+    transform: translate(-50%, -50%) scale(1);
+    animation: spinBall 4s linear infinite;
+  }
+  #discoBall::before {
+    content: '🪩';
+    font-size: clamp(80px, 20vw, 180px);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @keyframes spinBall {
+    from { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+    to { transform: translate(-50%, -50%) scale(1) rotate(360deg); }
+  }
+  /* Light rays */
+  .lightRay {
+    position: fixed;
+    top: 50%; left: 50%;
+    width: 4px;
+    height: 50vh;
+    transform-origin: top center;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+  }
+  .lightRay.show { opacity: 0.6; }
+  /* After text */
+  #afterText {
+    position: fixed;
+    bottom: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(20px, 4vw, 48px);
+    color: #fff;
+    z-index: 15;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.8s;
+    text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+    white-space: nowrap;
+  }
+  #afterText.show {
+    opacity: 1;
+    animation: discoText 0.5s ease-in-out infinite alternate;
+  }
+  @keyframes discoText {
+    0% { color: #ff00ff; text-shadow: 0 0 30px #ff00ff; }
+    25% { color: #00ffff; text-shadow: 0 0 30px #00ffff; }
+    50% { color: #ffff00; text-shadow: 0 0 30px #ffff00; }
+    75% { color: #00ff00; text-shadow: 0 0 30px #00ff00; }
+    100% { color: #ff8800; text-shadow: 0 0 30px #ff8800; }
+  }
+  /* Orbiting emoji ring */
+  .orbitEmoji {
+    position: fixed;
+    font-size: 40px;
+    z-index: 6;
+    pointer-events: none;
+  }
+  /* Floor tiles */
+  #floor {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%; height: 30%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s;
+    background:
+      repeating-conic-gradient(#ff00ff33 0% 25%, #00ffff33 25% 50%) 0 0 / 60px 60px;
+    perspective: 400px;
+    transform: rotateX(60deg);
+    transform-origin: bottom;
+  }
+  #floor.show { opacity: 1; animation: floorPulse 1s ease-in-out infinite alternate; }
+  @keyframes floorPulse {
+    0% { filter: hue-rotate(0deg) brightness(0.8); }
+    100% { filter: hue-rotate(90deg) brightness(1.4); }
+  }
+</style>
+</head>
+<body>
+  <div id="bg"></div>
+  <div id="prompt">Нажми на экран 😏</div>
+  <div id="subtext">🕺 Let's party 💃</div>
+  <div id="discoBall"></div>
+  <div id="afterText">🎵 Never Gonna Give You Up 🎵</div>
+  <div id="floor"></div>
+
+  <div id="player" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '1', width: '1',
+        videoId: 'dQw4w9WgXcQ',
+        playerVars: { autoplay: 0, controls: 0 },
+        events: { 'onReady': function(){} }
+      });
+    }
+
+    let started = false;
+    const emojis = ['😂','🤣','💀','🕺','💃','🎉','🎊','🔥','✨','⚡','🫠','😭','🤡','🥳','🪩','🎵','🎶','👻'];
+    const neonColors = ['#ff00ff','#00ffff','#ffff00','#ff8800','#00ff88','#ff0055','#8800ff'];
+
+    // Create light rays
+    function createLightRays() {
+      for (let i = 0; i < 12; i++) {
+        const ray = document.createElement('div');
+        ray.className = 'lightRay';
+        const color = neonColors[i % neonColors.length];
+        ray.style.background = `linear-gradient(to bottom, ${color}, transparent)`;
+        ray.style.transform = `rotate(${i * 30}deg)`;
+        ray.style.animation = `rayRotate ${8 + Math.random()*4}s linear infinite`;
+        document.body.appendChild(ray);
+        setTimeout(() => ray.classList.add('show'), 300 + i * 100);
+      }
+    }
+
+    // Orbiting emojis
+    function createOrbitingEmojis() {
+      const count = 16;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const radius = Math.min(window.innerWidth, window.innerHeight) * 0.35;
+
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'orbitEmoji';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.fontSize = (25 + Math.random() * 35) + 'px';
+        document.body.appendChild(el);
+
+        const speed = 3 + Math.random() * 4;
+        const offset = (i / count) * Math.PI * 2;
+        const r = radius * (0.6 + Math.random() * 0.5);
+        const dir = Math.random() > 0.5 ? 1 : -1;
+
+        function animateOrbit(t) {
+          const angle = offset + (t / 1000) * (Math.PI * 2 / speed) * dir;
+          const x = centerX + Math.cos(angle) * r - 20;
+          const y = centerY + Math.sin(angle) * r * 0.6 - 20;
+          el.style.left = x + 'px';
+          el.style.top = y + 'px';
+          el.style.transform = `rotate(${angle * 180 / Math.PI}deg) scale(${0.8 + 0.3 * Math.sin(angle)})`;
+          if (started) requestAnimationFrame((tt) => animateOrbit(tt));
+        }
+        requestAnimationFrame((t) => animateOrbit(t));
+      }
+    }
+
+    // Spawn random bursting emojis
+    function spawnBurst() {
+      if (!started) return;
+      for (let i = 0; i < 3; i++) {
+        const el = document.createElement('div');
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        const size = 30 + Math.random() * 50;
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        el.style.cssText = `
+          position:fixed;
+          font-size:${size}px;
+          left:${x}px;
+          top:${y}px;
+          z-index:4;
+          pointer-events:none;
+          animation: popIn 0.8s cubic-bezier(0.68,-0.55,0.27,1.55) forwards;
+        `;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 800);
+      }
+      setTimeout(spawnBurst, 200 + Math.random() * 400);
+    }
+
+    // Add dynamic keyframes
+    const dynStyle = document.createElement('style');
+    dynStyle.textContent = `
+      @keyframes rayRotate {
+        from { transform: rotate(var(--start, 0deg)); }
+        to { transform: rotate(calc(var(--start, 0deg) + 360deg)); }
+      }
+      @keyframes popIn {
+        0% { transform: scale(0) rotate(0deg); opacity: 1; }
+        50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
+        100% { transform: scale(0) rotate(360deg); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(dynStyle);
+
+    document.body.addEventListener('click', function handler() {
+      if (started) return;
+      started = true;
+
+      document.getElementById('prompt').style.display = 'none';
+      document.getElementById('subtext').style.display = 'none';
+      document.getElementById('bg').classList.add('active');
+      document.getElementById('discoBall').classList.add('show');
+      document.getElementById('afterText').classList.add('show');
+      document.getElementById('floor').classList.add('show');
+
+      if (player && player.playVideo) player.playVideo();
+
+      createLightRays();
+      createOrbitingEmojis();
+      setTimeout(spawnBurst, 500);
+
+      document.body.removeEventListener('click', handler);
+    });
+  </script>
+</body>
+</html>

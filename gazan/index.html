@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAZAN - 67 (SIX SEVEN) 🔥</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Orbitron:wght@700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    position: relative;
+  }
+
+  /* Ambient purple/pink glow blobs */
+  .glow-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.25;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-blob.one {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, #b829e3, transparent 70%);
+    top: -100px; left: -100px;
+    animation: blobFloat1 8s ease-in-out infinite;
+  }
+  .glow-blob.two {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #ff2d95, transparent 70%);
+    bottom: -150px; right: -150px;
+    animation: blobFloat2 10s ease-in-out infinite;
+  }
+  .glow-blob.three {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, #7b2ff7, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: blobFloat3 6s ease-in-out infinite;
+  }
+
+  @keyframes blobFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(80px, 60px) scale(1.2); }
+  }
+  @keyframes blobFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-60px, -80px) scale(1.15); }
+  }
+  @keyframes blobFloat3 {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.2; }
+    50% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.35; }
+  }
+
+  /* Main text container */
+  .main-text {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .pre-click-text {
+    font-size: clamp(1.8rem, 5vw, 3.5rem);
+    color: #fff;
+    text-shadow:
+      0 0 10px rgba(184, 41, 227, 0.8),
+      0 0 30px rgba(184, 41, 227, 0.5),
+      0 0 60px rgba(184, 41, 227, 0.3);
+    animation: preGlow 2s ease-in-out infinite, preFloat 3s ease-in-out infinite;
+    transition: all 0.5s ease;
+    line-height: 1.4;
+  }
+
+  @keyframes preGlow {
+    0%, 100% { text-shadow: 0 0 10px rgba(184,41,227,0.8), 0 0 30px rgba(184,41,227,0.5), 0 0 60px rgba(184,41,227,0.3); }
+    50% { text-shadow: 0 0 20px rgba(255,45,149,1), 0 0 50px rgba(255,45,149,0.7), 0 0 80px rgba(255,45,149,0.4), 0 0 120px rgba(255,45,149,0.2); }
+  }
+
+  @keyframes preFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Post-click SIX SEVEN */
+  .six-seven-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(3rem, 12vw, 8rem);
+    font-weight: 900;
+    color: #fff;
+    text-shadow:
+      0 0 10px #ff2d95,
+      0 0 20px #ff2d95,
+      0 0 40px #ff2d95,
+      0 0 80px #b829e3,
+      0 0 120px #b829e3,
+      0 0 200px #7b2ff7;
+    animation: neonPulse 0.5s ease-in-out infinite alternate, textScale 1s ease-in-out infinite;
+    display: none;
+    letter-spacing: 0.1em;
+  }
+
+  @keyframes neonPulse {
+    0% {
+      text-shadow:
+        0 0 10px #ff2d95,
+        0 0 20px #ff2d95,
+        0 0 40px #ff2d95,
+        0 0 80px #b829e3,
+        0 0 120px #b829e3;
+      color: #fff;
+    }
+    100% {
+      text-shadow:
+        0 0 5px #fff,
+        0 0 15px #ff2d95,
+        0 0 30px #ff2d95,
+        0 0 60px #ff2d95,
+        0 0 100px #b829e3,
+        0 0 160px #b829e3,
+        0 0 250px #7b2ff7;
+      color: #ffe6f7;
+    }
+  }
+
+  @keyframes textScale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .sub-text {
+    font-size: clamp(1rem, 3vw, 1.8rem);
+    color: #b829e3;
+    margin-top: 15px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    display: none;
+    animation: fadeInUp 1s ease forwards;
+    text-shadow: 0 0 15px rgba(184, 41, 227, 0.6);
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Bass pulse on body */
+  body.playing {
+    animation: bassPulse 0.5s ease-in-out infinite;
+  }
+
+  @keyframes bassPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.015); }
+  }
+
+  /* Floating emoji */
+  .floating-emoji {
+    position: fixed;
+    bottom: -60px;
+    font-size: 2rem;
+    z-index: 5;
+    pointer-events: none;
+    animation: floatUp linear forwards;
+    opacity: 0.9;
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) rotate(0deg) scale(1);
+      opacity: 0.9;
+    }
+    20% { opacity: 1; }
+    80% { opacity: 0.7; }
+    100% {
+      transform: translateY(-110vh) rotate(360deg) scale(0.5);
+      opacity: 0;
+    }
+  }
+
+  /* Flying 67 numbers */
+  .flying-number {
+    position: fixed;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 2.5rem;
+    color: rgba(255, 45, 149, 0.15);
+    z-index: 2;
+    pointer-events: none;
+    text-shadow: 0 0 20px rgba(184, 41, 227, 0.3);
+  }
+
+  /* Scan lines overlay */
+  .scanlines {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 100;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.05) 2px,
+      rgba(0,0,0,0.05) 4px
+    );
+  }
+
+  /* Vignette */
+  .vignette {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 99;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%);
+  }
+
+  /* Click ripple effect */
+  .ripple {
+    position: fixed;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 45, 149, 0.6);
+    pointer-events: none;
+    z-index: 50;
+    animation: rippleExpand 1s ease-out forwards;
+  }
+  @keyframes rippleExpand {
+    0% { width: 0; height: 0; opacity: 1; }
+    100% { width: 600px; height: 600px; opacity: 0; }
+  }
+
+  /* Particle burst */
+  .particle {
+    position: fixed;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 50;
+    animation: particleFly 1.5s ease-out forwards;
+  }
+  @keyframes particleFly {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* Corner decorations */
+  .corner-deco {
+    position: fixed;
+    width: 80px; height: 80px;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+  .corner-deco.tl { top: 20px; left: 20px; border-top: 2px solid #b829e3; border-left: 2px solid #b829e3; }
+  .corner-deco.tr { top: 20px; right: 20px; border-top: 2px solid #ff2d95; border-right: 2px solid #ff2d95; }
+  .corner-deco.bl { bottom: 20px; left: 20px; border-bottom: 2px solid #ff2d95; border-left: 2px solid #ff2d95; }
+  .corner-deco.br { bottom: 20px; right: 20px; border-bottom: 2px solid #b829e3; border-right: 2px solid #b829e3; }
+
+  /* Horizontal neon lines */
+  .neon-line {
+    position: fixed;
+    height: 1px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .neon-line.top { top: 15%; left: 10%; right: 10%; background: linear-gradient(90deg, transparent, #b829e3, transparent); }
+  .neon-line.bottom { bottom: 15%; left: 10%; right: 10%; background: linear-gradient(90deg, transparent, #ff2d95, transparent); }
+  body.playing .neon-line { opacity: 0.4; animation: lineFlicker 2s ease-in-out infinite; }
+
+  @keyframes lineFlicker {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.15; }
+    75% { opacity: 0.5; }
+  }
+
+  /* GAZAN watermark */
+  .watermark {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(184, 41, 227, 0.3);
+    letter-spacing: 0.5em;
+    z-index: 10;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body id="page">
+
+  <!-- Ambient glow -->
+  <div class="glow-blob one"></div>
+  <div class="glow-blob two"></div>
+  <div class="glow-blob three"></div>
+
+  <!-- Overlays -->
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+
+  <!-- Corner decorations -->
+  <div class="corner-deco tl"></div>
+  <div class="corner-deco tr"></div>
+  <div class="corner-deco bl"></div>
+  <div class="corner-deco br"></div>
+
+  <!-- Neon lines -->
+  <div class="neon-line top"></div>
+  <div class="neon-line bottom"></div>
+
+  <!-- Main content -->
+  <div class="main-text">
+    <div class="pre-click-text" id="preText">Нажми чтобы стать пацаном 😎🔥</div>
+    <div class="six-seven-text" id="sixSeven">SIX SEVEN 🔥🔥🔥</div>
+    <div class="sub-text" id="subText">G A Z A N</div>
+  </div>
+
+  <!-- Watermark -->
+  <div class="watermark">G A Z A N&nbsp;&nbsp;•&nbsp;&nbsp;6 7</div>
+
+  <!-- YouTube Player (hidden) -->
+  <div id="player" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0"></div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    var player;
+    var isPlaying = false;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '1',
+        width: '1',
+        videoId: 'yo5CILhgvT4',
+        playerVars: { autoplay: 0, controls: 0 },
+        events: { 'onReady': function() {} }
+      });
+    }
+
+    // Click handler
+    document.body.addEventListener('click', function(e) {
+      if (isPlaying) return;
+      isPlaying = true;
+
+      // Play music
+      if (player && player.playVideo) {
+        player.playVideo();
+      }
+
+      // Create ripple at click position
+      createRipple(e.clientX, e.clientY);
+      createParticleBurst(e.clientX, e.clientY);
+
+      // Switch text
+      document.getElementById('preText').style.display = 'none';
+      document.getElementById('sixSeven').style.display = 'block';
+      document.getElementById('subText').style.display = 'block';
+
+      // Start bass pulse
+      document.body.classList.add('playing');
+
+      // Intensify glow blobs
+      document.querySelectorAll('.glow-blob').forEach(function(blob) {
+        blob.style.opacity = '0.45';
+        blob.style.transition = 'opacity 1s ease';
+      });
+
+      // Start floating emojis
+      startEmojiRain();
+
+      // Start flying 67 numbers
+      startFlying67();
+
+      // Remove pointer cursor
+      document.body.style.cursor = 'default';
+    });
+
+    // Ripple effect
+    function createRipple(x, y) {
+      var ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.style.marginLeft = '-300px';
+      ripple.style.marginTop = '-300px';
+      document.body.appendChild(ripple);
+      setTimeout(function() { ripple.remove(); }, 1000);
+    }
+
+    // Particle burst
+    function createParticleBurst(x, y) {
+      var colors = ['#ff2d95', '#b829e3', '#7b2ff7', '#fff', '#ff6b35'];
+      for (var i = 0; i < 30; i++) {
+        var p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = x + 'px';
+        p.style.top = y + 'px';
+        p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        var angle = (Math.PI * 2 * i) / 30;
+        var dist = 100 + Math.random() * 200;
+        var tx = Math.cos(angle) * dist;
+        var ty = Math.sin(angle) * dist;
+        p.style.setProperty('--tx', tx + 'px');
+        p.style.setProperty('--ty', ty + 'px');
+        p.style.animation = 'none';
+        document.body.appendChild(p);
+        (function(el, ttx, tty) {
+          requestAnimationFrame(function() {
+            el.style.transition = 'transform 1.5s ease-out, opacity 1.5s ease-out';
+            el.style.transform = 'translate(' + ttx + 'px, ' + tty + 'px) scale(0)';
+            el.style.opacity = '0';
+          });
+          setTimeout(function() { el.remove(); }, 1500);
+        })(p, tx, ty);
+      }
+    }
+
+    // Floating emojis
+    var emojis = ['🔥', '😎', '🔥', '💜', '🔥', '😎', '🔥', '🎵', '🔥', '💥'];
+
+    function spawnEmoji() {
+      var emoji = document.createElement('div');
+      emoji.className = 'floating-emoji';
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = Math.random() * 100 + 'vw';
+      emoji.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
+      var duration = 3 + Math.random() * 4;
+      emoji.style.animationDuration = duration + 's';
+      document.body.appendChild(emoji);
+      setTimeout(function() { emoji.remove(); }, duration * 1000);
+    }
+
+    function startEmojiRain() {
+      // Initial burst
+      for (var i = 0; i < 8; i++) {
+        setTimeout(spawnEmoji, i * 100);
+      }
+      // Continuous
+      setInterval(function() {
+        spawnEmoji();
+      }, 300);
+    }
+
+    // Flying 67 numbers
+    function spawn67() {
+      var num = document.createElement('div');
+      num.className = 'flying-number';
+      num.textContent = '67';
+
+      var size = 1.5 + Math.random() * 3;
+      num.style.fontSize = size + 'rem';
+      num.style.color = 'rgba(255, 45, 149, ' + (0.05 + Math.random() * 0.15) + ')';
+
+      // Random starting edge
+      var edge = Math.floor(Math.random() * 4);
+      var startX, startY, endX, endY;
+      switch(edge) {
+        case 0: // from left
+          startX = -100; startY = Math.random() * window.innerHeight;
+          endX = window.innerWidth + 100; endY = Math.random() * window.innerHeight;
+          break;
+        case 1: // from right
+          startX = window.innerWidth + 100; startY = Math.random() * window.innerHeight;
+          endX = -100; endY = Math.random() * window.innerHeight;
+          break;
+        case 2: // from top
+          startX = Math.random() * window.innerWidth; startY = -100;
+          endX = Math.random() * window.innerWidth; endY = window.innerHeight + 100;
+          break;
+        case 3: // from bottom
+          startX = Math.random() * window.innerWidth; startY = window.innerHeight + 100;
+          endX = Math.random() * window.innerWidth; endY = -100;
+          break;
+      }
+
+      num.style.left = startX + 'px';
+      num.style.top = startY + 'px';
+
+      var duration = 5000 + Math.random() * 8000;
+      var rotation = -180 + Math.random() * 360;
+
+      num.style.transition = 'transform ' + duration + 'ms linear, left ' + duration + 'ms linear, top ' + duration + 'ms linear';
+      document.body.appendChild(num);
+
+      requestAnimationFrame(function() {
+        num.style.left = endX + 'px';
+        num.style.top = endY + 'px';
+        num.style.transform = 'rotate(' + rotation + 'deg)';
+      });
+
+      setTimeout(function() { num.remove(); }, duration);
+    }
+
+    function startFlying67() {
+      // Initial batch
+      for (var i = 0; i < 5; i++) {
+        setTimeout(spawn67, i * 300);
+      }
+      // Continuous
+      setInterval(function() {
+        spawn67();
+      }, 800);
+    }
+  </script>
+</body>
+</html>

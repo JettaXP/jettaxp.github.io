@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOLY SUMMER — За горами за лесами</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a1a0a;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Comfortaa', 'Segoe UI', sans-serif;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* === AURORA BOREALIS BACKGROUND === */
+  .aurora-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: #0a1a0a;
+  }
+
+  .aurora-layer {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 2s ease;
+  }
+
+  .aurora-layer.active {
+    opacity: 1;
+  }
+
+  .aurora-layer-1 {
+    background:
+      radial-gradient(ellipse 120% 60% at 20% 20%, rgba(0,80,60,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 100% 50% at 80% 30%, rgba(0,60,90,0.3) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 40% at 50% 80%, rgba(0,40,30,0.2) 0%, transparent 60%);
+    animation: auroraShift1 12s ease-in-out infinite alternate;
+  }
+
+  .aurora-layer-2 {
+    background:
+      radial-gradient(ellipse 90% 50% at 70% 15%, rgba(0,120,100,0.25) 0%, transparent 65%),
+      radial-gradient(ellipse 110% 45% at 30% 60%, rgba(0,50,80,0.3) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 30% at 50% 40%, rgba(0,90,70,0.15) 0%, transparent 50%);
+    animation: auroraShift2 15s ease-in-out infinite alternate;
+  }
+
+  .aurora-layer-3 {
+    background:
+      radial-gradient(ellipse 130% 70% at 50% 10%, rgba(0,100,80,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 35% at 15% 50%, rgba(0,70,100,0.2) 0%, transparent 55%),
+      radial-gradient(ellipse 80% 40% at 85% 70%, rgba(0,60,50,0.25) 0%, transparent 60%);
+    animation: auroraShift3 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes auroraShift1 {
+    0% { transform: scale(1) translateY(0); }
+    100% { transform: scale(1.15) translateY(-30px); }
+  }
+  @keyframes auroraShift2 {
+    0% { transform: scale(1.1) translateX(0); }
+    100% { transform: scale(1) translateX(40px); }
+  }
+  @keyframes auroraShift3 {
+    0% { transform: scale(1) translate(0,0); }
+    100% { transform: scale(1.2) translate(-20px, -20px); }
+  }
+
+  /* === STARS === */
+  .stars-container {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    font-size: 8px;
+    opacity: 0;
+    animation: twinkle var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.1; transform: scale(0.6); }
+    50% { opacity: 0.9; transform: scale(1.2); }
+  }
+
+  /* === FLOATING EMOJIS (PARALLAX LAYERS) === */
+  .emoji-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .floating-emoji {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 3s ease;
+    will-change: transform;
+  }
+
+  .floating-emoji.visible {
+    opacity: var(--emo-opacity, 0.5);
+  }
+
+  /* Layer 1 - far background (slow, small, dim) */
+  .emoji-layer-1 .floating-emoji {
+    font-size: clamp(14px, 2vw, 22px);
+    --emo-opacity: 0.2;
+    animation: floatFar var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+
+  /* Layer 2 - mid (medium speed, medium size) */
+  .emoji-layer-2 .floating-emoji {
+    font-size: clamp(20px, 3.5vw, 36px);
+    --emo-opacity: 0.4;
+    animation: floatMid var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+
+  /* Layer 3 - foreground (faster, bigger, brighter) */
+  .emoji-layer-3 .floating-emoji {
+    font-size: clamp(28px, 5vw, 52px);
+    --emo-opacity: 0.6;
+    animation: floatNear var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes floatFar {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    25%  { transform: translate(8px, -12px) rotate(2deg); }
+    50%  { transform: translate(-5px, -20px) rotate(-1deg); }
+    75%  { transform: translate(10px, -8px) rotate(3deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+
+  @keyframes floatMid {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    25%  { transform: translate(-15px, -20px) rotate(-3deg); }
+    50%  { transform: translate(10px, -35px) rotate(2deg); }
+    75%  { transform: translate(-8px, -15px) rotate(-2deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+
+  @keyframes floatNear {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    25%  { transform: translate(20px, -30px) rotate(-4deg); }
+    50%  { transform: translate(-15px, -50px) rotate(3deg); }
+    75%  { transform: translate(12px, -20px) rotate(-2deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+
+  /* === GROUND TREELINE === */
+  .treeline {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    font-size: clamp(30px, 6vw, 60px);
+    line-height: 1;
+    text-align: center;
+    letter-spacing: -2px;
+    opacity: 0;
+    transition: opacity 3s ease 1s;
+    pointer-events: none;
+    filter: brightness(0.5);
+  }
+
+  .treeline.visible {
+    opacity: 0.6;
+  }
+
+  /* === MAIN TEXT === */
+  .main-content {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .main-text {
+    font-size: clamp(22px, 5vw, 48px);
+    font-weight: 700;
+    color: #c8e6c0;
+    text-align: center;
+    text-shadow:
+      0 0 20px rgba(0,180,120,0.4),
+      0 0 60px rgba(0,120,80,0.2),
+      0 2px 4px rgba(0,0,0,0.5);
+    line-height: 1.4;
+    transition: all 1.5s ease;
+    max-width: 800px;
+  }
+
+  .main-text.playing {
+    font-size: clamp(26px, 6vw, 56px);
+    color: #e0f5e0;
+    text-shadow:
+      0 0 30px rgba(0,220,150,0.5),
+      0 0 80px rgba(0,160,100,0.3),
+      0 0 120px rgba(0,100,80,0.15),
+      0 2px 4px rgba(0,0,0,0.5);
+    animation: dreamyFloat 6s ease-in-out infinite, gentlePulse 4s ease-in-out infinite;
+  }
+
+  @keyframes dreamyFloat {
+    0%, 100% { transform: translateY(0); }
+    33% { transform: translateY(-12px) rotate(-0.5deg); }
+    66% { transform: translateY(-6px) rotate(0.3deg); }
+  }
+
+  @keyframes gentlePulse {
+    0%, 100% {
+      text-shadow:
+        0 0 30px rgba(0,220,150,0.5),
+        0 0 80px rgba(0,160,100,0.3),
+        0 0 120px rgba(0,100,80,0.15),
+        0 2px 4px rgba(0,0,0,0.5);
+    }
+    50% {
+      text-shadow:
+        0 0 40px rgba(0,240,170,0.6),
+        0 0 100px rgba(0,180,120,0.4),
+        0 0 160px rgba(0,120,90,0.2),
+        0 2px 4px rgba(0,0,0,0.5);
+    }
+  }
+
+  /* === HINT TEXT === */
+  .hint {
+    margin-top: 30px;
+    font-size: clamp(12px, 2vw, 18px);
+    color: rgba(150,200,160,0.5);
+    letter-spacing: 2px;
+    animation: hintPulse 3s ease-in-out infinite;
+    transition: opacity 1s ease;
+  }
+
+  .hint.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  /* === FOG / MIST EFFECT === */
+  .mist {
+    position: fixed;
+    bottom: 0;
+    left: -10%;
+    width: 120%;
+    height: 30%;
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 4s ease 2s;
+    background:
+      radial-gradient(ellipse 50% 100% at 20% 100%, rgba(10,30,20,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 80% at 60% 100%, rgba(10,25,15,0.5) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 90% at 80% 100%, rgba(10,28,18,0.4) 0%, transparent 60%);
+    animation: mistDrift 20s ease-in-out infinite alternate;
+  }
+
+  .mist.visible {
+    opacity: 0.8;
+  }
+
+  @keyframes mistDrift {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(30px); }
+  }
+
+  /* === VIGNETTE === */
+  .vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(5,12,5,0.7) 100%);
+  }
+
+  /* === ARTIST CREDIT === */
+  .credit {
+    position: fixed;
+    bottom: 15px;
+    right: 20px;
+    z-index: 20;
+    font-size: clamp(10px, 1.5vw, 14px);
+    color: rgba(120,170,130,0.35);
+    letter-spacing: 1px;
+    pointer-events: none;
+    transition: color 2s ease;
+  }
+
+  .credit.playing {
+    color: rgba(140,200,150,0.5);
+  }
+</style>
+</head>
+<body>
+
+<!-- Aurora Background -->
+<div class="aurora-bg">
+  <div class="aurora-layer aurora-layer-1"></div>
+  <div class="aurora-layer aurora-layer-2"></div>
+  <div class="aurora-layer aurora-layer-3"></div>
+</div>
+
+<!-- Stars -->
+<div class="stars-container" id="starsContainer"></div>
+
+<!-- Parallax Emoji Layers -->
+<div class="emoji-layer emoji-layer-1" id="emojiLayer1"></div>
+<div class="emoji-layer emoji-layer-2" id="emojiLayer2"></div>
+<div class="emoji-layer emoji-layer-3" id="emojiLayer3"></div>
+
+<!-- Treeline -->
+<div class="treeline" id="treeline"></div>
+
+<!-- Mist -->
+<div class="mist" id="mist"></div>
+
+<!-- Vignette -->
+<div class="vignette"></div>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+  <div class="main-text" id="mainText">Нажми чтобы уйти за горами за лесами 🌲🏔️</div>
+  <div class="hint" id="hint">нажми куда-нибудь</div>
+</div>
+
+<!-- Artist Credit -->
+<div class="credit" id="credit">TOLY SUMMER — За горами за лесами</div>
+
+<!-- YouTube Player (hidden) -->
+<div id="player" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0"></div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  var player;
+  var isPlaying = false;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '1',
+      width: '1',
+      videoId: 'F_f28g2eS_Y',
+      playerVars: { autoplay: 0, controls: 0 },
+      events: { 'onReady': function() {} }
+    });
+  }
+
+  // === GENERATE STARS ===
+  function createStars() {
+    var container = document.getElementById('starsContainer');
+    var count = Math.min(80, Math.floor(window.innerWidth * window.innerHeight / 8000));
+    for (var i = 0; i < count; i++) {
+      var star = document.createElement('div');
+      star.className = 'star';
+      star.textContent = '✨';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 70 + '%'; // mostly upper area
+      star.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
+      star.style.setProperty('--delay', (Math.random() * 6) + 's');
+      star.style.fontSize = (6 + Math.random() * 10) + 'px';
+      container.appendChild(star);
+    }
+  }
+
+  // === GENERATE FLOATING EMOJIS ===
+  function createEmojiLayer(layerId, emojis, count) {
+    var layer = document.getElementById(layerId);
+    for (var i = 0; i < count; i++) {
+      var emoji = document.createElement('div');
+      emoji.className = 'floating-emoji';
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = (5 + Math.random() * 90) + '%';
+      emoji.style.top = (10 + Math.random() * 75) + '%';
+      emoji.style.setProperty('--dur', (8 + Math.random() * 12) + 's');
+      emoji.style.setProperty('--delay', (Math.random() * 8) + 's');
+      layer.appendChild(emoji);
+    }
+  }
+
+  // === GENERATE TREELINE ===
+  function createTreeline() {
+    var treeline = document.getElementById('treeline');
+    var trees = ['🌲', '🌳', '🌲', '🌲', '🌳', '🌲'];
+    var width = window.innerWidth;
+    var treeCount = Math.floor(width / 35);
+    var text = '';
+    for (var i = 0; i < treeCount; i++) {
+      text += trees[Math.floor(Math.random() * trees.length)];
+    }
+    treeline.textContent = text;
+  }
+
+  // === INIT ===
+  createStars();
+  createEmojiLayer('emojiLayer1', ['🌲', '🏔️', '✨', '🌿', '🍃'], 12);
+  createEmojiLayer('emojiLayer2', ['🌲', '🏔️', '🌙', '🦌', '🌿'], 8);
+  createEmojiLayer('emojiLayer3', ['🌲', '🏔️', '⭐', '🦉'], 5);
+  createTreeline();
+
+  // === CLICK TO PLAY ===
+  document.body.addEventListener('click', function() {
+    if (isPlaying) return;
+    isPlaying = true;
+
+    // Start music
+    if (player && player.playVideo) {
+      player.playVideo();
+    }
+
+    // Activate aurora
+    document.querySelectorAll('.aurora-layer').forEach(function(el) {
+      el.classList.add('active');
+    });
+
+    // Change text
+    var mainText = document.getElementById('mainText');
+    mainText.textContent = '🌲 За горами за лесами 🏔️';
+    mainText.classList.add('playing');
+
+    // Hide hint
+    document.getElementById('hint').classList.add('hidden');
+
+    // Show emojis
+    document.querySelectorAll('.floating-emoji').forEach(function(el, i) {
+      setTimeout(function() { el.classList.add('visible'); }, i * 150);
+    });
+
+    // Show treeline
+    document.getElementById('treeline').classList.add('visible');
+
+    // Show mist
+    document.getElementById('mist').classList.add('visible');
+
+    // Credit glow
+    document.getElementById('credit').classList.add('playing');
+  });
+
+  // Resize handler
+  window.addEventListener('resize', function() {
+    createTreeline();
+    if (isPlaying) {
+      document.getElementById('treeline').classList.add('visible');
+    }
+  });
+</script>
+</body>
+</html>
