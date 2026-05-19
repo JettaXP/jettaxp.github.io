@@ -42,20 +42,10 @@ const links = [
   {k:'7',t:'Last.fm',u:'https://www.last.fm/user/JettaXP',s:'JettaXP'}
 ];
 
-function append(text){ screen.innerHTML += text; window.scrollTo(0,document.body.scrollHeight); }
+function append(text){ screen.insertAdjacentHTML('beforeend', text); window.scrollTo(0,document.body.scrollHeight); }
 function typeText(text, speed=45){ return new Promise(res=>{ let i=0; const t=setInterval(()=>{ append(text.charAt(i++)); if(i>text.length-1){ clearInterval(t); res(); } }, speed); }); }
 
-async function runTTY(){
-  await typeText('jettax');
-  await new Promise(r=>setTimeout(r,400));
-  append('\nPassword: ');
-  await new Promise(r=>setTimeout(r,2500));
-  append('\n\n');
-
-  // prompt
-  append('<span class="blue">jettax</span><span class="accent">@pixel</span> <span class="green">~$</span> cat bio.txt\n');
-  await new Promise(r=>setTimeout(r,400));
-
+async function printBio(){
   // === About ===
   append('\n<span class="accent">═══ About ═══</span>\n');
   append('Name:      <span class="green">Филипп (Philipp)</span>\n');
@@ -112,14 +102,60 @@ async function runTTY(){
   append('  Umka    — шпиц  · 1 год  · 31 июля\n');
   append('  Vishnya — шпиц  · 1 год  · 31 июля\n');
   append('  Jetta   — помчи · 5 лет  · 8 февраля\n');
+}
 
-  append('\n<span class="blue">jettax</span><span class="accent">@pixel</span> <span class="green">~$</span> <span class="tty-cursor"></span>\n');
+function showPrompt() {
+  append('\n<span class="blue">jettax</span><span class="accent">@pixel</span> <span class="green">~$</span> <input id="cmd-input" autocomplete="off" spellcheck="false" autofocus style="background:transparent;border:none;color:#cdd6f4;font-family:inherit;font-size:inherit;outline:none;width:60%;caret-color:#cdd6f4;" />');
+  const cmdInput = document.getElementById('cmd-input');
+  cmdInput.focus();
+  
+  const clickHandler = () => { if(cmdInput) cmdInput.focus(); };
+  document.addEventListener('click', clickHandler);
+
+  cmdInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      const val = cmdInput.value.trim();
+      cmdInput.outerHTML = val; // lock in text
+      document.removeEventListener('click', clickHandler);
+      append('\n');
+      
+      if (val === 'clear') {
+        screen.innerHTML = '';
+      } else if (val === 'ai' || val === '/ai' || val === './ai') {
+        append('Запуск нейронки...\n');
+        setTimeout(() => location.href = '/ai/linux', 500);
+        return;
+      } else if (val === 'cat bio.txt') {
+        await printBio();
+      } else if (val === 'help') {
+        append('Доступные команды:\n  clear       - очистить терминал\n  ai          - запустить AI версию\n  cat bio.txt - показать информацию\n  help        - показать это сообщение\n');
+      } else if (val !== '') {
+        append('bash: ' + val + ': команда не найдена\n');
+      }
+      showPrompt();
+    }
+  });
+}
+
+async function runTTY(){
+  await typeText('jettax');
+  await new Promise(r=>setTimeout(r,400));
+  append('\nPassword: ');
+  await new Promise(r=>setTimeout(r,2500));
+  append('\n\n');
+
+  // prompt
+  append('<span class="blue">jettax</span><span class="accent">@pixel</span> <span class="green">~$</span> cat bio.txt\n');
+  await new Promise(r=>setTimeout(r,400));
+
+  await printBio();
+  showPrompt();
 }
 
 runTTY();
 
 window.addEventListener('keydown', (e)=>{
-  if(/[1-7]/.test(e.key)){ const found = links.find(x=>x.k === e.key); if(found) window.open(found.u, '_blank'); }
+  if(/[1-7]/.test(e.key) && document.activeElement.tagName !== 'INPUT'){ const found = links.find(x=>x.k === e.key); if(found) window.open(found.u, '_blank'); }
 });
 </script>
 </body>

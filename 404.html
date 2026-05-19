@@ -287,8 +287,7 @@
  |__   _| |_| ||__   _|
     |_|  \\___/    |_|  
 
-<span class="tty-muted">Такой страницы нет. Зато есть повод вернуться на главную и сделать вид, что этого перехода не было.
-Press Enter to return to main...</span>`;
+<span class="tty-muted">Такой страницы нет. Зато есть повод вернуться на главную и сделать вид, что этого перехода не было.</span>`;
 
             let currentHtml = '';
             
@@ -306,12 +305,39 @@ Press Enter to return to main...</span>`;
                 }, 50);
             };
 
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && currentHtml.includes('Press Enter to return to main')) {
-                    location.href = '/';
-                }
-            });
+            const showPrompt404 = () => {
+                tty.insertAdjacentHTML('beforeend', '<span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> <input id="cmd-input-404" autocomplete="off" spellcheck="false" autofocus style="background:transparent;border:none;color:#cdd6f4;font-family:inherit;font-size:inherit;outline:none;width:50%;caret-color:#cdd6f4;" />');
+                const cmdInput = document.getElementById('cmd-input-404');
+                cmdInput.focus();
+                
+                const clickHandler = () => { if(cmdInput) cmdInput.focus(); };
+                document.addEventListener('click', clickHandler);
+
+                cmdInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        const val = cmdInput.value.trim();
+                        cmdInput.outerHTML = val; // lock in text
+                        document.removeEventListener('click', clickHandler);
+                        tty.insertAdjacentHTML('beforeend', '<br>');
+                        
+                        if (val === 'clear') {
+                            tty.innerHTML = '';
+                        } else if (val === 'ai' || val === '/ai' || val === './ai') {
+                            tty.insertAdjacentHTML('beforeend', 'Запуск нейронки...<br>');
+                            setTimeout(() => location.href = '/ai/linux', 500);
+                            return;
+                        } else if (val === 'cat bio.txt' || val === 'cd ~' || val === 'cd /') {
+                            location.href = '/linux';
+                        } else if (val === 'help') {
+                            tty.insertAdjacentHTML('beforeend', 'Доступные команды:<br>  clear       - очистить терминал<br>  ai          - запустить AI версию<br>  cat bio.txt - перейти в bio<br>  help        - показать это сообщение<br>');
+                        } else if (val !== '') {
+                            tty.insertAdjacentHTML('beforeend', 'bash: ' + val + ': команда не найдена<br>');
+                        }
+                        showPrompt404();
+                    }
+                });
+            };
+
             const runTty = () => {
                 currentHtml += lines[0] + '<br><br>';
                 tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
@@ -327,8 +353,9 @@ Press Enter to return to main...</span>`;
                                 currentHtml += '<span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> ';
                                 typeText('bash 404.sh', () => {
                                     setTimeout(() => {
-                                        currentHtml = '<div class="tty-ascii">' + ascii404 + '</div><br><span class="tty-blue">jettax</span><span class="tty-mauve">@pixel</span> <span class="tty-green">~$</span> ';
-                                        tty.innerHTML = currentHtml + '<span class="tty-cursor"></span>';
+                                        currentHtml = '<div class="tty-ascii">' + ascii404 + '</div><br>';
+                                        tty.innerHTML = currentHtml;
+                                        showPrompt404();
                                     }, 800);
                                 });
                             }, 2500);
