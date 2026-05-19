@@ -1,3 +1,44 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JettaX OS</title></head><body><script>
-(function(){const ua=navigator.userAgent;const p=(navigator.userAgentData?.platform||navigator.platform||'').toLowerCase();const touchMac=/mac/i.test(p)&&navigator.maxTouchPoints>1;let to='/material';if(/android/i.test(ua))to='/material';else if(/ipad/i.test(ua)||touchMac)to='/ipados';else if(/iphone|ipod/i.test(ua))to='/ios';else if(/macintosh|mac os x/i.test(ua))to='/macos';else if(/linux/i.test(p)||/linux/i.test(ua))to='/linux';else if(/win/i.test(p)||/windows/i.test(ua))to=Math.random()<.5?'/windows':'/fluid';location.replace(to);})();
-</script></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JettaX | Перенаправление</title>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#151215;color:#e2e3dd;font-family:'Comfortaa',cursive;min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+  .text{font-size:1.2rem;opacity:0;animation:fadeIn .6s ease .3s forwards}
+  .system{color:#bb86fc;font-weight:700}
+  .loader-video{width:160px;height:160px;object-fit:contain;border-radius:12px;opacity:0;animation:fadeIn .6s ease .6s forwards}
+  @keyframes fadeIn{to{opacity:1}}
+</style>
+</head>
+<body>
+<div class="text">Перенаправляю на <span class="system" id="os-name">...</span></div>
+<video class="loader-video" autoplay loop muted playsinline>
+  <source src="https://raw.githubusercontent.com/JettaXP/pix/jettax.xyz/doc_2026-05-20_00-47-40.mp4" type="video/mp4">
+</video>
+<script>
+(function(){
+  const ua = navigator.userAgent;
+  const p = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+  const touchMac = /mac/i.test(p) && navigator.maxTouchPoints > 1;
+
+  let to = '/material', name = 'Material';
+  if (/android/i.test(ua)) { to = '/material'; name = 'Material'; }
+  else if (/ipad/i.test(ua) || touchMac) { to = '/ipados'; name = 'iPadOS'; }
+  else if (/iphone|ipod/i.test(ua)) { to = '/ios'; name = 'iOS'; }
+  else if (/macintosh|mac os x/i.test(ua)) { to = '/macos'; name = 'macOS'; }
+  else if (/linux/i.test(p) || /linux/i.test(ua)) { to = '/linux'; name = 'Linux'; }
+  else if (/win/i.test(p) || /windows/i.test(ua)) {
+    if (Math.random() < .5) { to = '/windows'; name = 'Windows'; }
+    else { to = '/fluid'; name = 'Fluid'; }
+  }
+
+  document.getElementById('os-name').textContent = name;
+  setTimeout(() => location.replace(to), 1800);
+})();
+</script>
+</body>
+</html>
