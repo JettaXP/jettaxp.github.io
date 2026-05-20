@@ -265,7 +265,7 @@
     </script>
 
     <script>
-        if (document.body.dataset.device === 'linux') { // ensure no floating ee windows
+        if (document.body.dataset.device === 'linux') { 
             const _s = document.createElement('style'); _s.textContent = '.ee-zone, .ee-overlay, .ee-window, .blob { display:none !important; }'; document.head.appendChild(_s);
             const tty = document.getElementById('tty-content');
             let step = 0;
@@ -332,8 +332,7 @@
 <span class="tty-blue">󱎫 Uptime  </span> ➜ ${uptime}<br>
 <span class="tty-blue">󰏖 Packages</span> ➜ 9 (flatpak), 1704 (pacman)<br>
 <span class="tty-blue">󰈺 Shell   </span> ➜ fish 4.7.1<br>
-<span class="tty-blue">󰄛 Terminal</span> ➜ kitty 0.46.2<br>
-<span class="tty-blue"> WM       </span> ➜ Hyprland 0.55.0 (Wayland)<br>
+<span class="tty-blue">󰄛 Terminal</span> ➜ /dev/tty3<br>
 <span class="tty-muted">── Hardware</span><br>
 <span class="tty-blue"> CPU     </span> ➜ Intel(R) Core(TM) i3-10105F (8) @ 4.40 GHz<br>
 <span class="tty-blue">󰢮 GPU     </span> ➜ NVIDIA GeForce GTX 950 [Discrete]<br>
@@ -440,7 +439,7 @@
                 cmdInput.addEventListener('keydown', async (e) => {
                     if (e.key === 'Enter') {
                         const val = cmdInput.value.trim();
-                        cmdInput.outerHTML = val; // lock in text
+                        cmdInput.outerHTML = val; 
                         document.removeEventListener('click', clickHandler);
                         tty.insertAdjacentHTML('beforeend', '<br>');
                         
