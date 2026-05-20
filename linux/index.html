@@ -88,8 +88,7 @@ const fastfetch = () => {
 <span class="blue">󱎫 Uptime  </span> ➜ ${uptime}<br>
 <span class="blue">󰏖 Packages</span> ➜ 9 (flatpak), 1704 (pacman)<br>
 <span class="blue">󰈺 Shell   </span> ➜ fish 4.7.1<br>
-<span class="blue">󰄛 Terminal</span> ➜ kitty 0.46.2<br>
-<span class="blue"> WM       </span> ➜ Hyprland 0.55.0 (Wayland)<br>
+<span class="blue">󰄛 Terminal</span> ➜ /dev/tty3<br>
 <span class="muted">── Hardware</span><br>
 <span class="blue"> CPU     </span> ➜ Intel(R) Core(TM) i3-10105F (8) @ 4.40 GHz<br>
 <span class="blue">󰢮 GPU     </span> ➜ NVIDIA GeForce GTX 950 [Discrete]<br>
@@ -114,7 +113,6 @@ async function sendToAI(text){
 }
 
 async function printBio(){
-  // === About ===
   append('\n<span class="accent">═══ About ═══</span>\n');
   append('Name:      <span class="green">Филипп (Philipp)</span>\n');
   append('Nicknames: <span class="green">jettax, jettaxp</span>\n');
@@ -122,7 +120,6 @@ async function printBio(){
   append('Birthday:  <span class="green">10 ноября</span>\n');
   append('About:     <span class="green">Делаю всякую дичь в фигме</span>\n');
 
-  // === Now Playing ===
   append('\n<span class="accent">═══ Now Playing ═══</span>\n');
   try{
     const LASTFM_API = 'https://ws.audioscrobbler.com/2.0/';
@@ -139,7 +136,6 @@ async function printBio(){
     } else append('<span class="muted">Последний трек: —</span>\n');
   }catch(e){ append('<span class="muted">Последний трек: —</span>\n'); }
 
-  // === Links ===
   append('\n<span class="accent">═══ Links ═══</span>\n');
   links.forEach(l=>{
     append(`[<span class="yellow">${l.k}</span>] <a href="${l.u}" target="_blank">${l.t}</a> — ${l.s}\n`);
@@ -147,7 +143,6 @@ async function printBio(){
   append('    <span class="muted">Discord — jettax03</span>\n');
   append('    <span class="muted">Epic Games — JettaXP</span>\n');
 
-  // === Devices ===
   append('\n<span class="accent">═══ Devices ═══</span>\n');
   append('<span class="yellow">Телефоны:</span>\n');
   append('  Huawei INE-LX1       <span class="green">[основной]</span>\n');
@@ -164,7 +159,6 @@ async function printBio(){
   append('  Pixel Watch 1\n');
   append('  Pixel Buds A-series\n');
 
-  // === Pets ===
   append('\n<span class="accent">═══ Мои питомцы ═══</span>\n');
   append('  Lukas   — шпиц  · 1 год  · 31 июля\n');
   append('  Umka    — шпиц  · 1 год  · 31 июля\n');
@@ -187,7 +181,7 @@ function showPrompt() {
   cmdInput.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
       const val = cmdInput.value.trim();
-      cmdInput.outerHTML = val; // lock in text
+      cmdInput.outerHTML = val; 
       document.removeEventListener('click', clickHandler);
       append('\n');
       
@@ -240,7 +234,6 @@ async function runTTY(){
   await new Promise(r=>setTimeout(r,2500));
   append('\n\n');
 
-  // prompt
   append('<span class="blue">jettax</span><span class="accent">@pixel</span> <span class="green">~$</span> cat bio.txt\n');
   await new Promise(r=>setTimeout(r,400));
 
