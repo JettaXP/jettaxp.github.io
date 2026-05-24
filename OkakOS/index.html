@@ -219,11 +219,12 @@
 
         .card-icon {
             font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: 800;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            opacity: 0.9;
         }
 
         .card h3 {
@@ -297,11 +298,9 @@
         }
 
         .floating-tg svg {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             fill: currentColor;
-            margin-right: 2px;
-            margin-top: 2px;
         }
 
         /* Animations */
@@ -343,6 +342,20 @@
             background: rgba(0, 255, 136, 0.6);
         }
     </style>
+    <script>
+        (function(){
+            // If user explicitly requested desktop version, don't redirect
+            if (window.location.search.includes('desktop=1')) return;
+            
+            const ua = navigator.userAgent;
+            const p = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+            const touchMac = /mac/i.test(p) && navigator.maxTouchPoints > 1;
+            
+            if (/android/i.test(ua) || /iphone|ipod|ipad/i.test(ua) || touchMac) {
+                window.location.replace('mobile.html' + window.location.search);
+            }
+        })();
+    </script>
 </head>
 <body>
 
@@ -422,37 +435,37 @@
         
         <div class="grid">
             <div class="card reveal">
-                <div class="card-icon">✨</div>
+                <div class="card-icon">01</div>
                 <h3>KDE Plasma</h3>
                 <p>Полноценный, современный и невероятно кастомизируемый рабочий стол KDE Plasma из коробки с дисплей-менеджером SDDM.</p>
             </div>
             
             <div class="card reveal">
-                <div class="card-icon">🐟</div>
+                <div class="card-icon">02</div>
                 <h3>Fish Shell</h3>
                 <p>Забудь про скучный bash. У нас установлен дружелюбный Fish shell с кастомным промптом и подсветкой синтаксиса по дефолту.</p>
             </div>
             
             <div class="card reveal">
-                <div class="card-icon">🚀</div>
+                <div class="card-icon">03</div>
                 <h3>OkakInstall</h3>
                 <p>Удобный графический установщик на базе Calamares, который всё сделает за тебя. С весёлыми пасхалками во время загрузки.</p>
             </div>
             
             <div class="card reveal">
-                <div class="card-icon">📦</div>
+                <div class="card-icon">04</div>
                 <h3>YAY из коробки</h3>
                 <p>Система поставляется с предустановленным AUR-хелпером yay, так что ты сможешь установить любой пакет из Arch User Repository.</p>
             </div>
             
             <div class="card reveal">
-                <div class="card-icon">😈</div>
+                <div class="card-icon">05</div>
                 <h3>Pocoyo Optimizator</h3>
                 <p>Специальная фирменная "утилита оптимизации". Используй на свой страх и риск. (Мы предупредили: не нажимай 1 и 3).</p>
             </div>
             
             <div class="card reveal">
-                <div class="card-icon">🎨</div>
+                <div class="card-icon">06</div>
                 <h3>Уникальный Брендинг</h3>
                 <p>Никакого "Arch Linux". Везде — от GRUB до fastfetch и /etc/os-release красуется OkakOS 67.</p>
             </div>
@@ -467,7 +480,7 @@
         
         <div class="social-links">
             <a href="https://github.com/jettaxp/okakos" target="_blank">Репозиторий GitHub</a>
-            <a href="https://t.me/jettaxp" target="_blank">Канал в Telegram</a>
+            <a href="https://t.me/jettaxp" target="_blank">Мой Telegram</a>
         </div>
         
         <p style="margin-top: 3rem; color: var(--text-muted); font-size: 0.9rem;">
