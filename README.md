@@ -3,7 +3,6 @@
 # 🌐 JettaXP's Web Dimension
 
 ![GitHub Pages](https://img.shields.io/badge/Hosted_on-GitHub_Pages-blue?style=for-the-badge&logo=github)
-![OkakOS](https://img.shields.io/badge/Powered_by-OkakOS_67-00ff88?style=for-the-badge)
 
 Добро пожаловать в мой личный уголок интернета. Здесь хостятся мои проекты, сайты, эксперименты и, конечно же, сайт **самого окакного дистрибутива в мире**.
 
