@@ -1,1 +1,560 @@
-веля дай тенге
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OkakOS 67 — Самый окакный дистрибутив Linux</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e17;
+            --surface: #111827;
+            --primary: #00ff88;
+            --secondary: #00e5ff;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Terminal Mockup */
+        .terminal {
+            background: #0f172a;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 700px;
+            margin: 4rem auto;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            font-family: 'JetBrains Mono', monospace;
+            text-align: left;
+        }
+
+        .terminal-header {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        .terminal-body {
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: #a5b4fc;
+        }
+
+        .term-prompt { color: var(--primary); }
+        .term-dir { color: #fcd34d; }
+        .term-logo { color: var(--primary); font-weight: bold; white-space: pre;}
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(0, 255, 136, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+        }
+
+        /* Ascii 67 Art */
+        .ascii-art {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.5rem, 1.5vw, 1.2rem);
+            line-height: 1.2;
+            color: rgba(0, 255, 136, 0.1);
+            text-align: center;
+            margin: 4rem 0;
+            white-space: pre;
+            user-select: none;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 2rem;
+            text-align: center;
+            background: rgba(10, 14, 23, 0.9);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Floating Telegram Button */
+        .floating-tg {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #0088cc, #00aaff);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(0, 170, 255, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .floating-tg:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 170, 255, 0.6);
+        }
+
+        .floating-tg svg {
+            width: 30px;
+            height: 30px;
+            fill: currentColor;
+            margin-right: 2px;
+            margin-top: 2px;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* SVG Icons */
+        .icon-svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 136, 0.3);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 136, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles"></canvas>
+
+    <a href="https://t.me/jettaxp" class="floating-tg" target="_blank" title="Telegram Support">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.18-.08-.05-.19-.02-.27 0-.11.03-1.88 1.2-5.34 3.53-.51.35-.97.52-1.38.51-.45-.01-1.32-.26-1.96-.46-.79-.26-1.42-.4-1.37-.85.03-.23.35-.47.96-.73 3.78-1.64 6.3-2.73 7.56-3.26 3.59-1.51 4.33-1.77 4.82-1.78.11 0 .35.03.5.15.12.1.17.24.18.37 0 .07.01.16 0 .26z"/>
+        </svg>
+    </a>
+
+    <section class="hero">
+        <div class="reveal">
+            <h1>OkakOS <span class="gradient-text">67</span></h1>
+            <p>Самый окакный дистрибутив Linux на базе Arch. Быстрый, красивый и с щепоткой безумия.</p>
+            
+            <div class="hero-buttons">
+                <a href="https://github.com/jettaxp/okakos/releases" class="btn btn-primary" target="_blank">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    Скачать ISO
+                </a>
+                <a href="https://github.com/jettaxp/okakos" class="btn btn-secondary" target="_blank">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.376.202 2.394.1 2.646.64.699 1.026 1.591 1.026 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+
+        <div class="terminal reveal">
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="terminal-body">
+                <div><span class="term-prompt">liveuser@OkakISO</span> <span class="term-dir">~</span> <span style="color: #fff">fastfetch</span></div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <div class="term-logo">
+  /$$$$$$  /$$$$$$$$
+ /$$__  $$|_____ $$ 
+| $$  \__/     /$$/ 
+| $$$$$$$     /$$/  
+| $$__  $$   /$$/   
+| $$  \ $$  /$$/    
+|  $$$$$$/ /$$/     
+ \______/ |__/      
+                    </div>
+                    <div>
+                        <span style="color: var(--primary); font-weight: bold;">liveuser</span>@<span style="color: var(--primary); font-weight: bold;">OkakISO</span><br>
+                        -----------------<br>
+                        <span style="color: var(--primary);">OS</span>: OkakOS 67 rolling x86_64<br>
+                        <span style="color: var(--primary);">Kernel</span>: 6.8.x-arch1-1<br>
+                        <span style="color: var(--primary);">Uptime</span>: 67 mins<br>
+                        <span style="color: var(--primary);">Packages</span>: 800 (pacman)<br>
+                        <span style="color: var(--primary);">Shell</span>: fish 3.7.1<br>
+                        <span style="color: var(--primary);">DE</span>: Plasma 6.0.4 (Wayland)<br>
+                        <span style="color: var(--primary);">WM</span>: KWin<br>
+                        <span style="color: var(--primary);">Terminal</span>: foot<br>
+                        <span style="color: var(--primary);">Memory</span>: 670MiB / 8000MiB
+                    </div>
+                </div>
+                <div style="margin-top: 1rem;"><span class="term-prompt">liveuser@OkakISO</span> <span class="term-dir">~</span> <span class="typewriter"></span></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="ascii-art reveal">
+  ___  ____  
+ / _ \|___ \ 
+| | | | __) |
+| |_| |/ __/ 
+ \___/|_____|
+    </div>
+
+    <section class="features">
+        <h2 class="section-title reveal">Окакные <span class="gradient-text">Фичи</span></h2>
+        
+        <div class="grid">
+            <div class="card reveal">
+                <div class="card-icon">✨</div>
+                <h3>KDE Plasma</h3>
+                <p>Полноценный, современный и невероятно кастомизируемый рабочий стол KDE Plasma из коробки с дисплей-менеджером SDDM.</p>
+            </div>
+            
+            <div class="card reveal">
+                <div class="card-icon">🐟</div>
+                <h3>Fish Shell</h3>
+                <p>Забудь про скучный bash. У нас установлен дружелюбный Fish shell с кастомным промптом и подсветкой синтаксиса по дефолту.</p>
+            </div>
+            
+            <div class="card reveal">
+                <div class="card-icon">🚀</div>
+                <h3>OkakInstall</h3>
+                <p>Удобный графический установщик на базе Calamares, который всё сделает за тебя. С весёлыми пасхалками во время загрузки.</p>
+            </div>
+            
+            <div class="card reveal">
+                <div class="card-icon">📦</div>
+                <h3>YAY из коробки</h3>
+                <p>Система поставляется с предустановленным AUR-хелпером yay, так что ты сможешь установить любой пакет из Arch User Repository.</p>
+            </div>
+            
+            <div class="card reveal">
+                <div class="card-icon">😈</div>
+                <h3>Pocoyo Optimizator</h3>
+                <p>Специальная фирменная "утилита оптимизации". Используй на свой страх и риск. (Мы предупредили: не нажимай 1 и 3).</p>
+            </div>
+            
+            <div class="card reveal">
+                <div class="card-icon">🎨</div>
+                <h3>Уникальный Брендинг</h3>
+                <p>Никакого "Arch Linux". Везде — от GRUB до fastfetch и /etc/os-release красуется OkakOS 67.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <h2>Готов стать окакным?</h2>
+        <div style="margin-top: 2rem;">
+            <a href="https://github.com/jettaxp/okakos/releases" class="btn btn-primary" target="_blank">Скачать OkakOS 67</a>
+        </div>
+        
+        <div class="social-links">
+            <a href="https://github.com/jettaxp/okakos" target="_blank">Репозиторий GitHub</a>
+            <a href="https://t.me/jettaxp" target="_blank">Канал в Telegram</a>
+        </div>
+        
+        <p style="margin-top: 3rem; color: var(--text-muted); font-size: 0.9rem;">
+            Made with 💚 by <a href="https://t.me/jettaxp" style="color: var(--primary); text-decoration: none;">jettax</a>. Сикс Севен одобряет.
+        </p>
+    </footer>
+
+    <script>
+        // Particle Background
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height, particles;
+        
+        function init() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 2 + 1,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 255, 136, ${p.opacity})`;
+                ctx.fill();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        window.addEventListener('resize', init);
+        init();
+        animate();
+
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
+
+        // Typewriter effect in terminal
+        const twText = "sudo calamares";
+        const twElement = document.querySelector('.typewriter');
+        let twIndex = 0;
+        
+        setTimeout(() => {
+            setInterval(() => {
+                if (twIndex < twText.length) {
+                    twElement.textContent += twText.charAt(twIndex);
+                    twIndex++;
+                } else {
+                    setTimeout(() => {
+                        twElement.textContent = "";
+                        twIndex = 0;
+                    }, 3000);
+                }
+            }, 150);
+        }, 1500);
+    </script>
+</body>
+</html>
