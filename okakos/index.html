@@ -341,6 +341,20 @@
             background: rgba(0, 255, 136, 0.6);
         }
     </style>
+    <script>
+        (function(){
+            // If user explicitly requested desktop version, don't redirect
+            if (window.location.search.includes('desktop=1')) return;
+            
+            const ua = navigator.userAgent;
+            const p = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+            const touchMac = /mac/i.test(p) && navigator.maxTouchPoints > 1;
+            
+            if (/android/i.test(ua) || /iphone|ipod|ipad/i.test(ua) || touchMac) {
+                window.location.replace('mobile.html' + window.location.search);
+            }
+        })();
+    </script>
 </head>
 <body>
 

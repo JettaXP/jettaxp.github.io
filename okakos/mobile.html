@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OkakOS 67 — Mobile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e17;
+            --primary: #00ff88;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .gradient-text {
+            color: var(--primary);
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        .btn:active {
+            opacity: 0.8;
+        }
+
+        .features {
+            margin-top: 2rem;
+            width: 100%;
+            text-align: left;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .feature-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding-top: 3rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        .desktop-link {
+            display: block;
+            margin-top: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>OkakOS <span class="gradient-text">67</span></h1>
+    <p>Самый окакный дистрибутив Linux.<br>Быстрый, стильный и с юмором.</p>
+
+    <a href="https://github.com/jettaxp/okakos/releases" class="btn btn-primary" target="_blank">Скачать ISO</a>
+    <a href="https://github.com/jettaxp/okakos" class="btn btn-secondary" target="_blank">GitHub</a>
+    <a href="https://t.me/jettaxp" class="btn btn-secondary" target="_blank">Telegram Канал</a>
+
+    <div class="features">
+        <div class="feature-item">
+            <h3>KDE Plasma + SDDM</h3>
+            <p>Удобный рабочий стол прямо из коробки.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Fish Shell</h3>
+            <p>Умный терминал с автодополнением.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Установщик Calamares</h3>
+            <p>Графическая установка (OkakInstall).</p>
+        </div>
+    </div>
+    
+    <a href="?desktop=1" class="desktop-link">Полная версия сайта</a>
+
+    <div class="footer">
+        Made with 💚 by jettax
+    </div>
+</body>
+</html>
