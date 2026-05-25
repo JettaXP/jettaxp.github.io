@@ -34,7 +34,6 @@
             position: relative;
         }
 
-        /* Animated Background Elements */
         .bg-glow {
             position: fixed;
             width: 200vw;
@@ -59,8 +58,6 @@
             flex: 1;
             z-index: 1;
         }
-
-        /* Typography & Header */
         .header {
             text-align: center;
             margin-bottom: 2.5rem;
@@ -92,7 +89,6 @@
             margin: 0 auto;
         }
 
-        /* Terminal Mockup */
         .terminal {
             width: 100%;
             background: rgba(10, 15, 25, 0.7);
@@ -124,7 +120,6 @@
         .term-prompt { color: var(--primary); font-weight: bold; }
         .term-dir { color: #fcd34d; }
 
-        /* Actions */
         .actions {
             width: 100%;
             display: flex;
@@ -178,7 +173,6 @@
             transform: scale(0.96);
         }
 
-        /* Features */
         .features {
             width: 100%;
             display: grid;
@@ -221,8 +215,6 @@
             color: var(--text-muted);
             line-height: 1.4;
         }
-
-        /* Footer */
         .footer {
             margin-top: auto;
             text-align: center;
@@ -248,7 +240,6 @@
             color: var(--text-muted);
         }
 
-        /* Keyframes */
         @keyframes slide-down {
             to { opacity: 1; transform: translateY(0); }
         }
@@ -323,7 +314,6 @@
     </div>
 
     <script>
-        // Blinking cursor
         const style = document.createElement('style');
         style.innerHTML = `@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }`;
         document.head.appendChild(style);
