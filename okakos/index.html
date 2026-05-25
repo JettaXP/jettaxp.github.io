@@ -29,7 +29,6 @@
             overflow-x: hidden;
         }
 
-        /* Particle Canvas */
         #particles {
             position: fixed;
             top: 0;
@@ -40,7 +39,6 @@
             pointer-events: none;
         }
 
-        /* Typography */
         h1, h2, h3 {
             font-weight: 800;
             line-height: 1.2;
@@ -53,7 +51,6 @@
             background-clip: text;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -79,7 +76,6 @@
             margin-bottom: 2.5rem;
         }
 
-        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -124,7 +120,6 @@
             justify-content: center;
         }
 
-        /* Terminal Mockup */
         .terminal {
             background: #0f172a;
             border-radius: 12px;
@@ -165,7 +160,6 @@
         .term-dir { color: #fcd34d; }
         .term-logo { color: var(--primary); font-weight: bold; white-space: pre;}
 
-        /* Features Section */
         .features {
             padding: 6rem 2rem;
             max-width: 1200px;
@@ -236,7 +230,6 @@
             color: var(--text-muted);
         }
 
-        /* Ascii 67 Art */
         .ascii-art {
             font-family: 'JetBrains Mono', monospace;
             font-size: clamp(0.5rem, 1.5vw, 1.2rem);
@@ -248,7 +241,6 @@
             user-select: none;
         }
 
-        /* Footer */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 3rem 2rem;
@@ -273,7 +265,6 @@
             color: var(--primary);
         }
 
-        /* Floating Telegram Button */
         .floating-tg {
             position: fixed;
             bottom: 2rem;
@@ -303,7 +294,6 @@
             fill: currentColor;
         }
 
-        /* Animations */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
@@ -320,14 +310,12 @@
             transform: translateY(0);
         }
 
-        /* SVG Icons */
         .icon-svg {
             width: 24px;
             height: 24px;
             fill: currentColor;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -344,7 +332,6 @@
     </style>
     <script>
         (function(){
-            // If user explicitly requested desktop version, don't redirect
             if (window.location.search.includes('desktop=1')) return;
             
             const ua = navigator.userAgent;
@@ -489,7 +476,6 @@
     </footer>
 
     <script>
-        // Particle Background
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         
@@ -535,7 +521,6 @@
         init();
         animate();
 
-        // Scroll Reveal Animation
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -548,9 +533,8 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        reveal(); // Trigger on load
+        reveal();
 
-        // Typewriter effect in terminal
         const twText = "sudo calamares";
         const twElement = document.querySelector('.typewriter');
         let twIndex = 0;
