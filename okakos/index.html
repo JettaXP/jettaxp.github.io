@@ -294,6 +294,33 @@
             fill: currentColor;
         }
 
+        .floating-lang {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.7rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .floating-lang:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
@@ -348,6 +375,8 @@
 
     <canvas id="particles"></canvas>
 
+    <button class="floating-lang" id="langToggle" title="RU/EN">RU</button>
+
     <a href="https://t.me/jettaxp" class="floating-tg" target="_blank" title="Telegram Support">
         <svg viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.18-.08-.05-.19-.02-.27 0-.11.03-1.88 1.2-5.34 3.53-.51.35-.97.52-1.38.51-.45-.01-1.32-.26-1.96-.46-.79-.26-1.42-.4-1.37-.85.03-.23.35-.47.96-.73 3.78-1.64 6.3-2.73 7.56-3.26 3.59-1.51 4.33-1.77 4.82-1.78.11 0 .35.03.5.15.12.1.17.24.18.37 0 .07.01.16 0 .26z"/>
@@ -357,12 +386,12 @@
     <section class="hero">
         <div class="reveal">
             <h1>OkakOS <span class="gradient-text">67</span></h1>
-            <p>Самый окакный дистрибутив Linux на базе Arch.</p>
+            <p data-ru="Самый окакный дистрибутив Linux на базе Arch." data-en="The most okak Linux distro based on Arch.">Самый окакный дистрибутив Linux на базе Arch.</p>
             
             <div class="hero-buttons">
                 <a href="https://github.com/jettaxp/okakos/releases" class="btn btn-primary" target="_blank">
                     <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                    Скачать ISO
+                    <span data-ru="Скачать ISO" data-en="Download ISO">Скачать ISO</span>
                 </a>
                 <a href="https://github.com/jettaxp/okakos" class="btn btn-secondary" target="_blank">
                     <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.376.202 2.394.1 2.646.64.699 1.026 1.591 1.026 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
@@ -418,59 +447,59 @@
     </div>
 
     <section class="features">
-        <h2 class="section-title reveal">Окакные <span class="gradient-text">Фичи</span></h2>
+        <h2 class="section-title reveal" data-ru="Окакные <span class='gradient-text'>Фичи</span>" data-en="Okak <span class='gradient-text'>Features</span>">Окакные <span class="gradient-text">Фичи</span></h2>
         
         <div class="grid">
             <div class="card reveal">
                 <div class="card-icon">01</div>
                 <h3>KDE Plasma</h3>
-                <p>Полноценный, современный и невероятно кастомизируемый рабочий стол KDE Plasma из коробки с дисплей-менеджером SDDM.</p>
+                <p data-ru="Полноценный, современный и невероятно кастомизируемый рабочий стол KDE Plasma из коробки с дисплей-менеджером SDDM." data-en="Full-featured, modern and incredibly customizable KDE Plasma desktop out of the box with SDDM display manager.">Полноценный, современный и невероятно кастомизируемый рабочий стол KDE Plasma из коробки с дисплей-менеджером SDDM.</p>
             </div>
             
             <div class="card reveal">
                 <div class="card-icon">02</div>
                 <h3>Fish Shell</h3>
-                <p>Забудь про скучный bash. У нас установлен дружелюбный Fish shell с кастомным промптом и подсветкой синтаксиса по дефолту.</p>
+                <p data-ru="Забудь про скучный bash. У нас установлен дружелюбный Fish shell с кастомным промптом и подсветкой синтаксиса по дефолту." data-en="Forget boring bash. We have the friendly Fish shell with custom prompt and syntax highlighting by default.">Забудь про скучный bash. У нас установлен дружелюбный Fish shell с кастомным промптом и подсветкой синтаксиса по дефолту.</p>
             </div>
             
             <div class="card reveal">
                 <div class="card-icon">03</div>
                 <h3>OkakInstall</h3>
-                <p>Удобный графический установщик на базе Calamares, который всё сделает за тебя. С весёлыми пасхалками во время загрузки.</p>
+                <p data-ru="Удобный графический установщик на базе Calamares, который всё сделает за тебя. С весёлыми пасхалками во время загрузки." data-en="Convenient graphical installer based on Calamares that does everything for you. With fun easter eggs during loading.">Удобный графический установщик на базе Calamares, который всё сделает за тебя. С весёлыми пасхалками во время загрузки.</p>
             </div>
             
             <div class="card reveal">
                 <div class="card-icon">04</div>
-                <h3>YAY из коробки</h3>
-                <p>Система поставляется с предустановленным AUR-хелпером yay, так что ты сможешь установить любой пакет из Arch User Repository.</p>
+                <h3 data-ru="YAY из коробки" data-en="YAY out of the box">YAY из коробки</h3>
+                <p data-ru="Система поставляется с предустановленным AUR-хелпером yay, так что ты сможешь установить любой пакет из Arch User Repository." data-en="System comes with pre-installed AUR helper yay, so you can install any package from Arch User Repository.">Система поставляется с предустановленным AUR-хелпером yay, так что ты сможешь установить любой пакет из Arch User Repository.</p>
             </div>
             
             <div class="card reveal">
                 <div class="card-icon">05</div>
                 <h3>Pocoyo Optimizator</h3>
-                <p>Специальная фирменная "утилита оптимизации". Используй на свой страх и риск. (Мы предупредили: не нажимай 1 и 3).</p>
+                <p data-ru='Специальная фирменная "утилита оптимизации". Используй на свой страх и риск. (Мы предупредили: не нажимай 1 и 3).' data-en="Special branded &quot;optimization utility&quot;. Use at your own risk. (We warned you: don't press 1 and 3).">Специальная фирменная "утилита оптимизации". Используй на свой страх и риск. (Мы предупредили: не нажимай 1 и 3).</p>
             </div>
             
             <div class="card reveal">
                 <div class="card-icon">06</div>
-                <h3>Уникальный Брендинг</h3>
-                <p>Никакого "Arch Linux". Везде — от GRUB до fastfetch и /etc/os-release красуется OkakOS 67.</p>
+                <h3 data-ru="Уникальный Брендинг" data-en="Unique Branding">Уникальный Брендинг</h3>
+                <p data-ru='Никакого "Arch Linux". Везде — от GRUB до fastfetch и /etc/os-release красуется OkakOS 67.' data-en='No more "Arch Linux". Everywhere — from GRUB to fastfetch and /etc/os-release it says OkakOS 67.'>Никакого "Arch Linux". Везде — от GRUB до fastfetch и /etc/os-release красуется OkakOS 67.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <h2>Готов стать окакным?</h2>
+        <h2 data-ru="Готов стать окакным?" data-en="Ready to become okak?">Готов стать окакным?</h2>
         <div style="margin-top: 2rem;">
-            <a href="https://github.com/jettaxp/okakos/releases" class="btn btn-primary" target="_blank">Скачать OkakOS 67</a>
+            <a href="https://github.com/jettaxp/okakos/releases" class="btn btn-primary" target="_blank" data-ru="Скачать OkakOS 67" data-en="Download OkakOS 67">Скачать OkakOS 67</a>
         </div>
         
         <div class="social-links">
-            <a href="https://github.com/jettaxp/okakos" target="_blank">Репозиторий GitHub</a>
-            <a href="https://t.me/jettaxp" target="_blank">Мой Telegram</a>
+            <a href="https://github.com/jettaxp/okakos" target="_blank" data-ru="Репозиторий GitHub" data-en="GitHub Repository">Репозиторий GitHub</a>
+            <a href="https://t.me/jettaxp" target="_blank" data-ru="Мой Telegram" data-en="My Telegram">Мой Telegram</a>
         </div>
         
-        <p style="margin-top: 3rem; color: var(--text-muted); font-size: 0.9rem;">
+        <p style="margin-top: 3rem; color: var(--text-muted); font-size: 0.9rem;" data-ru-html='Made with 💚 by <a href="https://t.me/jettaxp" style="color: var(--primary); text-decoration: none;">jettax</a>. Сикс Севен одобряет.' data-en-html='Made with 💚 by <a href="https://t.me/jettaxp" style="color: var(--primary); text-decoration: none;">jettax</a>. Six Seven approves.'>
             Made with 💚 by <a href="https://t.me/jettaxp" style="color: var(--primary); text-decoration: none;">jettax</a>. Сикс Севен одобряет.
         </p>
     </footer>
@@ -552,6 +581,38 @@
                 }
             }, 150);
         }, 1500);
+
+        (function() {
+            var lang = localStorage.getItem('okakos-lang') || 'ru';
+            var btn = document.getElementById('langToggle');
+
+            function applyLang(l) {
+                lang = l;
+                localStorage.setItem('okakos-lang', l);
+                btn.textContent = l === 'ru' ? 'RU' : 'EN';
+                document.querySelectorAll('[data-ru]').forEach(function(el) {
+                    if (el.dataset.ruHtml !== undefined || el.dataset.enHtml !== undefined) return;
+                    if (l === 'en') {
+                        el.innerHTML = el.dataset.en;
+                    } else {
+                        el.innerHTML = el.dataset.ru;
+                    }
+                });
+                document.querySelectorAll('[data-ru-html]').forEach(function(el) {
+                    if (l === 'en') {
+                        el.innerHTML = el.dataset.enHtml;
+                    } else {
+                        el.innerHTML = el.dataset.ruHtml;
+                    }
+                });
+            }
+
+            btn.addEventListener('click', function() {
+                applyLang(lang === 'ru' ? 'en' : 'ru');
+            });
+
+            applyLang(lang);
+        })();
     </script>
 </body>
 </html>
