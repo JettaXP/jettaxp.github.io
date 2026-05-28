@@ -58,6 +58,7 @@
             flex: 1;
             z-index: 1;
         }
+
         .header {
             text-align: center;
             margin-bottom: 2.5rem;
@@ -87,8 +88,8 @@
             line-height: 1.5;
             max-width: 280px;
             margin: 0 auto;
+      
         }
-
         .terminal {
             width: 100%;
             background: rgba(10, 15, 25, 0.7);
@@ -215,6 +216,7 @@
             color: var(--text-muted);
             line-height: 1.4;
         }
+
         .footer {
             margin-top: auto;
             text-align: center;
@@ -254,15 +256,42 @@
             20% { left: 200%; }
             100% { left: 200%; }
         }
+        .floating-lang {
+            position: fixed;
+            bottom: 2rem;
+            right: 1.5rem;
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .floating-lang:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
+        }
     </style>
 </head>
 <body>
+    <button class="floating-lang" id="langToggle" title="RU/EN">RU</button>
     <div class="bg-glow"></div>
 
     <div class="container">
         <header class="header">
             <h1>OkakOS <span class="gradient-text">67</span></h1>
-            <p class="subtitle">Самый окакный дистрибутив Linux на базе Arch.</p>
+            <p class="subtitle" data-ru="Самый окакный дистрибутив Linux на базе Arch." data-en="The most okak Linux distro based on Arch.">Самый окакный дистрибутив Linux на базе Arch.</p>
         </header>
 
         <div class="terminal">
@@ -279,9 +308,9 @@
         </div>
 
         <div class="actions">
-            <a href="https://github.com/jettaxp/okakos/releases" class="btn btn-primary" target="_blank">Скачать ISO образ</a>
-            <a href="https://github.com/jettaxp/okakos" class="btn btn-secondary" target="_blank">Исходный код (GitHub)</a>
-            <a href="https://t.me/jettaxp" class="btn btn-secondary" target="_blank">Мой Telegram</a>
+            <a href="https://github.com/jettaxp/okakos/releases" class="btn btn-primary" target="_blank" data-ru="Скачать ISO образ" data-en="Download ISO Image">Скачать ISO образ</a>
+            <a href="https://github.com/jettaxp/okakos" class="btn btn-secondary" target="_blank" data-ru="Исходный код (GitHub)" data-en="Source Code (GitHub)">Исходный код (GitHub)</a>
+            <a href="https://t.me/jettaxp" class="btn btn-secondary" target="_blank" data-ru="Мой Telegram" data-en="My Telegram">Мой Telegram</a>
         </div>
 
         <div class="features">
@@ -289,21 +318,21 @@
                 <div class="feature-icon">01</div>
                 <div class="feature-content">
                     <h3>KDE Plasma</h3>
-                    <p>Красивый рабочий стол прямо из коробки.</p>
+                    <p data-ru="Красивый рабочий стол прямо из коробки." data-en="Beautiful desktop right out of the box.">Красивый рабочий стол прямо из коробки.</p>
                 </div>
             </div>
             <div class="feature-card" style="animation-delay: 0.9s">
                 <div class="feature-icon">02</div>
                 <div class="feature-content">
                     <h3>Fish Shell</h3>
-                    <p>Дружелюбный терминал с автодополнением.</p>
+                    <p data-ru="Дружелюбный терминал с автодополнением." data-en="Friendly terminal with autocomplete.">Дружелюбный терминал с автодополнением.</p>
                 </div>
             </div>
             <div class="feature-card" style="animation-delay: 1.1s">
                 <div class="feature-icon">03</div>
                 <div class="feature-content">
                     <h3>OkakInstall</h3>
-                    <p>Удобный графический инсталлятор системы.</p>
+                    <p data-ru="Удобный графический инсталлятор системы." data-en="Convenient graphical system installer.">Удобный графический инсталлятор системы.</p>
                 </div>
             </div>
         </div>
@@ -317,6 +346,30 @@
         const style = document.createElement('style');
         style.innerHTML = `@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }`;
         document.head.appendChild(style);
+
+        (function() {
+            var lang = localStorage.getItem('okakos-lang') || 'ru';
+            var btn = document.getElementById('langToggle');
+
+            function applyLang(l) {
+                lang = l;
+                localStorage.setItem('okakos-lang', l);
+                btn.textContent = l === 'ru' ? 'RU' : 'EN';
+                document.querySelectorAll('[data-ru]').forEach(function(el) {
+                    if (l === 'en') {
+                        el.innerHTML = el.dataset.en;
+                    } else {
+                        el.innerHTML = el.dataset.ru;
+                    }
+                });
+            }
+
+            btn.addEventListener('click', function() {
+                applyLang(lang === 'ru' ? 'en' : 'ru');
+            });
+
+            applyLang(lang);
+        })();
     </script>
 </body>
 </html>
