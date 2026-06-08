@@ -318,3 +318,54 @@ body::after {
 .cyber-link:hover {
     text-shadow: 2px 2px 0 var(--dark);
 }
+
+/* Flying Code Effect */
+.flying-code-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 25vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1; /* Below main content */
+    overflow: hidden;
+}
+
+.flying-code-line {
+    position: absolute;
+    bottom: -50px;
+    color: rgba(0, 240, 255, 0.15);
+    font-family: monospace;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    animation: flyUp linear forwards;
+    text-shadow: 0 0 2px rgba(0, 240, 255, 0.4);
+}
+
+@keyframes flyUp {
+    0% { transform: translateY(0); opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* Beautiful Transition Divider */
+.cyber-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), var(--yellow), var(--cyan), transparent);
+    margin: 60px 0;
+    position: relative;
+    box-shadow: 0 0 10px var(--cyan);
+}
+
+.cyber-divider::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 6px;
+    background: var(--yellow);
+    box-shadow: 0 0 10px var(--yellow);
+}
