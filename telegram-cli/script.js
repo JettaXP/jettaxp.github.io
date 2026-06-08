@@ -116,11 +116,14 @@ function startFlyingCode() {
         container.appendChild(block);
         
         setTimeout(() => {
+            isFlying = false;
+        }, (duration * 1000) * 0.4); 
+        
+        setTimeout(() => {
             if(container.contains(block)) {
                 container.removeChild(block);
             }
-            isFlying = false;
-        }, (duration * 1000) * 0.7); 
+        }, duration * 1000); 
     }, 400); 
 }
 
