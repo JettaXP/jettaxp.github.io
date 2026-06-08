@@ -81,7 +81,6 @@ const savedLang = localStorage.getItem('tgcli-lang') || 'en';
 toggleLang(savedLang);
 
 
-let isFlying = false;
 function startFlyingCode() {
     const htmlCode = document.documentElement.outerHTML.split('\n').filter(l => l.trim().length > 10);
     const container = document.createElement('div');
@@ -89,42 +88,28 @@ function startFlyingCode() {
     document.body.appendChild(container);
 
     setInterval(() => {
-        if (isFlying) return; 
-        isFlying = true;
-
-        const block = document.createElement('div');
-        block.className = 'flying-code-block';
+        const line = document.createElement('div');
+        line.className = 'flying-code-line';
         
-        const linesCount = 3 + Math.floor(Math.random() * 3);
-        let blockText = '';
-        for(let i = 0; i < linesCount; i++) {
-            const randomLine = htmlCode[Math.floor(Math.random() * htmlCode.length)].trim();
-            const truncated = randomLine.length > 60 ? randomLine.substring(0, 60) + "..." : randomLine;
-            blockText += truncated + '\n\n'; 
-        }
-        
-        block.textContent = blockText;
+        const randomLine = htmlCode[Math.floor(Math.random() * htmlCode.length)].trim();
+        line.textContent = randomLine.length > 60 ? randomLine.substring(0, 60) + "..." : randomLine;
         
         const duration = 1.0; 
-        block.style.animationDuration = `${duration}s`;
+        line.style.animationDuration = `${duration}s`;
         
         if (Math.random() > 0.1) {
-            block.classList.add('code-glitch');
-            block.setAttribute('data-text', block.textContent);
+            line.classList.add('code-glitch');
+            line.setAttribute('data-text', line.textContent);
         }
         
-        container.appendChild(block);
+        container.appendChild(line);
         
         setTimeout(() => {
-            isFlying = false;
-        }, (duration * 1000) * 0.4); 
-        
-        setTimeout(() => {
-            if(container.contains(block)) {
-                container.removeChild(block);
+            if(container.contains(line)) {
+                container.removeChild(line);
             }
-        }, duration * 1000); 
-    }, 400); 
+        }, duration * 1000 + 100); 
+    }, 250); // Spawn a new separate line every 250ms
 }
 
 document.addEventListener("DOMContentLoaded", startFlyingCode);

@@ -331,19 +331,18 @@ body::after {
     overflow: hidden;
 }
 
-.flying-code-block {
+.flying-code-line {
     position: absolute;
-    top: -150px;
+    top: -50px;
     left: 0;
     color: #b026ff; 
     font-family: monospace;
     font-size: 0.85rem;
-    white-space: pre-wrap;
+    white-space: nowrap;
     animation: flyDown linear forwards;
     text-shadow: 0 0 3px rgba(176, 38, 255, 0.6);
     opacity: 0.8;
     padding-left: 10px; 
-    line-height: 2.5;
 }
 
 .code-glitch {
@@ -373,7 +372,7 @@ body::after {
     0% { transform: translateY(0); opacity: 0; }
     5% { opacity: 1; }
     90% { opacity: 1; }
-    100% { transform: translateY(120vh); opacity: 0; }
+    100% { transform: translateY(150vh); opacity: 0; }
 }
 
 @keyframes code-glitch-anim {
