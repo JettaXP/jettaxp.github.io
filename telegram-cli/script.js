@@ -1,5 +1,7 @@
 const translations = {
     en: {
+        sys_status: "SYS_STATUS: ONLINE",
+        github_repo: ">>> GITHUB_REPO <<<",
         subtitle: "Terminal-based Telegram client for Linux",
         features_title: "Features",
         feature_1: "Blazing Fast (C++ & TDLib)",
@@ -23,6 +25,8 @@ const translations = {
         footer: "Built with ❤️ by JettaXP"
     },
     ru: {
+        sys_status: "СТАТУС_СИСТЕМЫ: ОНЛАЙН",
+        github_repo: ">>> GITHUB_РЕПОЗИТОРИЙ <<<",
         subtitle: "Консольный клиент Telegram для Linux",
         features_title: "Возможности",
         feature_1: "Невероятно быстрый (написан на C++ и TDLib)",
@@ -65,7 +69,8 @@ function copyCode() {
     navigator.clipboard.writeText("curl -sL https://raw.githubusercontent.com/JettaXP/Telegram-CLI/main/install.sh | sudo bash");
     const btn = document.querySelector('.copy-btn');
     const oldText = btn.textContent;
-    btn.textContent = "Copied!";
+    const lang = localStorage.getItem('tgcli-lang') || 'en';
+    btn.textContent = lang === 'ru' ? "Скопировано!" : "Copied!";
     setTimeout(() => {
         btn.textContent = oldText;
     }, 2000);
