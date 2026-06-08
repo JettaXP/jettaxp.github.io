@@ -92,31 +92,36 @@ function startFlyingCode() {
         if (isFlying) return; 
         isFlying = true;
 
-        const line = document.createElement('div');
-        line.className = 'flying-code-line';
+        const block = document.createElement('div');
+        block.className = 'flying-code-block';
         
-        const randomLine = htmlCode[Math.floor(Math.random() * htmlCode.length)].trim();
-        line.textContent = randomLine.length > 60 ? randomLine.substring(0, 60) + "..." : randomLine;
-        
-        const duration = 1.2 + Math.random() * 1.5; 
-        line.style.animationDuration = `${duration}s`;
-        
-        
-        if (Math.random() > 0.4) {
-            line.classList.add('code-glitch');
-            line.setAttribute('data-text', line.textContent);
+        const linesCount = 3 + Math.floor(Math.random() * 3);
+        let blockText = '';
+        for(let i = 0; i < linesCount; i++) {
+            const randomLine = htmlCode[Math.floor(Math.random() * htmlCode.length)].trim();
+            const truncated = randomLine.length > 60 ? randomLine.substring(0, 60) + "..." : randomLine;
+            blockText += truncated + '\n\n'; 
         }
         
-        container.appendChild(line);
+        block.textContent = blockText;
         
+        const duration = 0.5 + Math.random() * 0.7; 
+        block.style.animationDuration = `${duration}s`;
+        
+        if (Math.random() > 0.1) {
+            block.classList.add('code-glitch');
+            block.setAttribute('data-text', block.textContent);
+        }
+        
+        container.appendChild(block);
         
         setTimeout(() => {
-            if(container.contains(line)) {
-                container.removeChild(line);
+            if(container.contains(block)) {
+                container.removeChild(block);
             }
             isFlying = false;
-        }, (duration * 1000) * 0.9); 
-    }, 1000); 
+        }, (duration * 1000) * 0.7); 
+    }, 400); 
 }
 
 document.addEventListener("DOMContentLoaded", startFlyingCode);

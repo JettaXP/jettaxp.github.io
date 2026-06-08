@@ -331,45 +331,61 @@ body::after {
     overflow: hidden;
 }
 
-.flying-code-line {
+.flying-code-block {
     position: absolute;
-    top: -50px;
+    top: -150px;
     left: 0;
     color: #b026ff; 
     font-family: monospace;
     font-size: 0.85rem;
-    white-space: nowrap;
+    white-space: pre-wrap;
     animation: flyDown linear forwards;
     text-shadow: 0 0 3px rgba(176, 38, 255, 0.6);
     opacity: 0.8;
     padding-left: 10px; 
+    line-height: 2.5;
 }
 
 .code-glitch {
     position: relative;
 }
 
-.code-glitch::before {
+.code-glitch::before, .code-glitch::after {
     content: attr(data-text);
     position: absolute;
-    left: 12px;
+    left: 10px;
+    top: 0;
     color: var(--cyan);
-    animation: code-glitch-anim 0.15s infinite;
+    animation: code-glitch-anim 0.1s infinite;
     z-index: -1;
     opacity: 0.7;
+    white-space: pre-wrap;
+    line-height: 2.5;
+}
+
+.code-glitch::after {
+    color: var(--red);
+    left: 14px;
+    animation: code-glitch-anim2 0.15s infinite;
 }
 
 @keyframes flyDown {
     0% { transform: translateY(0); opacity: 0; }
     5% { opacity: 1; }
     90% { opacity: 1; }
-    100% { transform: translateY(110vh); opacity: 0; }
+    100% { transform: translateY(120vh); opacity: 0; }
 }
 
 @keyframes code-glitch-anim {
-    0% { transform: translate(2px, 0); }
-    50% { transform: translate(-2px, 2px); }
-    100% { transform: translate(0, -2px); }
+    0% { transform: translate(3px, 0); }
+    50% { transform: translate(-3px, 3px); }
+    100% { transform: translate(0, -3px); }
+}
+
+@keyframes code-glitch-anim2 {
+    0% { transform: translate(-3px, 0); }
+    50% { transform: translate(3px, -3px); }
+    100% { transform: translate(0, 3px); }
 }
 
 
