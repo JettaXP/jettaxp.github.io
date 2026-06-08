@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram CLI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glitch-overlay"></div>
+    <header class="cyber-header">
+        <div class="lang-switch">
+            <button onclick="toggleLang('en')" class="cyber-button" id="btn-en">EN</button>
+            <button onclick="toggleLang('ru')" class="cyber-button" id="btn-ru">RU</button>
+        </div>
+    </header>
+
+    <main class="cyber-container">
+        <h1 class="glitch" data-text="Telegram CLI">Telegram CLI</h1>
+        <p class="subtitle" data-i18n="subtitle">Terminal-based Telegram client for Linux</p>
+        
+        <div class="cyber-panel">
+            <h2 data-i18n="features_title">Features</h2>
+            <ul class="features-list">
+                <li data-i18n="feature_1">Blazing Fast (C++ & TDLib)</li>
+                <li data-i18n="feature_2">Multi-theme support (Dark, Nord, Gruvbox)</li>
+                <li data-i18n="feature_3">Keyboard-driven workflow</li>
+                <li data-i18n="feature_4">exteraGram badges & Stars support</li>
+            </ul>
+        </div>
+
+        <div class="cyber-panel install-panel">
+            <h2 data-i18n="install_title">Install Now</h2>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode()" data-i18n="copy">Copy</button>
+                <code>curl -sL https://raw.githubusercontent.com/JettaXP/Telegram-CLI/main/install.sh | sudo bash</code>
+            </div>
+            <p class="terminal-note" data-i18n="terminal_note">> run 'tgcli' to start</p>
+        </div>
+    </main>
+
+    <footer class="cyber-footer">
+        <p data-i18n="footer">Built with ❤️ by JettaXP</p>
+        <a href="https://github.com/JettaXP/Telegram-CLI" target="_blank" class="cyber-link">GitHub</a>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
