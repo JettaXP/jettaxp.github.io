@@ -81,36 +81,42 @@ const savedLang = localStorage.getItem('tgcli-lang') || 'en';
 toggleLang(savedLang);
 
 // Flying code effect
+let isFlying = false;
 function startFlyingCode() {
-    const htmlCode = document.documentElement.outerHTML.split('\n').filter(l => l.trim().length > 0);
+    const htmlCode = document.documentElement.outerHTML.split('\n').filter(l => l.trim().length > 10);
     const container = document.createElement('div');
     container.className = 'flying-code-container';
     document.body.appendChild(container);
 
     setInterval(() => {
+        if (isFlying) return; // Prevent intersection by waiting for previous to finish
+        isFlying = true;
+
         const line = document.createElement('div');
         line.className = 'flying-code-line';
         
-        // Pick a random line of code, escape it for safety
         const randomLine = htmlCode[Math.floor(Math.random() * htmlCode.length)].trim();
-        line.textContent = randomLine.length > 50 ? randomLine.substring(0, 50) + "..." : randomLine;
+        line.textContent = randomLine.length > 60 ? randomLine.substring(0, 60) + "..." : randomLine;
         
-        // Randomize position and animation duration
-        const leftPos = Math.random() * 15; // 0 to 15vw from the left
-        const duration = 5 + Math.random() * 10; // 5 to 15s
-        
-        line.style.left = `${leftPos}vw`;
+        const duration = 1.2 + Math.random() * 1.5; // Fast fly (1.2s to 2.7s)
         line.style.animationDuration = `${duration}s`;
+        
+        // Randomly add glitch effect
+        if (Math.random() > 0.4) {
+            line.classList.add('code-glitch');
+            line.setAttribute('data-text', line.textContent);
+        }
         
         container.appendChild(line);
         
-        // Remove after animation
+        // Remove after animation and allow next line
         setTimeout(() => {
             if(container.contains(line)) {
                 container.removeChild(line);
             }
-        }, duration * 1000);
-    }, 500); // spawn new line every 500ms
+            isFlying = false;
+        }, (duration * 1000) * 0.9); // Slight overlap allowed, mostly sequential
+    }, 1000); // Check every 1s
 }
 
 document.addEventListener("DOMContentLoaded", startFlyingCode);

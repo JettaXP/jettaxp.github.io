@@ -324,7 +324,7 @@ body::after {
     position: fixed;
     top: 0;
     left: 0;
-    width: 25vw;
+    width: 300px;
     height: 100vh;
     pointer-events: none;
     z-index: 1; /* Below main content */
@@ -333,39 +333,77 @@ body::after {
 
 .flying-code-line {
     position: absolute;
-    bottom: -50px;
-    color: rgba(0, 240, 255, 0.15);
+    top: -50px;
+    left: 0;
+    color: #b026ff; /* Purpleish color */
     font-family: monospace;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     white-space: nowrap;
-    animation: flyUp linear forwards;
-    text-shadow: 0 0 2px rgba(0, 240, 255, 0.4);
+    animation: flyDown linear forwards;
+    text-shadow: 0 0 3px rgba(176, 38, 255, 0.6);
+    opacity: 0.8;
+    padding-left: 10px; /* Sticks right to the left edge */
 }
 
-@keyframes flyUp {
+.code-glitch {
+    position: relative;
+}
+
+.code-glitch::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 12px;
+    color: var(--cyan);
+    animation: code-glitch-anim 0.15s infinite;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+@keyframes flyDown {
     0% { transform: translateY(0); opacity: 0; }
     5% { opacity: 1; }
-    95% { opacity: 1; }
-    100% { transform: translateY(-110vh); opacity: 0; }
+    90% { opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+}
+
+@keyframes code-glitch-anim {
+    0% { transform: translate(2px, 0); }
+    50% { transform: translate(-2px, 2px); }
+    100% { transform: translate(0, -2px); }
 }
 
 /* Beautiful Transition Divider */
 .cyber-divider {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--cyan), var(--yellow), var(--cyan), transparent);
+    height: 1px;
+    background: var(--cyan);
     margin: 60px 0;
     position: relative;
-    box-shadow: 0 0 10px var(--cyan);
+    width: 100%;
 }
 
 .cyber-divider::before {
     content: '';
     position: absolute;
+    top: -3px;
+    left: 10%;
+    width: 40px;
+    height: 7px;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+}
+
+.cyber-divider::after {
+    content: '';
+    position: absolute;
     top: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 6px;
-    background: var(--yellow);
-    box-shadow: 0 0 10px var(--yellow);
+    right: 10%;
+    width: 80px;
+    height: 5px;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 2px,
+        var(--yellow) 2px,
+        var(--yellow) 4px
+    );
 }
