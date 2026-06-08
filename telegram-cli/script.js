@@ -87,29 +87,43 @@ function startFlyingCode() {
     container.className = 'flying-code-container';
     document.body.appendChild(container);
 
-    setInterval(() => {
-        const line = document.createElement('div');
-        line.className = 'flying-code-line';
+    function spawnWave() {
+        const linesInWave = 3 + Math.floor(Math.random() * 5);
+        let spawned = 0;
         
-        const randomLine = htmlCode[Math.floor(Math.random() * htmlCode.length)].trim();
-        line.textContent = randomLine.length > 60 ? randomLine.substring(0, 60) + "..." : randomLine;
-        
-        const duration = 1.0; 
-        line.style.animationDuration = `${duration}s`;
-        
-        if (Math.random() > 0.1) {
-            line.classList.add('code-glitch');
-            line.setAttribute('data-text', line.textContent);
-        }
-        
-        container.appendChild(line);
-        
-        setTimeout(() => {
-            if(container.contains(line)) {
-                container.removeChild(line);
+        const waveInterval = setInterval(() => {
+            if (spawned >= linesInWave) {
+                clearInterval(waveInterval);
+                setTimeout(spawnWave, 3000 + Math.random() * 4000);
+                return;
             }
-        }, duration * 1000 + 100); 
-    }, 250); // Spawn a new separate line every 250ms
+            spawned++;
+
+            const line = document.createElement('div');
+            line.className = 'flying-code-line';
+            
+            const randomLine = htmlCode[Math.floor(Math.random() * htmlCode.length)].trim();
+            line.textContent = randomLine.length > 60 ? randomLine.substring(0, 60) + "..." : randomLine;
+            
+            const duration = 1.0; 
+            line.style.animationDuration = `${duration}s`;
+            
+            if (Math.random() > 0.1) {
+                line.classList.add('code-glitch');
+                line.setAttribute('data-text', line.textContent);
+            }
+            
+            container.appendChild(line);
+            
+            setTimeout(() => {
+                if(container.contains(line)) {
+                    container.removeChild(line);
+                }
+            }, duration * 1000 + 100); 
+        }, 150); 
+    }
+    
+    setTimeout(spawnWave, 1000);
 }
 
 document.addEventListener("DOMContentLoaded", startFlyingCode);
