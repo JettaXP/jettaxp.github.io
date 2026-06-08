@@ -66,7 +66,7 @@ function toggleLang(lang) {
 }
 
 function copyCode() {
-    navigator.clipboard.writeText("curl -sL https://raw.githubusercontent.com/JettaXP/Telegram-CLI/main/install.sh | sudo bash");
+    navigator.clipboard.writeText("curl -sL https:
     const btn = document.querySelector('.copy-btn');
     const oldText = btn.textContent;
     const lang = localStorage.getItem('tgcli-lang') || 'en';
@@ -76,11 +76,11 @@ function copyCode() {
     }, 2000);
 }
 
-// Init
+
 const savedLang = localStorage.getItem('tgcli-lang') || 'en';
 toggleLang(savedLang);
 
-// Flying code effect
+
 let isFlying = false;
 function startFlyingCode() {
     const htmlCode = document.documentElement.outerHTML.split('\n').filter(l => l.trim().length > 10);
@@ -89,7 +89,7 @@ function startFlyingCode() {
     document.body.appendChild(container);
 
     setInterval(() => {
-        if (isFlying) return; // Prevent intersection by waiting for previous to finish
+        if (isFlying) return; 
         isFlying = true;
 
         const line = document.createElement('div');
@@ -98,10 +98,10 @@ function startFlyingCode() {
         const randomLine = htmlCode[Math.floor(Math.random() * htmlCode.length)].trim();
         line.textContent = randomLine.length > 60 ? randomLine.substring(0, 60) + "..." : randomLine;
         
-        const duration = 1.2 + Math.random() * 1.5; // Fast fly (1.2s to 2.7s)
+        const duration = 1.2 + Math.random() * 1.5; 
         line.style.animationDuration = `${duration}s`;
         
-        // Randomly add glitch effect
+        
         if (Math.random() > 0.4) {
             line.classList.add('code-glitch');
             line.setAttribute('data-text', line.textContent);
@@ -109,14 +109,14 @@ function startFlyingCode() {
         
         container.appendChild(line);
         
-        // Remove after animation and allow next line
+        
         setTimeout(() => {
             if(container.contains(line)) {
                 container.removeChild(line);
             }
             isFlying = false;
-        }, (duration * 1000) * 0.9); // Slight overlap allowed, mostly sequential
-    }, 1000); // Check every 1s
+        }, (duration * 1000) * 0.9); 
+    }, 1000); 
 }
 
 document.addEventListener("DOMContentLoaded", startFlyingCode);

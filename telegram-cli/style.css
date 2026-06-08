@@ -23,7 +23,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Scanlines */
+
 body::after {
     content: " ";
     display: block;
@@ -38,7 +38,7 @@ body::after {
     pointer-events: none;
 }
 
-/* Header */
+
 .cyber-header {
     display: flex;
     justify-content: flex-end;
@@ -53,7 +53,7 @@ body::after {
     gap: 15px;
 }
 
-/* Authentic Cyberpunk Buttons */
+
 .cyber-button {
     --primary: var(--yellow);
     --secondary: var(--dark);
@@ -91,7 +91,7 @@ body::after {
     opacity: 0.5;
 }
 
-/* Hero Section */
+
 .hero {
     background-color: var(--yellow);
     color: var(--dark);
@@ -116,7 +116,7 @@ body::after {
     margin: 0 auto;
 }
 
-/* Glitch Title */
+
 .glitch {
     font-size: 6rem;
     font-weight: 700;
@@ -191,7 +191,7 @@ body::after {
     font-size: 1rem;
 }
 
-/* Container */
+
 .cyber-container {
     max-width: 1000px;
     margin: 0 auto;
@@ -200,7 +200,7 @@ body::after {
     z-index: 10;
 }
 
-/* Cyber Panel */
+
 .cyber-panel {
     background: var(--dark-alt);
     border-left: 4px solid var(--red);
@@ -248,7 +248,7 @@ body::after {
     font-family: monospace;
 }
 
-/* Install Block */
+
 .code-block {
     background: var(--dark);
     padding: 25px;
@@ -288,7 +288,7 @@ body::after {
     font-size: 1.2rem;
 }
 
-/* Footer */
+
 .cyber-footer {
     text-align: center;
     padding: 60px 20px;
@@ -319,7 +319,7 @@ body::after {
     text-shadow: 2px 2px 0 var(--dark);
 }
 
-/* Flying Code Effect */
+
 .flying-code-container {
     position: fixed;
     top: 0;
@@ -327,7 +327,7 @@ body::after {
     width: 300px;
     height: 100vh;
     pointer-events: none;
-    z-index: 1; /* Below main content */
+    z-index: 1; 
     overflow: hidden;
 }
 
@@ -335,14 +335,14 @@ body::after {
     position: absolute;
     top: -50px;
     left: 0;
-    color: #b026ff; /* Purpleish color */
+    color: #b026ff; 
     font-family: monospace;
     font-size: 0.85rem;
     white-space: nowrap;
     animation: flyDown linear forwards;
     text-shadow: 0 0 3px rgba(176, 38, 255, 0.6);
     opacity: 0.8;
-    padding-left: 10px; /* Sticks right to the left edge */
+    padding-left: 10px; 
 }
 
 .code-glitch {
@@ -372,7 +372,7 @@ body::after {
     100% { transform: translate(0, -2px); }
 }
 
-/* Beautiful Transition Divider */
+
 .cyber-divider {
     height: 1px;
     background: var(--cyan);
