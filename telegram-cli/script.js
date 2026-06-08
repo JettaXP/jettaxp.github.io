@@ -66,7 +66,7 @@ function toggleLang(lang) {
 }
 
 function copyCode() {
-    navigator.clipboard.writeText("curl -sL https:
+    navigator.clipboard.writeText("curl -sL https://raw.githubusercontent.com/JettaXP/Telegram-CLI/main/install.sh | sudo bash");
     const btn = document.querySelector('.copy-btn');
     const oldText = btn.textContent;
     const lang = localStorage.getItem('tgcli-lang') || 'en';
