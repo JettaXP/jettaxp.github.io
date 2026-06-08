@@ -105,7 +105,7 @@ function startFlyingCode() {
         
         block.textContent = blockText;
         
-        const duration = 0.5 + Math.random() * 0.7; 
+        const duration = 1.0; 
         block.style.animationDuration = `${duration}s`;
         
         if (Math.random() > 0.1) {
