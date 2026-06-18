@@ -2107,7 +2107,6 @@
 
 <body>
 <script>try{ if(document.body.getAttribute('data-device')==='fluid') document.body.setAttribute('data-theme','dark'); }catch(e){};
-// Redirect root to /os to select device-specific page
 if (location.pathname === '/' || location.pathname === '') { location.replace('/os'); }
 </script>
     <div aria-label="theme switch" class="m3-theme-corner">
@@ -2481,7 +2480,7 @@ if (location.pathname === '/' || location.pathname === '') { location.replace('/
                     toast.classList.remove('show');
                     toast.classList.remove('expanded');
                     expandArrow.classList.remove('rotated');
-                }, 4000); // 4 секунды на прочтение/расширение
+                }, 4000); 
             }
 
             document.addEventListener('copy', () => {
