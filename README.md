@@ -20,10 +20,13 @@
 Официальный сайт **OkakOS 67** — кастомного дистрибутива Linux на базе Arch. Крутые анимации, неоновое свечение, встроенный терминал с `fastfetch` и ссылки на скачивание (которые ведут на релизы в репозитории самой ОС). 
 *(Папки `/okakos` и `/OkakOS` ведут в одно и то же место!)*
 
+### 📟 [Telegram CLI](https://jettax.xyz/telegram-cli)
+Лендинг-страница для **Telegram CLI** — полноценного Telegram-клиента для Linux-терминалов, написанного с нуля на C++20 с использованием TDLib и FTXUI. Поддерживает обмен сообщениями в реальном времени, полную клавиатурную навигацию, 3 цветовых темы (Dark, Nord, Gruvbox), интеграцию бейджей exteraGram, Telegram Stars и подарки/NFT. Иконки через JetBrains Mono Nerd Font.
+Исходный код: [JettaXP/Telegram-CLI](https://github.com/JettaXP/Telegram-CLI)
+
 ### 😈 Троллинг и Мемы
 - **[67 (Сикс Севен)](https://jettax.xyz/67)** — Культ числа 67.
 - **[Pocoyo](https://jettax.xyz/pocoyo)** — Оптимизатор, который ты не захочешь запускать (или захочешь?).
-- **Тенге-тенге** — Местные приколы.
 
 ### 💻 Операционные системы (UI Мокапы)
 Различные веб-интерфейсы и эксперименты с дизайном систем:
@@ -38,12 +41,16 @@
 - `/fluid` — Текучие анимации.
 - `/ai` — Нейросетевые штуки.
 
+### 🔤 [Font Preview](https://jettax.xyz/font-preview)
+Лендинг-страница для Android-приложения **Font Preview** — утилиты для предпросмотра и установки шрифтов из Google Fonts и локальных файлов. Написано на Kotlin + Jetpack Compose в стиле Material Design 3. Поддерживает установку кастомных шрифтов на Samsung (One UI) через метод FlipFont / #mono_.
+Исходный код приложения: [JettaXP/Font-Preview](https://github.com/JettaXP/Font-Preview)
+
 ---
 
 <div align="center">
 
 **Made with 💚 by jettax**
 
-*Окак, Сикс Севен, Покойо. Тенге тенге.*
+*окак покойо сикс сэвен*
 
 </div>
