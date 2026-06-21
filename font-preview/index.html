@@ -1,11 +1,14 @@
-<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {transition: opacity ease-in 0.2s; } 
+    body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Font Preview | Material Design 3</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
   <style>
@@ -167,13 +170,12 @@
       font-weight: 700;
       font-size: 18px;
       text-decoration: none;
-      transition: background-color 0.2s ease, border-radius 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s ease;
+      transition: background-color 0.2s ease, border-radius 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
     }
 
     .md3-btn:active {
       border-radius: 32px;
-      transform: scale(0.92);
     }
 
     .md3-btn.filled {
@@ -347,7 +349,7 @@
     </p>
 
     <div class="preview-card">
-      <input type="text" class="preview-input" value="The quick brown fox jumps over the lazy dog" spellcheck="false" />
+      <input type="text" class="preview-input" value="The quick brown fox jumps over the lazy dog" spellcheck="false">
     </div>
 
     <div class="button-group">
