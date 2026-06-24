@@ -1455,10 +1455,10 @@ if (location.pathname === '/ai' || location.pathname === '/ai/') { location.repl
         модель:
       </div>
       <select class="model-select" id="modelSelect">
-        <option value="pplx-gpt-5.1" selected>pplx-gpt-5.1</option>
+        <option value="kimi-k2.5" selected>kimi-k2.5</option>
         <option value="gpt-5-mini">gpt-5-mini</option>
-        <option value="sonar-pro">sonar-pro</option>
-        <option value="sonar-deep-research">sonar-deep-research</option>
+        <option value="qwen3.5-plus">qwen3.5-plus</option>
+        <option value="gemini-3-flash">gemini-3-flash</option>
       </select>
     </div>
 
@@ -2011,7 +2011,7 @@ if (location.pathname === '/ai' || location.pathname === '/ai/') { location.repl
           if (parts.length > 1) {
              typeAiMsg('Model switched to: ' + parts[1], restoreInput);
           } else {
-             typeAiMsg(`Available models: \n- pplx-gpt-5.1\n- gpt-5-mini\n- sonar-pro\n- sonar-deep-research\nUsage: /model <name>`, restoreInput);
+             typeAiMsg(`Available models: \n- kimi-k2.5\n- gpt-5-mini\n- qwen3.5-plus\n- gemini-3-flash\nUsage: /model <name>`, restoreInput);
           }
         } else if (val.startsWith('/')) {
           typeAiMsg('Unknown command: ' + val, restoreInput);
