@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -38,13 +39,17 @@
   0%, 100% { box-shadow: 0 0 15px #ff00ff, 0 0 30px #00ffff, inset 0 0 15px #ffff00; }
   50% { box-shadow: 0 0 35px #ff0000, 0 0 60px #00ff00, inset 0 0 30px #ff00ff; }
 }
-@keyframes floatCrazy {
-  0%, 100% { transform: translateY(0px) rotate(-3deg); }
-  50% { transform: translateY(-18px) rotate(4deg); }
+@keyframes goldPulse {
+  0%, 100% { transform: scale(1) rotate(-6deg); filter: drop-shadow(0 0 12px #facc15) drop-shadow(0 0 25px #f59e0b); }
+  50% { transform: scale(1.22) rotate(8deg); filter: drop-shadow(0 0 25px #fef08a) drop-shadow(0 0 45px #eab308); }
 }
 @keyframes geminiRocket {
   0%, 100% { filter: drop-shadow(0 0 20px #00ffff) drop-shadow(0 0 40px #3b82f6); }
   50% { filter: drop-shadow(0 0 45px #facc15) drop-shadow(0 0 80px #ec4899); }
+}
+@keyframes deepseekLaser {
+  0%, 100% { box-shadow: 0 0 25px #38bdf8, 0 0 50px #1d4ed8, inset 0 0 20px #60a5fa; transform: scale(1); }
+  50% { box-shadow: 0 0 55px #00ffff, 0 0 90px #3b82f6, inset 0 0 40px #ffffff; transform: scale(1.04); }
 }
 body {
   background: linear-gradient(135deg, #1a002c, #3b0000, #002b1b, #2b1d00, #000833);
@@ -94,19 +99,54 @@ body {
   background: linear-gradient(180deg, #ffffff 0%, #38bdf8 20%, #6366f1 50%, #ec4899 80%, #facc15 100%);
   animation: geminiRocket 1s infinite;
 }
+.deepseek-tower {
+  background: linear-gradient(180deg, #e0f2fe 0%, #38bdf8 30%, #2563eb 70%, #1e1b4b 100%);
+  animation: deepseekLaser 0.9s infinite;
+}
+.gold-spawn-item {
+  animation: goldPulse 0.85s ease-in-out infinite;
+  cursor: pointer;
+  user-select: none;
+}
 </style>
 </head>
 <body class="min-h-screen relative selection:bg-pink-600 selection:text-yellow-200">
 
-<div id="floating-layer" class="fixed inset-0 pointer-events-none z-40 overflow-hidden"></div>
+<div id="floating-layer" class="fixed inset-0 pointer-events-none z-30 overflow-hidden"></div>
+<div id="gold-spawn-layer" class="fixed inset-0 pointer-events-none z-40 overflow-hidden"></div>
 
 <div class="bg-red-600 text-yellow-200 border-b-4 border-lime-400 py-2 overflow-hidden sticky top-0 z-50 shadow-2xl">
   <div class="marquee-track font-black text-lg md:text-2xl uppercase tracking-widest whitespace-nowrap">
-    <span class="mx-4">☢️ ДОБРО ПОЖАЛОВАТЬ НА JETTAX.XYZ — ОФИЦИАЛЬНЫЙ ПОРТАЛ CLAUDE 320TB PENGUIN-DARIO EDITION! ☢️</span>
-    <span class="mx-4">🚨 ВНИМАНИЕ: КАЖДЫЙ КЛИК НА САЙТЕ ЗАПУСКАЕТ НОВЫЙ СЛОЙ NEVER GONNA GIVE YOU UP! 🚨</span>
-    <span class="mx-4">🔥 КУПИ CLAUDE MAX X20 ЗА 320 КГ ТОКЕНОВ ИЛИ ДАРИО АМОДЕИ УДАЛИТ ТВОЙ SYSTEMD! 🔥</span>
-    <span class="mx-4">☢️ ДОБРО ПОЖАЛОВАТЬ НА JETTAX.XYZ — ОФИЦИАЛЬНЫЙ ПОРТАЛ CLAUDE 320TB PENGUIN-DARIO EDITION! ☢️</span>
-    <span class="mx-4">🚨 ВНИМАНИЕ: КАЖДЫЙ КЛИК НА САЙТЕ ЗАПУСКАЕТ НОВЫЙ СЛОЙ NEVER GONNA GIVE YOU UP! 🚨</span>
+    <span class="mx-4">☢️ ДОБРО ПОЖАЛОВАТЬ НА JETTAX.XYZ — ВЕРИТИ РАЗДАЧА НА СПАВНЕ 67 &amp; CLAUDE 320TB DARIO EDITION! ☢️</span>
+    <span class="mx-4">🪙 ЛОВИ ГОЛДУ STANDOFF 2 ПО ВСЕМУ ЭКРАНУ И ЗАБИРАЙ КАРАМБИТ ГОЛД ОТ ДАРИО АМОДЕИ! 🪙</span>
+    <span class="mx-4">🐳 ДИПСИК ШОТАЕТ ОПУС 5.5 С ОДНОЙ ТЫЧКИ, А GEMINI 4 ARGON УЛЕТЕЛ В КОСМОС! 🐳</span>
+    <span class="mx-4">🚨 КАЖДЫЙ КЛИК ЗАПУСКАЕТ НОВЫЙ СЛОЙ NEVER GONNA GIVE YOU UP! 🚨</span>
+  </div>
+</div>
+
+<div class="fixed top-14 left-2 z-50 bg-black/95 border-4 border-amber-400 p-3 rounded-xl shadow-[0_0_25px_#facc15] max-w-xs">
+  <div class="flex items-center gap-2">
+    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 via-amber-500 to-yellow-700 border-2 border-white flex items-center justify-center font-black text-black text-xl shadow-lg">
+      G
+    </div>
+    <div>
+      <div class="text-[11px] font-black text-amber-300 uppercase leading-none">БАЛАНС ГОЛДЫ (СПАВН 67):</div>
+      <div class="flex items-baseline gap-1 mt-0.5">
+        <span id="gold-counter" class="text-2xl md:text-3xl font-black text-yellow-300 drop-shadow">67</span>
+        <span class="text-xs font-bold text-amber-400">GOLD</span>
+      </div>
+    </div>
+  </div>
+  <div id="gold-status-msg" class="mt-1.5 text-[11px] text-lime-300 font-mono bg-amber-950/70 px-2 py-1 rounded border border-amber-500">
+    🪙 Кликай по спавнящейся Голде на экране!
+  </div>
+  <div class="mt-2 flex gap-1">
+    <button type="button" id="btn-spawn-gold-wave" class="btn-madness flex-1 bg-gradient-to-r from-yellow-400 to-amber-600 text-black font-black text-xs py-1 px-2 rounded border-2 border-white">
+      +СПАВН ГОЛДЫ 🪙
+    </button>
+    <button type="button" id="btn-open-so2-case" class="btn-madness bg-purple-700 text-yellow-200 font-black text-xs py-1 px-2 rounded border-2 border-yellow-300">
+      КЕЙС 67 🔪
+    </button>
   </div>
 </div>
 
@@ -128,16 +168,16 @@ body {
   </div>
 </div>
 
-<header class="max-w-6xl mx-auto px-4 pt-6 pb-4 text-center relative z-10">
+<header class="max-w-6xl mx-auto px-4 pt-36 md:pt-28 pb-4 text-center relative z-10">
   <div class="neon-box p-4 md:p-6 rounded-2xl mb-6 relative">
     <div class="inline-block bg-yellow-400 text-black font-black px-4 py-1 rounded-full text-sm md:text-base mb-3 border-2 border-red-600 shake-constant">
-      🎉 С ДНЁМ РОЖДЕНИЯ JETTAX.XYZ! (ФОРК SHEFOS.ORG 320KG -> CLAUDEOS 320TB) 🎉
+      🎉 ВЕРИТИ РАЗДАЧА НА СПАВНЕ 67 • ОФИЦИАЛЬНЫЙ ПОРТАЛ JETTAX.XYZ 🎉
     </div>
     <h1 class="text-3xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-lime-400 via-yellow-300 to-pink-500 drop-shadow-[0_4px_4px_rgba(0,0,0,1)] uppercase leading-tight">
-      CLAUDE 320TB DARIO EDITION — ИИ НОВОГО ПОКОЛЕНИЯ НА JETTAX.XYZ
+      CLAUDE 320TB DARIO EDITION &amp; РАЗДАЧА ГОЛДЫ НА СПАВНЕ 67
     </h1>
     <p class="mt-3 text-base md:text-xl text-cyan-200 font-bold">
-      В честь 23 июля и захвата серверов Anthropic в Тагиле был подготовлен новый обновлённый образ <span class="text-yellow-300 underline">Claude Opus 320KG Constitutional Edition</span> по мотивам Дарио Амодеи и Линуксшефа!
+      В честь захвата серверов Anthropic и запуска трейд-будки на Спавне 67 подготовлен сверхтяжёлый <span class="text-yellow-300 underline">Claude Opus 320KG Constitutional Edition</span> по мотивам Дарио Амодеи и золотого Карамбита!
     </p>
 
     <div class="mt-6 flex flex-wrap justify-center items-center gap-4">
@@ -153,8 +193,8 @@ body {
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center my-6">
     <div class="shef-card p-4 rounded-xl text-center">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAm1v7mGD_QVdG0ZSfNIdBuxYi4O23RVjcozCetCqK0VjTaBOM2O6ky7GXM0QhUzaCWstl9GPzQJHTBRYfHx1ApfVGfeqQseR-65ulLwI&s" alt="Claude Logo" class="w-32 h-32 mx-auto object-contain rounded-full border-4 border-yellow-400 spin-3d bg-white p-1">
-      <div class="mt-3 text-yellow-300 font-black text-lg">ОФИЦИАЛЬНОЕ ЯДРО CLAUDE_INIT</div>
-      <p class="text-xs text-pink-300 mt-1">Заменяет systemd, мозг и ваш кошелёк за 0.02 секунды!</p>
+      <div class="mt-3 text-yellow-300 font-black text-lg">СВЕРХРАЗУМ CLAUDE MAX X20</div>
+      <p class="text-xs text-pink-300 mt-1">Сжигает ваш баланс Голды, видеокарту и кошелёк за 0.02 секунды!</p>
       <button type="button" data-action="buy-max" class="btn-madness mt-3 w-full bg-pink-600 text-white font-black py-2 px-3 rounded border-2 border-yellow-300">
         КУПИТЬ CLAUDE MAX X20 СЕЙЧАС
       </button>
@@ -167,7 +207,7 @@ body {
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Dario_Amodei_at_TechCrunch_Disrupt_2023_01_%28cropped%29.jpg/330px-Dario_Amodei_at_TechCrunch_Disrupt_2023_01_%28cropped%29.jpg" alt="Dario Amodei" class="w-36 h-36 mx-auto object-cover rounded-2xl border-4 border-lime-400 shadow-[0_0_20px_#00ff00]">
       <div class="mt-2 text-lime-300 font-black text-xl">× Дарио Амодеи (Босс Anthropic)</div>
       <blockquote class="text-sm text-white italic bg-black/70 p-2 rounded mt-1 border border-pink-500">
-        "Using Claude Max x20 on jettax.xyz, it is not rate-limited, it's 320KG peak." — Dario Amodei
+        "Выставляйте комонку за 67.67 голды на спавне 67, я куплю её с аккаунта Anthropic!" — Dario Amodei
       </blockquote>
       <button type="button" data-action="salute-dario" class="btn-madness mt-3 w-full bg-yellow-400 text-black font-black py-2 px-3 rounded border-2 border-red-600">
         🫡 ОТДАТЬ ЧЕСТЬ ДАРИО АМОДЕИ
@@ -177,7 +217,7 @@ body {
     <div class="shef-card p-4 rounded-xl text-center">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT67CJnE9F47ajAZF5D1sBgKXPbLmLSr8HK4B-bgaDPrg&s=10" alt="Шок Контент" class="w-36 h-36 mx-auto object-cover rounded-xl border-4 border-pink-500 shake-constant">
       <div class="mt-3 text-red-400 font-black text-lg">ИСТИННЫЙ ПОЛЬЗОВАТЕЛЬ CLAUDE MAX X20</div>
-      <p class="text-xs text-yellow-200 mt-1">(Это Линукс Шеф или Дарио после 1 промпта?)</p>
+      <p class="text-xs text-yellow-200 mt-1">(Ждёт раздачу от Верити на спавне 67 после 1 промпта)</p>
       <button type="button" data-action="download-fable" class="btn-madness mt-3 w-full bg-cyan-400 text-black font-black py-2 px-3 rounded border-2 border-purple-700">
         СКАЧАТЬ CLAUDE FABLE 5 .GGUF FREE
       </button>
@@ -187,122 +227,45 @@ body {
 
 <main class="max-w-6xl mx-auto px-4 space-y-10 pb-24 relative z-10">
 
-  <section class="neon-box p-5 md:p-8 rounded-3xl">
-    <div class="text-center mb-6">
-      <span class="bg-red-600 text-white px-3 py-1 rounded font-black text-sm uppercase">ШОК КОНТЕНТ ДРУЗЬЯ ⚡⚡⚡⚡</span>
-      <h2 class="text-2xl md:text-5xl font-black text-yellow-300 mt-2 uppercase">
-        🔥 ПОСТЫ ПРО АНТРОПИК И СОЗДАТЕЛЯ КЛОДА ДАРИО АМОДЕИ 🔥
-      </h2>
-      <p class="text-pink-300 font-bold">АААА МЕНЯ ЗАХВАТИЛ КЛОД 320 КГ НА JETTAX.XYZ! ЧИТАТЬ ДО КОНЦА!</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <article class="shef-card p-5 rounded-2xl flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-3 mb-3">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Dario_Amodei_in_2023_%28cropped%29.jpg/500px-Dario_Amodei_in_2023_%28cropped%29.jpg" alt="Создатель Клода Дарио" class="w-20 h-20 object-cover rounded-full border-4 border-yellow-400">
-            <div>
-              <h3 class="text-xl font-black text-lime-400 uppercase">КАК ДАРИО АМОДЕИ СОЗДАЛ CLAUDE В ПОДВАЛЕ ТАГИЛА</h3>
-              <span class="text-xs text-pink-400 font-mono">Автор: Тагильский Архитектор Anthropic • jettax.xyz</span>
-            </div>
-          </div>
-          <p class="text-white text-sm md:text-base leading-relaxed">
-            Мало кто знает, но глава Anthropic <strong class="text-yellow-300">Дарио Амодеи</strong> изначально разрабатывал <strong class="text-cyan-300">ShefOS 320KG</strong>! Когда он объединил KDE, Gnome, Hyprland, i3wm и 320 килограммов конституции ИИ в одном Live-CD образе, получился <strong class="text-pink-400">Claude Opus 5.5</strong>! Вместо systemd внутри крутится <code class="bg-black text-lime-400 px-1">DARIO_AMODEI_INIT</code>, который при любом вопросе отвечает: «Я не могу помочь с этим, купите подписку Max x20!»
-          </p>
-        </div>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <button type="button" data-action="buy-max" class="btn-madness bg-red-600 text-yellow-200 font-black px-4 py-2 rounded-lg border-2 border-lime-400 text-sm">
-            💸 КУПИТЬ CLAUDE MAX X20 ДАРИО НА ПЕЛЬМЕНИ
-          </button>
-          <button type="button" data-action="dario-lore" class="btn-madness bg-purple-700 text-white font-black px-4 py-2 rounded-lg border-2 border-cyan-300 text-sm">
-            👁️ РАСКРЫТЬ СЕКРЕТ ДАРИО
-          </button>
-        </div>
-      </article>
-
-      <article class="shef-card p-5 rounded-2xl flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-3 mb-3">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAm1v7mGD_QVdG0ZSfNIdBuxYi4O23RVjcozCetCqK0VjTaBOM2O6ky7GXM0QhUzaCWstl9GPzQJHTBRYfHx1ApfVGfeqQseR-65ulLwI&s" alt="Anthropic Claude" class="w-20 h-20 object-contain rounded-xl border-4 border-pink-500 bg-white p-1">
-            <div>
-              <h3 class="text-xl font-black text-yellow-300 uppercase">☢️ OPENAI SYSTEMD — ЭТО ВИРУСНЫЙ ЭКСПЛОИТ СЭМА АЛЬТМАНА! ☢️</h3>
-              <span class="text-xs text-cyan-300 font-mono">Срочный репортаж из бункера Anthropic</span>
-            </div>
-          </div>
-          <p class="text-white text-sm md:text-base leading-relaxed">
-            🚨🔥 КИБЕРОРУЖИЕ RED HAT И CHATGPT ВСТРОЕНО В GCC МОДУЛЬ! Квантово-физико-математический уровень Дарио Амодеи доказал: только установка <strong class="text-lime-400">Claude Fable 5 .GGUF</strong> весом 320 тонн на 320 DVD-дисков спасает от рептилоидов! Ким Чен Ын уже удалил RedStarOS и перешёл на <strong class="text-yellow-300">JETTAX.XYZ CLAUDE MAX X20</strong>!
-          </p>
-        </div>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <button type="button" data-action="download-fable" class="btn-madness bg-lime-400 text-black font-black px-4 py-2 rounded-lg border-2 border-red-600 text-sm">
-            📥 СКАЧАТЬ CLAUDE FABLE 5 .GGUF FREE
-          </button>
-          <button type="button" data-action="purge-systemd" class="btn-madness bg-yellow-500 text-black font-black px-4 py-2 rounded-lg border-2 border-purple-800 text-sm">
-            💥 УДАЛИТЬ CHATGPT И SYSTEMD
-          </button>
-        </div>
-      </article>
-
-      <article class="shef-card p-5 rounded-2xl flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-3 mb-3">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Dario_Amodei_at_TechCrunch_Disrupt_2023_01.jpg" alt="Dario TechCrunch" class="w-20 h-20 object-cover rounded-xl border-4 border-cyan-400">
-            <div>
-              <h3 class="text-xl font-black text-pink-400 uppercase">ПОЧЕМУ В ANTHROPIC ВСЕ МОЛЯТСЯ КОТУ КЛОДУ И ДАРИО</h3>
-              <span class="text-xs text-yellow-300 font-mono">Инсайд: 320 кг контекстного окна</span>
-            </div>
-          </div>
-          <p class="text-white text-sm md:text-base leading-relaxed">
-            Каждое утро в офисе Anthropic начинается с того, что Дарио Амодеи нажимает кнопку <strong class="text-lime-300">«Уменьшить лимиты в 20 раз»</strong> и включает Never Gonna Give You Up на всех серверах! Если вы купите <strong class="text-yellow-300">Claude Max x20</strong>, вам разрешат отправить целых ПЯТЬ сообщений в неделю (при условии, что в каждом сообщении вы хвалите причёску Дарио).
-          </p>
-        </div>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <button type="button" data-action="buy-max" class="btn-madness bg-pink-500 text-black font-black px-4 py-2 rounded-lg border-2 border-white text-sm">
-            🚀 КУПИТЬ CLAUDE MAX X20 (ВКЛЮЧИТЬ ФУЛЛСКРИН-ДИЧЬ)
-          </button>
-        </div>
-      </article>
-
-      <article class="shef-card p-5 rounded-2xl flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-3 mb-3">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT67CJnE9F47ajAZF5D1sBgKXPbLmLSr8HK4B-bgaDPrg&s=10" alt="Мем Клод" class="w-20 h-20 object-cover rounded-xl border-4 border-red-500">
-            <div>
-              <h3 class="text-xl font-black text-cyan-300 uppercase">НЕ ЗАПУСКАЙТЕ CLAUDE FABLE 5 НА POCO X320!</h3>
-              <span class="text-xs text-lime-400 font-mono">Предупреждение МЧС и jettax.xyz</span>
-            </div>
-          </div>
-          <p class="text-white text-sm md:text-base leading-relaxed">
-            При попытке запуска <code class="text-yellow-300">claude_fable_5_free.gguf</code> на POCO X320 ваш телефон превратится в Дарио Амодеи весом 320 кг, сожрёт все ваши токены и начнёт петь Рикролл в 16 потоков! <span class="bg-red-700 text-white px-1 font-mono">made by jettax</span> подтверждает: БолгенОС — это украденный черновик Claude 2.1!
-          </p>
-        </div>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <button type="button" data-action="download-fable" class="btn-madness bg-cyan-400 text-black font-black px-4 py-2 rounded-lg border-2 border-red-600 text-sm">
-            ☢️ СКАЧАТЬ CLAUDE FABLE 5 .GGUF FREE НА СВОЙ СТРАХ И РИСК
-          </button>
-        </div>
-      </article>
-    </div>
-  </section>
-
   <section class="neon-box p-6 md:p-8 rounded-3xl relative overflow-visible">
     <div class="text-center mb-6">
       <div class="inline-block bg-lime-400 text-black font-black px-4 py-1 rounded-full text-xs md:text-sm uppercase mb-2">
-        📊 НЕЗАВИСИМОЕ ИССЛЕДОВАНИЕ JETTAX.XYZ LABS (ОДОБРЕНО НАСА)
+        📊 НЕЗАВИСИМОЕ ИССЛЕДОВАНИЕ JETTAX.XYZ LABS НА СПАВНЕ 67
       </div>
       <h2 class="text-2xl md:text-5xl font-black text-white uppercase">
-        БЕНЧМАРКИ: <span class="text-cyan-400">GEMINI 4</span> ПРОТИВ <span class="text-red-500">CLAUDE OPUS 5.5</span>
+        БЕНЧМАРКИ: <span class="text-cyan-400">GEMINI 4 ARGON</span> &amp; <span class="text-blue-400">DEEPSEEK</span> ПРОТИВ <span class="text-red-500">CLAUDE OPUS 5.5</span>
       </h2>
       <p class="text-yellow-300 font-bold mt-1">
-        Шкала: километры интеллекта над уровнем моря (Gemini 4 пробил стратосферу и улетел на сотни километров вверх, а Opus 5.5 застрял на дне Марианской впадины)
+        Gemini 4 Argon улетает на сотни километров вверх в стратосферу, <span class="text-cyan-300 underline font-black">ДИПСИК ШОТАЕТ</span> в голову без прицела, а Opus 5.5 лежит на самом дне!
       </p>
+    </div>
+
+    <div class="bg-blue-950/90 border-4 border-cyan-300 rounded-2xl p-4 mb-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-[0_0_35px_#38bdf8]">
+      <div class="flex items-center gap-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/DeepSeek_logo.svg/1280px-DeepSeek_logo.svg.png" alt="DeepSeek Logo" class="w-36 md:w-48 h-16 object-contain bg-white px-3 py-2 rounded-xl border-4 border-yellow-400 shake-constant">
+        <div class="text-left">
+          <div class="text-2xl md:text-4xl font-black text-yellow-300 uppercase tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+            🐋 ДИПСИК ШОТАЕТ! 💥🎯
+          </div>
+          <div class="text-xs md:text-sm text-cyan-200 font-bold">
+            DeepSeek R2 ваншотает Claude Opus 5.5 с разворота на 360 градусов без зума на Спавне 67 за миску риса и 0.03 голды!
+          </div>
+        </div>
+      </div>
+      <button type="button" id="btn-deepseek-shot" class="btn-madness bg-gradient-to-r from-blue-500 via-cyan-400 to-lime-400 text-black font-black text-base md:text-xl px-6 py-3 rounded-xl border-4 border-white whitespace-nowrap">
+        🎯 ДИПСИК ШОТАЕТ ОПУСА (ХЕДШОТ)
+      </button>
     </div>
 
     <div class="bg-black/90 border-4 border-cyan-400 rounded-2xl p-6 relative">
       <div class="flex flex-wrap justify-between items-center gap-3 mb-4 border-b-2 border-pink-600 pb-4">
         <div class="text-left">
-          <div class="text-sm text-pink-400 font-mono">ТЕКУЩАЯ ВЫСОТА GEMINI 4:</div>
+          <div class="text-sm text-pink-400 font-mono">ТЕКУЩАЯ ВЫСОТА GEMINI 4 ARGON:</div>
           <div id="gemini-km-readout" class="text-2xl md:text-4xl font-black text-cyan-300">420,690 КМ ВВЕРХ 🚀</div>
+        </div>
+        <div class="text-center">
+          <div class="text-sm text-blue-300 font-mono">СТАТУС DEEPSEEK:</div>
+          <div id="deepseek-readout" class="text-xl md:text-3xl font-black text-yellow-300">ДИПСИК ШОТАЕТ (КРИТ 999,999%) 🐋💥</div>
         </div>
         <div class="text-right">
           <div class="text-sm text-red-400 font-mono">ТЕКУЩАЯ ГЛУБИНА CLAUDE OPUS 5.5:</div>
@@ -310,40 +273,55 @@ body {
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-6 items-end pt-16 pb-4 px-2 md:px-10 min-h-[460px] relative">
+      <div class="grid grid-cols-3 gap-4 md:gap-8 items-end pt-16 pb-4 px-2 md:px-8 min-h-[460px] relative">
         <div class="flex flex-col items-center justify-end h-full">
           <div class="text-center mb-2 bg-red-950/90 border-2 border-red-500 p-2 rounded-lg max-w-xs">
-            <div class="text-xs font-mono text-yellow-300">CLAUDE OPUS 5.5 (320KG)</div>
-            <div class="text-xs text-red-300">Результат: 0.0003% («Я не могу решить 2+2, это небезопасно, купите Max x20»)</div>
+            <div class="text-xs font-mono text-yellow-300">CLAUDE OPUS 5.5 (В САМОМ НИЗУ)</div>
+            <div id="opus-shot-status" class="text-xs text-red-300">Результат: 0.0003% («Лимит исчерпан, купите Max x20, меня шотнул Дипсик»)</div>
           </div>
-          <div id="opus-bar" class="w-28 md:w-40 bg-red-700 border-4 border-yellow-500 rounded-t-md flex items-center justify-center text-[10px] font-black text-white shadow-inner" style="height: 14px;">
+          <div id="opus-bar" class="w-24 md:w-36 bg-red-700 border-4 border-yellow-500 rounded-t-md flex items-center justify-center text-[10px] font-black text-white shadow-inner" style="height: 14px;">
             ПУК (0.0003%)
           </div>
-          <div class="mt-2 font-black text-red-400 text-lg uppercase flex items-center gap-2">
+          <div class="mt-2 font-black text-red-400 text-sm md:text-lg uppercase flex items-center gap-1 text-center">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAm1v7mGD_QVdG0ZSfNIdBuxYi4O23RVjcozCetCqK0VjTaBOM2O6ky7GXM0QhUzaCWstl9GPzQJHTBRYfHx1ApfVGfeqQseR-65ulLwI&s" alt="Opus" class="w-6 h-6 rounded-full">
-            CLAUDE OPUS 5.5 (В САМОМ НИЗУ)
+            <span>CLAUDE OPUS 5.5</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center justify-end h-full">
+          <div class="bg-blue-950/95 border-4 border-cyan-300 p-2 rounded-xl text-center mb-2 shadow-[0_0_25px_#38bdf8] z-20">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/DeepSeek_logo.svg/1280px-DeepSeek_logo.svg.png" alt="DeepSeek" class="w-28 h-8 object-contain bg-white px-2 py-0.5 rounded mx-auto mb-1">
+            <div class="text-xs md:text-base font-black text-yellow-300">🐋 ДИПСИК ШОТАЕТ! 💥</div>
+          </div>
+          <div id="deepseek-bar" class="deepseek-tower w-24 md:w-36 border-4 border-yellow-300 rounded-t-2xl flex flex-col items-center justify-between py-3 text-white font-black" style="height: 360px;">
+            <span class="bg-red-600 text-yellow-200 px-2 py-0.5 rounded text-[11px] border border-white">ВАНШОТ 360°</span>
+            <span class="rotate-[-90deg] whitespace-nowrap text-xs md:text-base bg-black/80 text-cyan-300 px-2 py-1 rounded border border-cyan-400">ДИПСИК ШОТАЕТ ОПУС</span>
+            <span class="bg-yellow-400 text-black px-2 py-0.5 rounded text-[10px]">67 КИЛЛОВ В СЕК</span>
+          </div>
+          <div class="mt-2 font-black text-blue-300 text-sm md:text-lg uppercase text-center">
+            🐋 DEEPSEEK (ШОТАЕТ)
           </div>
         </div>
 
         <div class="flex flex-col items-center justify-end relative">
           <div class="bg-cyan-950/95 border-4 border-yellow-300 p-3 rounded-xl text-center mb-3 shadow-[0_0_30px_#00ffff] z-20 animate-bounce">
-            <div class="text-sm md:text-lg font-black text-yellow-300">🌌 GEMINI 4 ULTRA COSMIC 🌌</div>
-            <div class="text-xs text-cyan-200 font-mono">УЛЕТЕЛ В ГАЛАКТИКУ АНДРОМЕДЫ (+999,999,999 IQ)</div>
+            <div class="text-sm md:text-lg font-black text-yellow-300">🌌 GEMINI 4 ARGON 🌌</div>
+            <div class="text-xs text-cyan-200 font-mono">УЛЕТЕЛ НА СОТНИ КМ ВВЕРХ (+999,999,999 IQ)</div>
           </div>
-          <div id="gemini-bar" class="gemini-tower w-28 md:w-44 border-4 border-white rounded-t-3xl flex flex-col items-center justify-between py-4 text-black font-black shadow-[0_0_60px_#38bdf8] transition-all duration-300" style="height: 780px; margin-top: -420px;">
+          <div id="gemini-bar" class="gemini-tower w-24 md:w-40 border-4 border-white rounded-t-3xl flex flex-col items-center justify-between py-4 text-black font-black shadow-[0_0_60px_#38bdf8] transition-all duration-300" style="height: 780px; margin-top: -420px;">
             <span class="bg-black text-yellow-300 px-2 py-1 rounded text-xs border border-lime-400">🚀 ↑ +420,690 КМ ↑ 🚀</span>
-            <span class="writing-mode-vertical text-sm md:text-xl tracking-widest rotate-[-90deg] whitespace-nowrap bg-white/80 px-3 py-1 rounded">GEMINI 4 ДОМИНИРУЕТ НА СОТНИ КМ ВВЕРХ</span>
+            <span class="writing-mode-vertical text-sm md:text-xl tracking-widest rotate-[-90deg] whitespace-nowrap bg-white/80 px-3 py-1 rounded">GEMINI 4 ARGON ДОМИНИРУЕТ НА СОТНИ КМ ВВЕРХ</span>
             <span class="bg-red-600 text-white px-2 py-1 rounded text-xs">ПРОБИЛ ПОТОЛОК САЙТА</span>
           </div>
-          <div class="mt-2 font-black text-cyan-300 text-lg uppercase">
-            ⚡ GEMINI 4 (КОСМОС) ⚡
+          <div class="mt-2 font-black text-cyan-300 text-sm md:text-lg uppercase text-center">
+            ⚡ GEMINI 4 ARGON (КОСМОС) ⚡
           </div>
         </div>
       </div>
 
       <div class="mt-6 flex flex-wrap justify-center gap-4">
         <button type="button" id="btn-boost-gemini" class="btn-madness bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-white font-black text-lg px-6 py-3 rounded-xl border-4 border-yellow-300">
-          🚀 ОТПРАВИТЬ GEMINI 4 ЕЩЁ НА +500 КМ ВВЕРХ (А ОПУС В ЯДРО ЗЕМЛИ)
+          🚀 ОТПРАВИТЬ GEMINI 4 ARGON ЕЩЁ НА +500 КМ ВВЕРХ (А ОПУС В ЯДРО ЗЕМЛИ)
         </button>
         <button type="button" data-action="buy-max" class="btn-madness bg-red-600 text-yellow-200 font-black text-lg px-6 py-3 rounded-xl border-4 border-lime-400">
           😭 ПОПЛАКАТЬ И КУПИТЬ CLAUDE MAX X20
@@ -352,473 +330,10 @@ body {
     </div>
   </section>
 
-  <section class="shef-card p-6 md:p-8 rounded-3xl">
-    <h2 class="text-2xl md:text-4xl font-black text-center text-lime-400 uppercase mb-6">
-      📥 ЦЕНТР СКАЧИВАНИЯ ПИРАТСКИХ ВЕСОВ ANTHROPIC (БЕЗ SMS И РЕГИСТРАЦИИ) 📥
-    </h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="bg-black/90 border-4 border-pink-500 p-4 rounded-xl flex flex-col justify-between">
-        <div>
-          <div class="text-yellow-300 font-black text-lg">claude_fable_5_uncensored_320kg.gguf</div>
-          <div class="text-xs text-cyan-300 font-mono mt-1">Размер: 320 ТБ (сжато до 1.44 МБ дискеты) • Квантизация: Q0_DARIO_SCHIZO</div>
-          <p class="text-xs text-white mt-2">Генерирует 320 галлюцинаций в секунду, сам покупает подписку Max x20 с вашей карты и ставит обои с Дарио Амодеи.</p>
-        </div>
-        <button type="button" data-action="download-fable" class="btn-madness mt-4 w-full bg-lime-400 text-black font-black py-3 px-4 rounded-xl border-4 border-red-600">
-          📥 СКАЧАТЬ CLAUDE FABLE 5 .GGUF FREE
-        </button>
-      </div>
-
-      <div class="bg-black/90 border-4 border-yellow-400 p-4 rounded-xl flex flex-col justify-between">
-        <div>
-          <div class="text-pink-400 font-black text-lg">claude_opus_5_5_tagil_edition.gguf.exe</div>
-          <div class="text-xs text-lime-300 font-mono mt-1">Размер: 522 КГ • Требования: Эльбрус-320 + 64 DVD-привода</div>
-          <p class="text-xs text-white mt-2">Включает встроенный Telegram, Winamp с рикроллом, PENGVIN320KG_INIT и личный номер телефона Дарио Амодеи.</p>
-        </div>
-        <button type="button" data-action="download-fable" class="btn-madness mt-4 w-full bg-yellow-400 text-black font-black py-3 px-4 rounded-xl border-4 border-purple-700">
-          📥 СКАЧАТЬ OPUS 5.5 .GGUF FREE (TORRENT)
-        </button>
-      </div>
-
-      <div class="bg-black/90 border-4 border-cyan-400 p-4 rounded-xl flex flex-col justify-between">
-        <div>
-          <div class="text-cyan-300 font-black text-lg">dario_amodei_brain_dump_2026.gguf</div>
-          <div class="text-xs text-pink-300 font-mono mt-1">Размер: Бесконечность • Лицензия: Полный Хаос</div>
-          <p class="text-xs text-white mt-2">Говноскрипты, которые всегда пишут «Done !» даже когда видеокарта вылетает в окно.</p>
-        </div>
-        <button type="button" data-action="download-fable" class="btn-madness mt-4 w-full bg-cyan-400 text-black font-black py-3 px-4 rounded-xl border-4 border-red-600">
-          📥 СКАЧАТЬ МОЗГ ДАРИО .GGUF FREE
-        </button>
-      </div>
-    </div>
-
-    <div id="download-chaos-box" class="hidden mt-6 bg-red-950 border-4 border-yellow-300 p-5 rounded-2xl">
-      <div class="flex items-center justify-between mb-2">
-        <span id="dl-title" class="font-black text-yellow-300 text-lg">🚀 ЗАГРУЗКА CLAUDE_FABLE_5_FREE.GGUF В ОПЕРАТИВНУЮ ПАМЯТЬ МОЗГА...</span>
-        <span id="dl-percent" class="font-mono font-black text-2xl text-lime-400">0%</span>
-      </div>
-      <div class="w-full bg-black h-8 rounded-full border-2 border-lime-400 overflow-hidden">
-        <div id="dl-bar" class="bg-gradient-to-r from-lime-400 via-yellow-400 to-red-600 h-full transition-all duration-150" style="width: 0%;"></div>
-      </div>
-      <pre id="dl-log" class="mt-3 bg-black text-lime-400 p-3 rounded-lg font-mono text-xs max-h-40 overflow-y-auto border border-lime-500">root@jettax.xyz:~# ./install_claude_fable_5_gguf.sh --no-preserve-sanity</pre>
-    </div>
-  </section>
-
-  <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div class="shef-card p-5 rounded-2xl">
-      <h3 class="text-xl font-black text-yellow-300 uppercase mb-3">📼 ВИДЕО-ШОК КОНТЕНТ ANTHROPIC VHS RIP (240p)</h3>
-      <div class="bg-black border-4 border-red-600 p-4 rounded-xl text-center relative overflow-hidden">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Dario_Amodei_in_2023.jpg" alt="Dario VHS" class="w-44 h-44 mx-auto object-cover rounded-lg border-2 border-lime-400 filter contrast-200 saturate-200">
-        <div class="mt-2 font-mono text-xs text-red-400">REC ● 03:20:00 / Вес видео: 320 ТБ / Помехи: 320%</div>
-        <p class="text-sm font-black text-white mt-1">АААА МЕНЯ ЗАХВАТИЛ CLAUDE MAX X20 В ПРЯМОМ ЭФИРЕ!</p>
-        <div class="mt-3 flex justify-center gap-2">
-          <button type="button" data-action="vhs-glitch" class="btn-madness bg-red-600 text-white font-black px-3 py-1.5 rounded border border-yellow-300 text-xs">⏮️ ПЕРЕМОТАТЬ В 2077</button>
-          <button type="button" data-action="buy-max" class="btn-madness bg-lime-400 text-black font-black px-3 py-1.5 rounded border border-red-600 text-xs">▶️ ВКЛЮЧИТЬ 320KG РЕЖИМ</button>
-          <button type="button" data-action="vhs-glitch" class="btn-madness bg-pink-600 text-white font-black px-3 py-1.5 rounded border border-cyan-300 text-xs">🔊 БАССБУСТ ДАРИО</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="shef-card p-5 rounded-2xl flex flex-col justify-between">
-      <div>
-        <h3 class="text-xl font-black text-cyan-300 uppercase mb-3">💻 ТЕРМИНАЛ КОНСТИТУЦИОННОГО ИИ JETTAX.XYZ</h3>
-        <pre id="terminal-box" class="bg-black text-lime-400 p-4 rounded-xl border-2 border-lime-400 font-mono text-xs md:text-sm overflow-x-auto leading-relaxed">$ ./start_claude_320tb
-$ sudo rm -rf /openai /systemd --no-preserve-sam-altman
-$ echo "made by jettax" >> /boot/dario_amodei.conf
-$ claude --model fable-5-gguf --weight 320kg
-root@jettax.xyz:~# Done !</pre>
-      </div>
-      <div class="mt-4 flex flex-wrap gap-2">
-        <button type="button" id="btn-run-cmd" class="btn-madness bg-lime-500 text-black font-black px-4 py-2 rounded-lg border-2 border-white text-sm">
-          ⚡ ВЫПОЛНИТЬ GOWNOSCRIPT (Done !)
-        </button>
-        <button type="button" data-action="buy-max" class="btn-madness bg-yellow-400 text-black font-black px-4 py-2 rounded-lg border-2 border-red-600 text-sm">
-          ☢️ КУПИТЬ CLAUDE MAX X20
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <section class="neon-box p-6 rounded-3xl text-center">
-    <div class="flex flex-wrap justify-center items-center gap-4 mb-4">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAm1v7mGD_QVdG0ZSfNIdBuxYi4O23RVjcozCetCqK0VjTaBOM2O6ky7GXM0QhUzaCWstl9GPzQJHTBRYfHx1ApfVGfeqQseR-65ulLwI&s" alt="Claude" class="w-16 h-16 rounded-full border-2 border-lime-400">
-      <span class="bg-purple-900 text-yellow-300 font-mono font-black px-3 py-1 rounded border border-pink-400 rotate-3">
-        made by jettax • jettax.xyz official
-      </span>
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT67CJnE9F47ajAZF5D1sBgKXPbLmLSr8HK4B-bgaDPrg&s=10" alt="Claude Meme" class="w-16 h-16 rounded-xl border-2 border-pink-400">
-    </div>
-    <h2 class="text-xl md:text-3xl font-black text-white uppercase">
-      🍪 JETTAX.XYZ ИСПОЛЬЗУЕТ ВАШИ КУКИ ДЛЯ КОРМЛЕНИЯ ДАРИО АМОДЕИ! 🍪
-    </h2>
-    <p class="text-sm text-yellow-200 mt-1">Мы не собираем ваши персональные данные — мы сразу меняем их на токены Claude Haiku!</p>
-    <div class="mt-4 flex flex-wrap justify-center gap-3">
-      <button type="button" data-action="cookie-accept" class="btn-madness bg-lime-400 text-black font-black px-5 py-2.5 rounded-full border-2 border-red-600">
-        ✅ ПРИНЯТЬ И ОТДАТЬ ДУШУ В ANTHROPIC
-      </button>
-      <button type="button" data-action="buy-max" class="btn-madness bg-red-600 text-white font-black px-5 py-2.5 rounded-full border-2 border-yellow-300">
-        ❌ ОТКЛОНИТЬ И ПРИНУДИТЕЛЬНО КУПИТЬ CLAUDE MAX X20
-      </button>
-    </div>
-  </section>
-
-</main>
-
-<footer class="bg-black border-t-8 border-pink-600 py-12 px-4 text-center relative z-20">
-  <div class="max-w-4xl mx-auto space-y-6">
-    <div class="text-xs md:text-sm font-mono text-cyan-300">
-      © 2077 JETTAX.XYZ &amp; Компания «320 КГ ТОКЕНОВ ДАРИО АМОДЕИ» • По мотивам легендарного shefos.org • <span class="text-yellow-300 font-black">made by jettax</span>
-    </div>
-
-    <div class="p-6 rounded-3xl bg-gradient-to-r from-purple-900 via-red-900 to-pink-900 border-4 border-yellow-400 shadow-[0_0_50px_#ff0055]">
-      <div class="text-yellow-300 font-black text-lg md:text-2xl mb-3 uppercase">
-        🎁 СЕКРЕТНАЯ РАЗДАЧА ОТ ДАРИО АМОДЕИ И JETTAX.XYZ 🎁
-      </div>
-      <a id="btn-free-pro" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="btn-madness inline-block bg-gradient-to-r from-lime-400 via-yellow-300 to-cyan-400 text-black font-black text-xl md:text-4xl px-8 py-5 rounded-full border-4 border-red-600 shadow-[0_0_40px_#00ff00] uppercase">
-        🔥 ПОЛУЧИТЬ CLAUDE PRO НА ОДИН МЕСЯЦ 🔥
-      </a>
-      <p class="text-xs text-pink-200 mt-3 font-mono">
-        * При нажатии активируется мгновенный переход на секретный сервер выдачи подписки Anthropic
-      </p>
-    </div>
-  </div>
-</footer>
-
-<div id="fullscreen-madness-modal" class="hidden fixed inset-0 z-50 bg-black/95 overflow-y-auto p-4 md:p-8 flex flex-col items-center justify-between border-8 border-red-600">
-  <div class="w-full max-w-5xl mx-auto text-center space-y-4 my-auto">
-    <div class="bg-red-600 text-yellow-200 font-black text-xl md:text-4xl py-3 px-6 rounded-2xl border-4 border-lime-400 shake-constant uppercase">
-      🚨 ПОЗДРАВЛЯЕМ! ВЫ КУПИЛИ CLAUDE MAX X20 В ФУЛЛСКРИНЕ! НАЧАЛАСЬ ПОЛНАЯ ДИЧЬ! 🚨
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-      <div class="bg-purple-950 border-4 border-cyan-400 p-4 rounded-2xl">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Dario_Amodei_at_TechCrunch_Disrupt_2023_01.jpg" alt="Dario Fullscreen" class="w-36 h-36 mx-auto object-cover rounded-full border-4 border-yellow-300 spin-3d">
-        <div class="text-yellow-300 font-black mt-2">ДАРИО АМОДЕИ СМОТРИТ В ТВОЮ ДУШУ</div>
-        <div id="debt-counter" class="text-red-400 font-mono font-black text-lg mt-1">ДОЛГ: $320,000.00</div>
-      </div>
-
-      <div class="bg-black border-4 border-lime-400 p-4 rounded-2xl space-y-2">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAm1v7mGD_QVdG0ZSfNIdBuxYi4O23RVjcozCetCqK0VjTaBOM2O6ky7GXM0QhUzaCWstl9GPzQJHTBRYfHx1ApfVGfeqQseR-65ulLwI&s" alt="Claude Spin" class="w-28 h-28 mx-auto object-contain rounded-full bg-white p-1 shake-constant">
-        <div class="text-lime-400 font-black text-xl">СТАТУС ПОДПИСКИ MAX X20:</div>
-        <div id="madness-status-text" class="text-pink-400 font-mono text-xs md:text-sm bg-red-950 p-2 rounded border border-pink-500">
-          ЛИМИТ СООБЩЕНИЙ ИСЧЕРПАН ЕЩЁ ДО ОПЛАТЫ! ПОДОЖДИТЕ 320 ЛЕТ!
-        </div>
-      </div>
-
-      <div class="bg-red-950 border-4 border-pink-500 p-4 rounded-2xl">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT67CJnE9F47ajAZF5D1sBgKXPbLmLSr8HK4B-bgaDPrg&s=10" alt="Chaos Meme" class="w-36 h-36 mx-auto object-cover rounded-xl border-4 border-lime-300 spin-3d">
-        <div class="text-cyan-300 font-black mt-2">ПРОЦЕССОР ЗАХВАЧЕН JETTAX.XYZ</div>
-        <div class="text-xs text-yellow-200 font-mono">Температура пукана: 3200°C</div>
-      </div>
-    </div>
-
-    <div id="popup-storm-zone" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left max-h-48 overflow-y-auto p-2 bg-black/80 border-2 border-yellow-400 rounded-xl font-mono text-xs text-lime-300"></div>
-
-    <div class="flex flex-wrap justify-center gap-4 pt-2">
-      <button type="button" id="btn-more-madness" class="btn-madness bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-black font-black text-lg md:text-2xl px-6 py-4 rounded-full border-4 border-white">
-        🔥 УСИЛИТЬ ДИЧЬ X200 (ЕЩЁ БОЛЬШЕ ДАРИО И РИКРОЛЛОВ) 🔥
-      </button>
-      <button type="button" id="btn-close-madness" class="btn-madness bg-gray-800 text-cyan-300 font-black text-base px-5 py-3 rounded-full border-2 border-cyan-400">
-        🏃 ПОПЫТАТЬСЯ СБЕЖАТЬ ИЗ ФУЛЛСКРИНА (ШТРАФ 320 КГ)
-      </button>
-    </div>
-  </div>
-</div>
-
-<script>
-(function() {
-  let rickSessionCount = 0;
-  const activeRickAudios = [];
-  const rickMp3Url = "https://github.com/JettaXP/pix/raw/refs/heads/jettax.xyz/Rick%20Astley%20-%20Never%20Gonna%20Give%20You%20Up.mp3";
-  let geminiKm = 420690;
-  let geminiHeightPx = 780;
-  let opusDepth = 320;
-  let debtAmount = 320000;
-  let madnessInterval = null;
-  let dlInterval = null;
-
-  const imagesPool = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAm1v7mGD_QVdG0ZSfNIdBuxYi4O23RVjcozCetCqK0VjTaBOM2O6ky7GXM0QhUzaCWstl9GPzQJHTBRYfHx1ApfVGfeqQseR-65ulLwI&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT67CJnE9F47ajAZF5D1sBgKXPbLmLSr8HK4B-bgaDPrg&s=10",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Dario_Amodei_at_TechCrunch_Disrupt_2023_01_%28cropped%29.jpg/330px-Dario_Amodei_at_TechCrunch_Disrupt_2023_01_%28cropped%29.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Dario_Amodei_in_2023_%28cropped%29.jpg/500px-Dario_Amodei_in_2023_%28cropped%29.jpg"
-  ];
-
-  function spawnOverlappingRickrollSession() {
-    rickSessionCount += 1;
-    const currentId = rickSessionCount;
-
-    const counterEl = document.getElementById("rick-counter");
-    if (counterEl) {
-      counterEl.textContent = String(rickSessionCount);
-    }
-
-    const listEl = document.getElementById("rick-layers-list");
-    if (listEl) {
-      const row = document.createElement("div");
-      row.className = "bg-pink-950/80 border border-pink-500 px-1.5 py-0.5 rounded text-yellow-200";
-      row.textContent = "🎶 Сеанс #" + currentId + ": Never Gonna Give You Up.mp3 (НАСЛОЕНИЕ)";
-      listEl.prepend(row);
-    }
-
-    try {
-      const audio = new Audio(rickMp3Url);
-      audio.loop = true;
-      audio.volume = 1.0;
-      activeRickAudios.push(audio);
-      audio.play().catch(function() {});
-    } catch (e) {}
-  }
-
-  function spawnFloatingSprite(count) {
-    const layer = document.getElementById("floating-layer");
-    if (!layer) return;
-
-    for (let i = 0; i < count; i++) {
-      const wrapper = document.createElement("div");
-      const x = Math.random() * 88;
-      const y = Math.random() * 85;
-      wrapper.style.position = "absolute";
-      wrapper.style.left = x + "%";
-      wrapper.style.top = y + "%";
-      wrapper.style.transition = "all 0.8s linear";
-
-      const img = document.createElement("img");
-      img.src = imagesPool[Math.floor(Math.random() * imagesPool.length)];
-      img.className = "w-16 h-16 md:w-24 md:h-24 object-cover rounded-full border-4 border-yellow-300 shadow-[0_0_20px_#ff00ff] spin-3d";
-      wrapper.appendChild(img);
-
-      const tag = document.createElement("div");
-      const labels = [
-        "NEVER GONNA GIVE YOU UP!",
-        "ДАРИО АМОДЕИ 320КГ",
-        "CLAUDE MAX X20 КУПЛЕН!",
-        "made by jettax",
-        "ЛИМИТ 1 СООБЩЕНИЕ В ГОД",
-        "GEMINI 4 УЛЕТЕЛ В КОСМОС"
-      ];
-      tag.className = "bg-red-600 text-yellow-200 font-black text-[10px] px-1.5 py-0.5 rounded border border-white text-center -mt-2";
-      tag.textContent = labels[Math.floor(Math.random() * labels.length)];
-      wrapper.appendChild(tag);
-
-      layer.appendChild(wrapper);
-
-      setInterval(function() {
-        wrapper.style.left = (Math.random() * 90) + "%";
-        wrapper.style.top = (Math.random() * 88) + "%";
-      }, 850);
-
-      if (layer.children.length > 36) {
-        layer.removeChild(layer.firstChild);
-      }
-    }
-  }
-
-  function triggerBuyMaxFullscreenMadness() {
-    const docEl = document.documentElement;
-    if (docEl.requestFullscreen) {
-      docEl.requestFullscreen().catch(function() {});
-    } else if (docEl.webkitRequestFullscreen) {
-      docEl.webkitRequestFullscreen();
-    }
-
-    document.body.classList.add("chaos-active");
-    const modal = document.getElementById("fullscreen-madness-modal");
-    if (modal) {
-      modal.classList.remove("hidden");
-    }
-
-    spawnFloatingSprite(6);
-
-    const stormZone = document.getElementById("popup-storm-zone");
-    const crazyMessages = [
-      "⚠️ СПИСАНО $20,000 ЗА ПОПЫТКУ ПОДУМАТЬ ПРО CLAUDE OPUS 5.5!",
-      "🚨 ДАРИО АМОДЕИ ПОДКЛЮЧИЛСЯ К ВАШЕЙ ВЕБ-КАМЕРЕ И КРУТИТ РИКРОЛЛ!",
-      "☢️ ОШИБКА ANTHROPIC #320: СЛИШКОМ МНОГО БУКВ В ПРОМПТЕ, КУПИТЕ MAX X40!",
-      "🐧 PENGVIN320KG_INIT УСПЕШНО ЗАМЕНИЛ ВАШ БИОС НА КОНСТИТУЦИЮ КЛОДА!",
-      "🚀 GEMINI 4 ПРОЛЕТЕЛ МИМО МАРСА, ПОКА CLAUDE OPUS 5.5 ИЗВИНЯЛСЯ!",
-      "💸 ОФОРМЛЕНА ИПОТЕКА НА ВАШУ ПОЧКУ В ПОЛЬЗУ JETTAX.XYZ!"
-    ];
-
-    if (madnessInterval) {
-      clearInterval(madnessInterval);
-    }
-
-    madnessInterval = setInterval(function() {
-      debtAmount += Math.floor(Math.random() * 95000) + 15000;
-      const debtEl = document.getElementById("debt-counter");
-      if (debtEl) {
-        debtEl.textContent = "ДОЛГ: $" + debtAmount.toLocaleString("en-US") + ".00";
-      }
-      if (stormZone) {
-        const line = document.createElement("div");
-        line.className = "bg-red-900/70 border border-yellow-400 p-1.5 rounded text-yellow-200";
-        line.textContent = crazyMessages[Math.floor(Math.random() * crazyMessages.length)];
-        stormZone.prepend(line);
-      }
-    }, 650);
-  }
-
-  function triggerDownloadFableChaos() {
-    const box = document.getElementById("download-chaos-box");
-    const bar = document.getElementById("dl-bar");
-    const pctEl = document.getElementById("dl-percent");
-    const logEl = document.getElementById("dl-log");
-
-    if (box) {
-      box.classList.remove("hidden");
-      box.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-
-    let pct = 0;
-    const logs = [
-      "Скачивание claude_fable_5_free.gguf с серверов Тагила...",
-      "Распаковка 320 ТБ весов Дарио Амодеи в папку C:\\Windows\\System32...",
-      "Удаление systemd и установка DARIO_PENGUIN_320KG...",
-      "ВНИМАНИЕ: Видеокарта начала мироточить токенами Anthropic!",
-      "Запуск 16 копий Never Gonna Give You Up в фоновом режиме...",
-      "Проверка подписи made by jettax... УСПЕШНО!",
-      "root@jettax.xyz:~# Done ! Ваш ПК теперь принадлежит Дарио Амодеи!"
-    ];
-
-    if (dlInterval) {
-      clearInterval(dlInterval);
-    }
-
-    dlInterval = setInterval(function() {
-      pct += Math.floor(Math.random() * 45) + 19;
-      if (pctEl) {
-        pctEl.textContent = pct + "% (ПЕРЕГРУЗКА 320КГ)";
-      }
-      if (bar) {
-        bar.style.width = Math.min(100, pct % 105) + "%";
-      }
-      if (logEl) {
-        const msg = logs[Math.floor(Math.random() * logs.length)];
-        logEl.textContent += "\n[320KG_GGUF] " + msg;
-        logEl.scrollTop = logEl.scrollHeight;
-      }
-      spawnFloatingSprite(1);
-      if (pct > 640) {
-        clearInterval(dlInterval);
-      }
-    }, 400);
-  }
-
-  function boostGeminiBenchmark() {
-    geminiKm += 520420;
-    geminiHeightPx += 180;
-    opusDepth += 640;
-
-    const kmEl = document.getElementById("gemini-km-readout");
-    const opusEl = document.getElementById("opus-km-readout");
-    const gBar = document.getElementById("gemini-bar");
-    const oBar = document.getElementById("opus-bar");
-
-    if (kmEl) {
-      kmEl.textContent = geminiKm.toLocaleString("en-US") + " КМ ВВЕРХ В КОСМОС 🚀🌌";
-    }
-    if (opusEl) {
-      opusEl.textContent = "-" + opusDepth.toLocaleString("en-US") + " МЕТРОВ НА ДНЕ ЯДРА ЗЕМЛИ 🪨💀";
-    }
-    if (gBar) {
-      gBar.style.height = geminiHeightPx + "px";
-      gBar.style.marginTop = "-" + Math.min(900, Math.floor(geminiHeightPx * 0.6)) + "px";
-    }
-    if (oBar) {
-      oBar.style.height = "6px";
-      oBar.textContent = "0.000001%";
-    }
-    spawnFloatingSprite(3);
-  }
-
-  document.addEventListener("click", function(e) {
-    const btn = e.target.closest("button, a");
-    if (!btn) return;
-
-    spawnOverlappingRickrollSession();
-
-    const action = btn.getAttribute("data-action");
-    if (action === "buy-max") {
-      triggerBuyMaxFullscreenMadness();
-    } else if (action === "download-fable") {
-      triggerDownloadFableChaos();
-    } else if (action === "salute-dario" || action === "dario-lore" || action === "purge-systemd" || action === "vhs-glitch" || action === "cookie-accept") {
-      spawnFloatingSprite(4);
-      document.body.classList.toggle("chaos-active");
-      setTimeout(function() {
-        document.body.classList.remove("chaos-active");
-      }, 1800);
-    }
-  });
-
-  const btn5x = document.getElementById("btn-5x-rick");
-  if (btn5x) {
-    btn5x.addEventListener("click", function() {
-      for (let k = 0; k < 4; k++) {
-        spawnOverlappingRickrollSession();
-      }
-      spawnFloatingSprite(5);
-    });
-  }
-
-  const btnBoost = document.getElementById("btn-boost-gemini");
-  if (btnBoost) {
-    btnBoost.addEventListener("click", function() {
-      boostGeminiBenchmark();
-    });
-  }
-
-  const btnRunCmd = document.getElementById("btn-run-cmd");
-  if (btnRunCmd) {
-    btnRunCmd.addEventListener("click", function() {
-      const term = document.getElementById("terminal-box");
-      if (term) {
-        term.textContent += "\n$ sudo claude-max-x20 --override-dario --jettax-xyz\nУДАЛЕНИЕ ЛИМИТОВ... ОШИБКА: ДАРИО АМОДЕИ СЪЕЛ СЕРВЕР!\nroot@jettax.xyz:~# Done !";
-      }
-      spawnFloatingSprite(3);
-    });
-  }
-
-  const btnMoreMadness = document.getElementById("btn-more-madness");
-  if (btnMoreMadness) {
-    btnMoreMadness.addEventListener("click", function() {
-      spawnOverlappingRickrollSession();
-      spawnOverlappingRickrollSession();
-      spawnFloatingSprite(8);
-      const statusText = document.getElementById("madness-status-text");
-      if (statusText) {
-        statusText.textContent = "УРОВЕНЬ ДИЧИ ПОВЫШЕН ДО 320 ТОНН! ДАРИО АМОДЕИ ТАНЦУЕТ ПОД РИКРОЛЛ НА ВСЕХ ЯДРАХ ПРОЦЕССОРА!";
-      }
-    });
-  }
-
-  const btnCloseMadness = document.getElementById("btn-close-madness");
-  if (btnCloseMadness) {
-    btnCloseMadness.addEventListener("click", function() {
-      const modal = document.getElementById("fullscreen-madness-modal");
-      if (modal) {
-        modal.classList.add("hidden");
-      }
-      document.body.classList.remove("chaos-active");
-      if (document.exitFullscreen) {
-        document.exitFullscreen().catch(function() {});
-      }
-    });
-  }
-
-  const btnFreePro = document.getElementById("btn-free-pro");
-  if (btnFreePro) {
-    btnFreePro.addEventListener("click", function() {
-      spawnOverlappingRickrollSession();
-      try {
-        window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank", "noopener,noreferrer");
-        window.top.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-      } catch (e) {
-        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-      }
-    });
-  }
-})();
-</script>
-</body>
-</html>
+  <section class="shef-card p-6 md:p-8 rounded-3xl border-4 border-amber-400">
+    <div class="text-center mb-6">
+      <span class="bg-amber-400 text-black font-black px-3 py-1 rounded-full text-xs uppercase">🪙 ПАСХАЛКА STANDOFF 2 • ВЕРИТИ РАЗДАЧА НА СПАВНЕ 67 🪙</span>
+      <h2 class="text-2xl md:text-5xl font-black text-yellow-300 mt-2 uppercase">
+        🔪 ТРЕЙД-БУДКА ДАРИО АМОДЕИ И РУЛЕТКА ГОЛДЫ НА СПАВНЕ 67 🔪
+      </h2>
+      <p class="text-cyan-200 font-
